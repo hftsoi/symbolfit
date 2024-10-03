@@ -17,49 +17,219 @@ Paper: coming soon...
 [Citation](https://github.com/hftsoi/symbolfit/tree/main?tab=readme-ov-file#citation)
 
 ## Motivations
+coming soon...
 
 ## Installation
+coming soon...
 
 ## Instructions
+
 
 ## Examples
 
 ### Toy dataset 1 (1D)
+<details>
+  <summary>Expand to see goodness-of-fit scores for candidate functions obtained from a single run</summary>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-gof_chi2.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-gof_rmse.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-gof_r2.png" width="800"/>
+    </p>
+</details>
 
-<p align="center">
-  <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-candidates1.png" width="400"/>
-</p>
-<p align="center">
-  <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-candidates2.png" width="400"/>
-</p>
-<p align="center">
-  <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-candidates3.png" width="400"/>
-</p>
-<p align="center">
-  <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-candidates4.png" width="400"/>
-</p>
-<p align="center">
-  <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-candidates5.png" width="400"/>
-</p>
-<p align="center">
-  <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-candidates6.pdf" width="400"/>
-</p>
+<details>
+  <summary>Expand to see plots of candidate function #36 (best-fits and uncertainties)</summary>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-candidates1.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-candidates2.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-candidates3.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-candidates4.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-candidates5.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-candidates6.png" width="800"/>
+    </p>
+</details>
+
+<details>
+  <summary>Expand to see correlation matrix for the parameters of candidate function #36</summary>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-corr.png" width="800"/>
+    </p>
+</details>
 
 ### CMS Run 2 dijet dataset (public data from [HEPDATA](https://www.hepdata.net/record/ins1764471), [1911.03947](https://arxiv.org/abs/1911.03947))
-
-
+<details>
+  <summary>Expand to see plots of a candidate function (best-fits and uncertainties)</summary>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/dijet/dijet-candidate1.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/dijet/dijet-candidate2.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/dijet/dijet-candidate3.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/dijet/dijet-candidate4.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/dijet/dijet-candidate5.png" width="800"/>
+    </p>
+</details>
 
 ### CMS Run 2 paired-dijet dataset
+<details>
+  <summary>Expand to see plots of a candidate function (best-fits and uncertainties)</summary>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/fourjet/fourjet-candidate1.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/fourjet/fourjet-candidate2.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/fourjet/fourjet-candidate3.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/fourjet/fourjet-candidate4.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/fourjet/fourjet-candidate5.png" width="800"/>
+    </p>
+</details>
 
 ### CMS Run 2 trijet dataset
+<details>
+  <summary>Expand to see plots of a candidate function (best-fits and uncertainties)</summary>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/trijet/trijet-candidate1.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/trijet/trijet-candidate2.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/trijet/trijet-candidate3.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/trijet/trijet-candidate4.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/trijet/trijet-candidate5.png" width="800"/>
+    </p>
+</details>
 
 ### CMS Run 2 diphoton dataset
+<details>
+  <summary>Expand to see plots of a candidate function (best-fits and uncertainties)</summary>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/diphoton/diphoton-candidate1.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/diphoton/diphoton-candidate2.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/diphoton/diphoton-candidate3.png" width="800"/>
+    </p>
+</details>
 
 ### CMS Run 2 dimuon dataset
+<details>
+  <summary>Expand to see plots of a candidate function (best-fits and uncertainties)</summary>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/dimuon/dimuon-candidate1.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/dimuon/dimuon-candidate2.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/dimuon/dimuon-candidate3.png" width="800"/>
+    </p>
+</details>
+
 
 ### Toy dataset 2 (1D)
+<details>
+  <summary>Expand to see plots of a candidate function for sub-dataset 2a (best-fits and uncertainties)</summary>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_2a/toy_dataset_2a-candidate1.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_2a/toy_dataset_2a-candidate2.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_2a/toy_dataset_2a-candidate3.png" width="800"/>
+    </p>
+</details>
+
+<details>
+  <summary>Expand to see plots of a candidate function for sub-dataset 2b (best-fits and uncertainties)</summary>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_2b/toy_dataset_2b-candidates1.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_2b/toy_dataset_2b-candidates2.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_2b/toy_dataset_2b-candidates3.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_2b/toy_dataset_2b-candidates4.png" width="800"/>
+    </p>
+</details>
+
+<details>
+  <summary>Expand to see plots of a candidate function for sub-dataset 2c (best-fits and uncertainties)</summary>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_2c/toy_dataset_2c-candidates1.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_2c/toy_dataset_2c-candidates2.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_2c/toy_dataset_2c-candidates3.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_2c/toy_dataset_2c-candidates4.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_2c/toy_dataset_2c-candidates5.png" width="800"/>
+    </p>
+</details>
 
 ### Toy dataset 3 (2D)
+
+<details>
+  <summary>Expand to see plots of a candidate function for sub-dataset 3a</summary>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_3a/toy_dataset_3a-candidates1.png" width="800"/>
+    </p>
+</details>
+
+<details>
+  <summary>Expand to see plots of a candidate function for sub-dataset 3b</summary>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_3b/toy_dataset_3b-candidates1.png" width="800"/>
+    </p>
+</details>
+
+<details>
+  <summary>Expand to see plots of a candidate function for sub-dataset 3c</summary>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_3c/toy_dataset_3c-candidates1.png" width="800"/>
+    </p>
+</details>
 
 ## Troubleshooting
 coming soon...
