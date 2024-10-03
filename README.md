@@ -90,27 +90,21 @@ coming soon...
     </p>
 </details>
 
-### CMS Run 2 paired-dijet dataset
+### CMS Run 2 diphoton dataset (public data from [HEPDATA](https://www.hepdata.net/record/ins2787227), [2405.09320](https://arxiv.org/abs/2405.09320))
 <details>
   <summary>Expand to see plots of a candidate function (best-fits and uncertainties)</summary>
     <p align="center">
-      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/fourjet/fourjet-candidate1.png" width="800"/>
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/diphoton/diphoton-candidate1.png" width="800"/>
     </p>
     <p align="center">
-      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/fourjet/fourjet-candidate2.png" width="800"/>
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/diphoton/diphoton-candidate2.png" width="800"/>
     </p>
     <p align="center">
-      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/fourjet/fourjet-candidate3.png" width="800"/>
-    </p>
-    <p align="center">
-      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/fourjet/fourjet-candidate4.png" width="800"/>
-    </p>
-    <p align="center">
-      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/fourjet/fourjet-candidate5.png" width="800"/>
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/diphoton/diphoton-candidate3.png" width="800"/>
     </p>
 </details>
 
-### CMS Run 2 trijet dataset
+### CMS Run 2 trijet dataset (public data from [HEPDATA](https://www.hepdata.net/record/ins2713513), [2310.14023](https://arxiv.org/abs/2310.14023))
 <details>
   <summary>Expand to see plots of a candidate function (best-fits and uncertainties)</summary>
     <p align="center">
@@ -130,21 +124,27 @@ coming soon...
     </p>
 </details>
 
-### CMS Run 2 diphoton dataset
+### CMS Run 2 paired-dijet dataset (public data from [HEPDATA](https://www.hepdata.net/record/ins2098256), [2206.09997](https://arxiv.org/abs/2206.09997))
 <details>
   <summary>Expand to see plots of a candidate function (best-fits and uncertainties)</summary>
     <p align="center">
-      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/diphoton/diphoton-candidate1.png" width="800"/>
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/fourjet/fourjet-candidate1.png" width="800"/>
     </p>
     <p align="center">
-      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/diphoton/diphoton-candidate2.png" width="800"/>
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/fourjet/fourjet-candidate2.png" width="800"/>
     </p>
     <p align="center">
-      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/diphoton/diphoton-candidate3.png" width="800"/>
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/fourjet/fourjet-candidate3.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/fourjet/fourjet-candidate4.png" width="800"/>
+    </p>
+    <p align="center">
+      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/fourjet/fourjet-candidate5.png" width="800"/>
     </p>
 </details>
 
-### CMS Run 2 dimuon dataset
+### CMS Run 2 dimuon dataset (public data from [HEPDATA](https://www.hepdata.net/record/ins2678141), [2307.08708](https://arxiv.org/abs/2307.08708))
 <details>
   <summary>Expand to see plots of a candidate function (best-fits and uncertainties)</summary>
     <p align="center">
