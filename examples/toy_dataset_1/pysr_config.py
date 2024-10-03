@@ -5,7 +5,7 @@ pysr_config = PySRRegressor(
     model_selection = 'accuracy',
     timeout_in_seconds = 60*100,
     niterations = 200,
-    maxsize = 60,
+    maxsize = 80,
     binary_operators = [
         '+', '*'
                      ],
