@@ -23,6 +23,23 @@ coming soon...
 coming soon...
 
 ## Instructions
+Two inputs are all needed to run:
+1) An input dataset such as the python file at [examples/toy_dataset_1/dataset.py](https://github.com/hftsoi/symbolfit/tree/examples/toy_dataset_1/dataset.py)
+2) A PySR configuration such as the python file at [examples/toy_dataset_1/pysr_config.py](https://github.com/hftsoi/symbolfit/tree/examples/toy_dataset_1/pysr_config.py)
+
+The main function to run the fit is:
+```
+from symbolfit.symbolfit import *
+model = SymbolFit()
+model.fit(...)
+```
+Each single run will produce a batch of candidate functions and will automatically save all results to five output files:
+1) ```candidates.csv```: saves all candidate functions and evaluations in a dataframe format, e.g., [examples/toy_dataset_1/candidates.csv](https://github.com/hftsoi/symbolfit/tree/examples/toy_dataset_1/candidates.csv)
+2) ```candidates_reduced.csv```: a reduced version for essential information without intermediate results, e.g., [examples/toy_dataset_1/candidates_reduced.csv](https://github.com/hftsoi/symbolfit/tree/examples/toy_dataset_1/candidates_reduced.csv)
+3) ```candidates.pdf```: plot all candidate functions with associated uncertainties one by one for fit quality evaluation, e.g., [examples/toy_dataset_1/candidates.pdf](https://github.com/hftsoi/symbolfit/tree/examples/toy_dataset_1/candidates.df)
+4) ```candidates_gof.pdf```: plot goodness-of-fit scores, e.g., [examples/toy_dataset_1/candidates_gof.pdf](https://github.com/hftsoi/symbolfit/tree/examples/toy_dataset_1/candidates_gof.pdf)
+5) ```candidates_correlation.pdf```: plot correlation matrices for parameters of each candidate function, e.g., [examples/toy_dataset_1/candidates_correlation.pdf](https://github.com/hftsoi/symbolfit/tree/examples/toy_dataset_1/candidates_correlation.pdf)
+
 Example script to run on the toy dataset 1 (1D binned histogram):
 ```
 from symbolfit.symbolfit import *
