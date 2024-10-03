@@ -3,7 +3,7 @@
 </p>
 
 # SymbolFit: An API to Automate Parametric Modeling with Symbolic Regression
-Paper: xxxx.xxxxx
+Paper: coming soon...
 
 ## Contents
 [Motivations](https://github.com/hftsoi/symbolfit/tree/main?tab=readme-ov-file#motivations)
@@ -26,6 +26,25 @@ Paper: xxxx.xxxxx
 
 ### Toy dataset 1 (1D)
 
+<p align="center">
+  <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-candidates1.png" width="400"/>
+</p>
+<p align="center">
+  <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-candidates2.png" width="400"/>
+</p>
+<p align="center">
+  <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-candidates3.png" width="400"/>
+</p>
+<p align="center">
+  <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-candidates4.png" width="400"/>
+</p>
+<p align="center">
+  <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-candidates5.png" width="400"/>
+</p>
+<p align="center">
+  <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-candidates6.pdf" width="400"/>
+</p>
+
 ### CMS Run 2 dijet dataset (public data from [HEPDATA](https://www.hepdata.net/record/ins1764471), [1911.03947](https://arxiv.org/abs/1911.03947))
 
 
@@ -43,5 +62,7 @@ Paper: xxxx.xxxxx
 ### Toy dataset 3 (2D)
 
 ## Troubleshooting
+coming soon...
 
 ## Citation
+If this is useful for your research, please consider citing the Symbolfit (coming soon...) and PySR (https://arxiv.org/abs/2305.01582) papers.
