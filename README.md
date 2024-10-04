@@ -45,7 +45,7 @@ Each single run will produce a batch of candidate functions and will automatical
 4) ```candidates_gof.pdf```: plot goodness-of-fit scores, e.g., [examples/toy_dataset_1/candidates_gof.pdf](https://github.com/hftsoi/symbolfit/blob/main/examples/toy_dataset_1/run1/candidates_gof.pdf)
 5) ```candidates_correlation.pdf```: plot correlation matrices for parameters of each candidate function, e.g., [examples/toy_dataset_1/candidates_correlation.pdf](https://github.com/hftsoi/symbolfit/blob/main/examples/toy_dataset_1/run1/candidates_correlation.pdf)
 
-Example script to run on the toy dataset 1 (1D binned histogram), e.g, [fit_1d.py](https://github.com/hftsoi/symbolfit/blob/main/fit_1d.py):
+Example script to run on the toy dataset 1 (1D binned histogram), e.g, [fit_1d.py](https://github.com/hftsoi/symbolfit/blob/main/fit_toydataset1-1d.py):
 ```
 from symbolfit.symbolfit import *
 model = SymbolFit()
@@ -67,7 +67,7 @@ model.fit(dataset=(dataset.x, dataset.y, dataset.y_up, dataset.y_down),
          )
 ```
 
-Example script to run on the toy dataset 3b (2D binned histogram), e.g., [fit_2d.py](https://github.com/hftsoi/symbolfit/blob/main/fit_2d.py):
+Example script to run on the toy dataset 3b (2D binned histogram), e.g., [fit_2d.py](https://github.com/hftsoi/symbolfit/blob/main/fit_toydataset3b-2d.py):
 ```
 from symbolfit.symbolfit import *
 model = SymbolFit()
