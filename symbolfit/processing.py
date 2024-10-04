@@ -1,4 +1,3 @@
-import ROOT
 import numpy as np
 from .utils import round_a_number
     
