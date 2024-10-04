@@ -2,27 +2,32 @@
   <img src="https://github.com/hftsoi/symbolfit/blob/main/display/logo.png" width="250"/>
 </p>
 
-# SymbolFit: An API to Automate Parametric Modeling with Symbolic Regression
+An API to automate parametric modeling with symbolic regression
+
 Paper: coming soon...
 
-## Contents
-[Motivations](https://github.com/hftsoi/symbolfit/tree/main?tab=readme-ov-file#motivations)
+- [Overview](#overview)
+- [Installation](#installation)
+- [Getting Started](#getting-started)
+- [Examples](#examples)
+	- [Toy Dataset 1 (1D)](#toy-dataset-1-1d)
+  - [Toy Dataset 2 (1D)](#toy-dataset-2-1d)
+  - [Toy Dataset 3 (2D)](#toy-dataset-3-2d)
+  - [CMS dijet dataset](#cms-run-2-dijet-dataset)
+  - [CMS diphoton dataset](#cms-run-2-diphoton-dataset)
+  - [CMS trijet dataset](#cms-run-2-trijet-dataset)
+  - [CMS paired-dijet dataset](#cms-run-2-paired-dijet-dataset)
+  - [CMS dimuon dataset](#cms-run-2-dimuon-dataset)
+- [Troubleshootin](#troubleshooting)
+- [Citation](#citation)
 
-[Installation](https://github.com/hftsoi/symbolfit/tree/main?tab=readme-ov-file#installation)
-
-[Examples](https://github.com/hftsoi/symbolfit/tree/main?tab=readme-ov-file#examples)
-
-[Troubleshooting](https://github.com/hftsoi/symbolfit/tree/main?tab=readme-ov-file#troubleshooting)
-
-[Citation](https://github.com/hftsoi/symbolfit/tree/main?tab=readme-ov-file#citation)
-
-## Motivations
+## Overview
 coming soon...
 
 ## Installation
 coming soon...
 
-## Instructions
+## Getting Started
 Two inputs are all needed to run:
 1) An input dataset such as the python file at [examples/toy_dataset_1/dataset.py](https://github.com/hftsoi/symbolfit/blob/main/examples/toy_dataset_1/dataset.py)
 2) A PySR configuration such as the python file at [examples/toy_dataset_1/pysr_config.py](https://github.com/hftsoi/symbolfit/blob/main/examples/toy_dataset_1/pysr_config.py)
@@ -128,7 +133,9 @@ model.fit(dataset=(dataset.x, dataset.y, dataset.y_up, dataset.y_down),
     </p>
 </details>
 
-### CMS Run 2 dijet dataset (public data from [HEPDATA](https://www.hepdata.net/record/ins1764471), [1911.03947](https://arxiv.org/abs/1911.03947))
+### CMS Run 2 dijet dataset
+Public data from [HEPDATA](https://www.hepdata.net/record/ins1764471), [1911.03947](https://arxiv.org/abs/1911.03947)
+
 <details>
   <summary>Expand to see plots of a candidate function (best-fits and uncertainties)</summary>
     <p align="center">
@@ -148,7 +155,9 @@ model.fit(dataset=(dataset.x, dataset.y, dataset.y_up, dataset.y_down),
     </p>
 </details>
 
-### CMS Run 2 diphoton dataset (public data from [HEPDATA](https://www.hepdata.net/record/ins2787227), [2405.09320](https://arxiv.org/abs/2405.09320))
+### CMS Run 2 diphoton dataset
+public data from [HEPDATA](https://www.hepdata.net/record/ins2787227), [2405.09320](https://arxiv.org/abs/2405.09320)
+
 <details>
   <summary>Expand to see plots of a candidate function (best-fits and uncertainties)</summary>
     <p align="center">
@@ -162,7 +171,9 @@ model.fit(dataset=(dataset.x, dataset.y, dataset.y_up, dataset.y_down),
     </p>
 </details>
 
-### CMS Run 2 trijet dataset (public data from [HEPDATA](https://www.hepdata.net/record/ins2713513), [2310.14023](https://arxiv.org/abs/2310.14023))
+### CMS Run 2 trijet dataset
+public data from [HEPDATA](https://www.hepdata.net/record/ins2713513), [2310.14023](https://arxiv.org/abs/2310.14023)
+
 <details>
   <summary>Expand to see plots of a candidate function (best-fits and uncertainties)</summary>
     <p align="center">
@@ -182,7 +193,9 @@ model.fit(dataset=(dataset.x, dataset.y, dataset.y_up, dataset.y_down),
     </p>
 </details>
 
-### CMS Run 2 paired-dijet dataset (public data from [HEPDATA](https://www.hepdata.net/record/ins2098256), [2206.09997](https://arxiv.org/abs/2206.09997))
+### CMS Run 2 paired-dijet dataset
+public data from [HEPDATA](https://www.hepdata.net/record/ins2098256), [2206.09997](https://arxiv.org/abs/2206.09997)
+
 <details>
   <summary>Expand to see plots of a candidate function (best-fits and uncertainties)</summary>
     <p align="center">
@@ -202,7 +215,9 @@ model.fit(dataset=(dataset.x, dataset.y, dataset.y_up, dataset.y_down),
     </p>
 </details>
 
-### CMS Run 2 dimuon dataset (public data from [HEPDATA](https://www.hepdata.net/record/ins2678141), [2307.08708](https://arxiv.org/abs/2307.08708))
+### CMS Run 2 dimuon dataset
+public data from [HEPDATA](https://www.hepdata.net/record/ins2678141), [2307.08708](https://arxiv.org/abs/2307.08708)
+
 <details>
   <summary>Expand to see plots of a candidate function (best-fits and uncertainties)</summary>
     <p align="center">
