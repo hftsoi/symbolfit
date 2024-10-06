@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/hftsoi/symbolfit/blob/main/display/logo.png" width="250"/>
+  <img src="https://github.com/hftsoi/symbolfit/blob/main/display/logo.png" width="300"/>
 </p>
 
 An API to automate parametric modeling with symbolic regression
@@ -9,6 +9,8 @@ Paper: coming soon...
 - [Overview](#overview)
 - [Installation](#installation)
 - [Getting Started](#getting-started)
+- [Documentation](#documentation)
+- [Troubleshooting](#troubleshooting)
 - [Examples](#examples)
 	- [Toy Dataset 1 (1D)](#toy-dataset-1-1d)
   - [Toy Dataset 2 (1D)](#toy-dataset-2-1d)
@@ -18,7 +20,6 @@ Paper: coming soon...
   - [CMS trijet dataset](#cms-run-2-trijet-dataset)
   - [CMS paired-dijet dataset](#cms-run-2-paired-dijet-dataset)
   - [CMS dimuon dataset](#cms-run-2-dimuon-dataset)
-- [Troubleshootin](#troubleshooting)
 - [Citation](#citation)
 
 ## Overview
@@ -45,7 +46,7 @@ Each single run will produce a batch of candidate functions and will automatical
 4) ```candidates_gof.pdf```: plot goodness-of-fit scores, e.g., [examples/toy_dataset_1/candidates_gof.pdf](https://github.com/hftsoi/symbolfit/blob/main/examples/toy_dataset_1/run1/candidates_gof.pdf)
 5) ```candidates_correlation.pdf```: plot correlation matrices for parameters of each candidate function, e.g., [examples/toy_dataset_1/candidates_correlation.pdf](https://github.com/hftsoi/symbolfit/blob/main/examples/toy_dataset_1/run1/candidates_correlation.pdf)
 
-Example script to run on the toy dataset 1 (1D binned histogram), e.g, [fit_1d.py](https://github.com/hftsoi/symbolfit/blob/main/fit_toydataset1-1d.py):
+Example script to run on the toy dataset 1 (1D binned histogram), e.g, [fit_toydataset1-1d.py](https://github.com/hftsoi/symbolfit/blob/main/fit_toydataset1-1d.py):
 ```
 from symbolfit.symbolfit import *
 model = SymbolFit()
@@ -67,7 +68,7 @@ model.fit(dataset=(dataset.x, dataset.y, dataset.y_up, dataset.y_down),
          )
 ```
 
-Example script to run on the toy dataset 3b (2D binned histogram), e.g., [fit_2d.py](https://github.com/hftsoi/symbolfit/blob/main/fit_toydataset3b-2d.py):
+Example script to run on the toy dataset 3b (2D binned histogram), e.g., [fit_toydataset3b-2d.py](https://github.com/hftsoi/symbolfit/blob/main/fit_toydataset3b-2d.py):
 ```
 from symbolfit.symbolfit import *
 model = SymbolFit()
@@ -87,6 +88,12 @@ model.fit(dataset=(dataset.x, dataset.y, dataset.y_up, dataset.y_down),
           plot_logx = False
          )
 ```
+
+## Documentation
+coming soon...
+
+## Troubleshooting
+coming soon...
 
 ## Examples
 
@@ -304,8 +311,6 @@ public data from [HEPDATA](https://www.hepdata.net/record/ins2678141), [2307.087
     </p>
 </details>
 
-## Troubleshooting
-coming soon...
 
 ## Citation
 If this is useful for your research, please consider citing the Symbolfit (coming soon...) and PySR (https://arxiv.org/abs/2305.01582) papers.
