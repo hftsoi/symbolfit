@@ -152,7 +152,7 @@ def plot_single_syst_single_func_1D(func_candidate, candidate_idx, x, bin_widths
     
     # Show the candidate # being plotted and some of the gof metrics.
     if y_up is not None and y_down is not None:
-        axes[0].set_title(r"$\bfit{{Candidate\,\#{}}}$".format(candidate_idx) + "\n$\\chi^2$/NDF = {0}/{1}, RMSE = {2}, R2 = {3}".format(func_candidate['Chi2'], func_candidate['NDF'], func_candidate['RMSE'], func_candidate['R2']), loc = 'right', size = 9.5)
+        axes[0].set_title(r"$\bfit{{Candidate\,\#{}}}$".format(candidate_idx) + "\n$\\chi^2$/NDF = {0}/{1}, p-value = {3}, RMSE = {2}".format(func_candidate['Chi2'], func_candidate['NDF'], func_candidate['RMSE'], func_candidate['p-value']), loc = 'right', size = 9.5)
     else:
         axes[0].set_title(r"$\bfit{{Candidate\,\#{}}}$".format(candidate_idx) + "\nRMSE = {0}, R2 = {1}".format(func_candidate['RMSE'], func_candidate['R2']), loc = 'right', size = 9.5)
 
@@ -481,7 +481,7 @@ def plot_single_syst_single_func_2D(func_candidate, candidate_idx, x, bin_edges_
     
     # Show the candidate # being plotted and some of the gof metrics.
     if y_up is not None and y_down is not None:
-        axes[0,1].set_title(r"$\bfit{{Candidate\,\#{}}}$".format(candidate_idx) + "\n$\\chi^2$/NDF = {0}/{1}, RMSE = {2}, R2 = {3}".format(func_candidate['Chi2'], func_candidate['NDF'], func_candidate['RMSE'], func_candidate['R2']), loc = 'right', size = 9.5)
+        axes[0,1].set_title(r"$\bfit{{Candidate\,\#{}}}$".format(candidate_idx) + "\n$\\chi^2$/NDF = {0}/{1}, p-value = {3}, RMSE = {2}".format(func_candidate['Chi2'], func_candidate['NDF'], func_candidate['RMSE'], func_candidate['p-value']), loc = 'right', size = 9.5)
     else:
         axes[0,1].set_title(r"$\bfit{{Candidate\,\#{}}}$".format(candidate_idx) + "\nRMSE = {0}, R2 = {1}".format(func_candidate['RMSE'], func_candidate['R2']), loc = 'right', size = 9.5)
 
@@ -656,7 +656,7 @@ def plot_correlation(func_candidate, candidate_idx, y_up, y_down):
     
     # Display the candidate # being plotted and some of the gof metrics.
     if y_up is not None and y_down is not None:
-        plt.title(r"$\bfit{{Candidate\,\#{}}}$".format(candidate_idx) + "\n$\\chi^2$/NDF = {0}/{1}, RMSE = {2}, R2 = {3}".format(func_candidate['Chi2'], func_candidate['NDF'], func_candidate['RMSE'], func_candidate['R2']), loc='right', size=9.5)
+        plt.title(r"$\bfit{{Candidate\,\#{}}}$".format(candidate_idx) + "\n$\\chi^2$/NDF = {0}/{1}, p-value = {3}, RMSE = {2}".format(func_candidate['Chi2'], func_candidate['NDF'], func_candidate['RMSE'], func_candidate['p-value']), loc='right', size=9.5)
     else:
         plt.title(r"$\bfit{{Candidate\,\#{}}}$".format(candidate_idx) + "\nRMSE = {0}, R2 = {1}".format(func_candidate['RMSE'], func_candidate['R2']), loc='right', size=9.5)
     plt.xticks(fontsize=10)
@@ -803,6 +803,7 @@ def plot_all_gof(func_candidates, y_up, y_down, pdf_path):
     gof = ['RMSE', 'R2']
     if y_up is not None and y_down is not None:
         gof.append('Chi2/NDF')
+        gof.append('p-value')
         
     with PdfPages(pdf_path) as pdf:
         for i in range(len(gof)):

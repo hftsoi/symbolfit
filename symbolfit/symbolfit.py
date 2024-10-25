@@ -672,7 +672,7 @@ class SymbolFit:
         
         # Save the reduced version removing unnecessary info.
         try:
-            func_candidates[['Parameterized equation, unscaled', 'Parameters: (best-fit, +1, -1)', 'Correlation', 'RMSE', 'R2', 'NDF', 'Chi2', 'Chi2/NDF']].to_csv(output_dir + 'candidates_reduced.csv')
+            func_candidates[['Parameterized equation, unscaled', 'Parameters: (best-fit, +1, -1)', 'Correlation', 'RMSE', 'R2', 'NDF', 'Chi2', 'Chi2/NDF', 'p-value']].to_csv(output_dir + 'candidates_reduced.csv')
         except:
             func_candidates[['Parameterized equation, unscaled', 'Parameters: (best-fit, +1, -1)', 'Correlation', 'RMSE', 'R2']].to_csv(output_dir + 'candidates_reduced.csv')
             
@@ -711,7 +711,7 @@ class SymbolFit:
         # Whether to print relevant info or full info including all intermediate results.
         if full_info == False:
             try:
-                func_candidates = self.func_candidates[['Parameterized equation, unscaled', 'Parameters: (best-fit, +1, -1)', 'Correlation', 'RMSE', 'R2', 'NDF', 'Chi2', 'Chi2/NDF']]
+                func_candidates = self.func_candidates[['Parameterized equation, unscaled', 'Parameters: (best-fit, +1, -1)', 'Correlation', 'RMSE', 'R2', 'NDF', 'Chi2', 'Chi2/NDF', 'p-value']]
             except:
                 # 'NDF', 'Chi2', 'Chi2/NDF' do not exist if y_up/y_down were not considered in fits.
                 func_candidates = self.func_candidates[['Parameterized equation, unscaled', 'Parameters: (best-fit, +1, -1)', 'Correlation', 'RMSE', 'R2']]

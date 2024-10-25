@@ -1,5 +1,6 @@
 import numpy as np
 from .utils import *
+import scipy
 
 
 # compute the refitted function, with all parameters at their best fit values, or have one of them shifted +/-1sigma
@@ -116,9 +117,11 @@ def add_gof(func_candidates, x, y, y_up, y_down, dim):
     chi2_values = []
     ndf_values = []
     chi2_ndf_values = []
+    p_values = []
     
     chi2_values_pysr = []
     chi2_ndf_values_pysr = []
+    p_values_pysr = []
     rmse_values_pysr = []
 
     for i in range(len(func_candidates)):
@@ -163,11 +166,16 @@ def add_gof(func_candidates, x, y, y_up, y_down, dim):
             else:
                 ndf = -1
                 
+            p_value = scipy.stats.chi2.sf(chi2, ndf)
+            p_value_pysr = scipy.stats.chi2.sf(chi2_pysr, ndf)
+                
             ndf_values.append(ndf)
             chi2_values.append(round_a_number(chi2, 4))
             chi2_ndf_values.append(round_a_number(chi2/ndf, 4))
             chi2_values_pysr.append(round_a_number(chi2_pysr, 4))
             chi2_ndf_values_pysr.append(round_a_number(chi2_pysr/ndf, 4))
+            p_values.append(round_a_number(p_value, 4))
+            p_values_pysr.append(round_a_number(p_value_pysr, 4))
         else:
             rmse_pysr = np.sqrt(np.sum((y - y_pred_pysr)**2) / y.size)
             rmse_values_pysr.append(round_a_number(rmse_pysr, 4))
@@ -176,12 +184,14 @@ def add_gof(func_candidates, x, y, y_up, y_down, dim):
     func_candidates['R2'] = r2_values
     if y_up is not None and y_down is not None:
         func_candidates['NDF'] = ndf_values
-        func_candidates['Chi2 (before refit)'] = chi2_values_pysr
+        func_candidates['Chi2 (before ROF)'] = chi2_values_pysr
         func_candidates['Chi2'] = chi2_values
-        func_candidates['Chi2/NDF (before refit)'] = chi2_ndf_values_pysr
+        func_candidates['Chi2/NDF (before ROF)'] = chi2_ndf_values_pysr
         func_candidates['Chi2/NDF'] = chi2_ndf_values
+        func_candidates['p-value (before ROF)'] = p_values_pysr
+        func_candidates['p-value'] = p_values
     else:
-        func_candidates['RMSE (before refit)'] = rmse_values_pysr
+        func_candidates['RMSE (before ROF)'] = rmse_values_pysr
     
     return func_candidates
     
