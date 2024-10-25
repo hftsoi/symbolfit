@@ -33,15 +33,16 @@ Two inputs are all needed to run:
 1) An input dataset such as the python file at [examples/toy_dataset_1/dataset.py](https://github.com/hftsoi/symbolfit/blob/main/examples/toy_dataset_1/dataset.py)
 2) A PySR configuration such as the python file at [examples/toy_dataset_1/pysr_config.py](https://github.com/hftsoi/symbolfit/blob/main/examples/toy_dataset_1/pysr_config.py)
 
-To run the fit:
+To run an example fit:
 ```
 from symbolfit.symbolfit import *
 
 dataset = importlib.import_module('examples.toy_dataset_1.dataset')
-pysr_config = importlib.import_module('examples.toy_dataset_1.pysr_config')
+pysr_config = importlib.import_module('examples.common_pysr_configs.pysr_config_1')
 
 model = SymbolFit(
 	pysr_config = pysr_config,
+	max_complexity = 40,
 	input_rescale = True,
 	scale_y_by = 'mean',
 	max_stderr = 40,
@@ -80,6 +81,11 @@ Each single run will produce a batch of candidate functions and will automatical
 3) ```candidates.pdf```: plot all candidate functions with associated uncertainties one by one for fit quality evaluation, e.g., [examples/toy_dataset_1/candidates.pdf](https://github.com/hftsoi/symbolfit/blob/main/examples/toy_dataset_1/run1/candidates.pdf)
 4) ```candidates_gof.pdf```: plot goodness-of-fit scores, e.g., [examples/toy_dataset_1/candidates_gof.pdf](https://github.com/hftsoi/symbolfit/blob/main/examples/toy_dataset_1/run1/candidates_gof.pdf)
 5) ```candidates_correlation.pdf```: plot correlation matrices for parameters of each candidate function, e.g., [examples/toy_dataset_1/candidates_correlation.pdf](https://github.com/hftsoi/symbolfit/blob/main/examples/toy_dataset_1/run1/candidates_correlation.pdf)
+
+Candidate functions with full substitutions can be printed in prompt:
+```
+model.print_candidate(candidate_number = 10)
+```
 
 ## Documentation
 coming soon...
