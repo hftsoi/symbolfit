@@ -22,7 +22,11 @@ class SymbolFit:
     -------
     fit(): run all fits at once and automatically save results to output files.
     
-    get_results(): display results in command lines after running fit().
+    save_to_csv():
+    
+    plot_to_pdf():
+    
+    print_in_prompt(): display results in command lines after running fit().
     '''
     
     def __init__(
@@ -167,11 +171,14 @@ class SymbolFit:
                                   deterministic = True)
         pysr_model.fit(X, Y, weights = loss_weights.flatten())
         
+        print('\n')
         
         # Get essential info from the PySR output file (hall_.pkl),
         # and save to a df for later processing/refit.
         os.rename(glob('hall*.pkl')[0],'pysr_model_temp.pkl')
         func_candidates = simplify_pkl('pysr_model_temp.pkl', x = X)
+        
+        print('\n')
         
             
         # The constants in the fitted functions from PySR do not have uncert. estimation,
@@ -464,9 +471,10 @@ class SymbolFit:
             
             vary_combo = vary_combinations(num_params)
             
+            
             # Loop over the possible combinations of which parameters to vary/fixed in a fit.
             for vary_trial in range(len(vary_combo)):
-                print('    -> attempt to decrease NDF for bad fits {0}/{1}...'.format(vary_trial + 1, len(vary_combo)), end='\r')
+                print('    >>> loop of re-parameterization with less NDF for bad fits {0}/{1}...'.format(vary_trial + 1, len(vary_combo)), end='\r')
                 
                 params = Parameters()
                 for i in range(num_params):
@@ -500,7 +508,7 @@ class SymbolFit:
                 # a small subset of parameters that float and survive the fit, and the
                 # errors would be too small for a meaningful uncertainty model.
                 if len(rel_errors) > 0 and all(rel_error < max_stderr for rel_error in rel_errors):
-                    print('    -> attempt to decrease NDF for bad fits {0}/{1}...'.format(vary_trial + 1, len(vary_combo)))
+                    print('    >>> loop of re-parameterization with less NDF for bad fits {0}/{1}...\n'.format(vary_trial + 1, len(vary_combo)))
                     break
                     
             # Compute the correlation for fitted parameters from the standard error estimation.
@@ -570,8 +578,9 @@ class SymbolFit:
             correlations = []
             confidence_intervals = []
             
+            
             for i in range(len(func_candidates)):
-                print('Re-fitting candidate {0}/{1}...'.format(i + 1, len(func_candidates)))
+                print('Re-optimizing parameterized candidate function {0}/{1}...'.format(i + 1, len(func_candidates)))
                 # Do nothing for candidate without any parameter to fit.
                 if func_candidates['Parameterization'][i] == {}:
                     refitted_params.append({})
@@ -679,8 +688,6 @@ class SymbolFit:
     def print_in_prompt(
         self,
         candidate_number = 99,
-        substitute = True,
-        full_info = False
     ):
         '''
         Print results in command lines.
@@ -690,82 +697,70 @@ class SymbolFit:
         candidate_number (np.int):
             Print result for a particular candidate function by setting it to its #,
             or for all candidates by setting it to 99.
-            
-        substitute (bool):
-            Print a candidate function with all parameters substituted including
-            their +/-1 sigma uncertainties to enable copy/paste for downstream.
-        
-        full_info (bool):
-            Whether to print all results including those from intermediate steps,
-            which maybe useful for debugging purposes.
-            If False, only print the relevant info for end users.
         '''
         
         pd.set_option('display.max_colwidth', 30)
         
         # Whether to print relevant info or full info including all intermediate results.
-        if full_info == False:
-            try:
-                func_candidates = self.func_candidates[['Parameterized equation, unscaled', 'Parameters: (best-fit, +1, -1)', 'Correlation', 'RMSE', 'R2', 'NDF', 'Chi2', 'Chi2/NDF', 'p-value']]
-            except:
-                # 'NDF', 'Chi2', 'Chi2/NDF' do not exist if y_up/y_down were not considered in fits.
-                func_candidates = self.func_candidates[['Parameterized equation, unscaled', 'Parameters: (best-fit, +1, -1)', 'Correlation', 'RMSE', 'R2']]
-        else:
-            func_candidates = self.func_candidates
+        try:
+            func_candidates = self.func_candidates[['Parameterized equation, unscaled', 'Parameters: (best-fit, +1, -1)', 'Correlation', 'RMSE', 'R2', 'NDF', 'Chi2', 'Chi2/NDF', 'p-value']]
+        except:
+            # 'NDF', 'Chi2', 'Chi2/NDF' do not exist if y_up/y_down were not considered in fits.
+            func_candidates = self.func_candidates[['Parameterized equation, unscaled', 'Parameters: (best-fit, +1, -1)', 'Correlation', 'RMSE', 'R2']]
         
         # A function to print a particular candidate.
-        def print_candidate(func_candidate, substitute):
+        def print_candidate(func_candidate):
             print(func_candidate)
             
             # Print candidate function separately with its best-fit parameters and +/-1 sigma substituted.
-            if substitute:
-                # First print the parameterized function before substitution,
-                # as well as the parameters and their correlation.
-                func_unsub = func_candidate['Parameterized equation, unscaled']
-                print('\nFunction:\n' + func_unsub)
-                print('\nParameters (best-fit, +1, -1):\n' + str(func_candidate['Parameters: (best-fit, +1, -1)']))
-                print('\nCorrelation:\n' + str(func_candidate['Correlation']))
+            # First print the parameterized function before substitution,
+            # as well as the parameters and their correlation.
+            func_unsub = func_candidate['Parameterized equation, unscaled']
+            print('\nFunction:\n' + func_unsub)
+            print('\nParameters (best-fit, +1, -1):\n' + str(func_candidate['Parameters: (best-fit, +1, -1)']))
+            print('\nCorrelation:\n' + str(func_candidate['Correlation']))
+            
+            # Then print the substituted function.
+            if len(func_candidate['Parameters: (best-fit, +1, -1)']) > 0:
+                # Substitute all parameters with their best-fit values and print the function.
+                func_sub = func_unsub
+                for i in range(len(func_candidate['Parameters: (best-fit, +1, -1)'])):
+                    func_sub = func_sub.replace(f'a{i+1}', str(func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][0]))
+                print('\nBest-fit:\n' + func_sub + '\n')
                 
-                # Then print the substituted function.
-                if len(func_candidate['Parameters: (best-fit, +1, -1)']) > 0:
-                    # Substitute all parameters with their best-fit values and print the function.
+                # Substitute with each parameter shifted by +/-1 sigma while keeping others in their best-fit values.
+                for i in range(len(func_candidate['Parameters: (best-fit, +1, -1)'])):
                     func_sub = func_unsub
-                    for i in range(len(func_candidate['Parameters: (best-fit, +1, -1)'])):
-                        func_sub = func_sub.replace(f'a{i+1}', str(func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][0]))
-                    print('\nBest-fit:\n' + func_sub + '\n')
-                    
-                    # Substitute with each parameter shifted by +/-1 sigma while keeping others in their best-fit values.
-                    for i in range(len(func_candidate['Parameters: (best-fit, +1, -1)'])):
-                        func_sub = func_unsub
-                        # Possible only if the parameter has +/-1 sigma values stored.
-                        if func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][1] > 0:
-                            # Substitute with +/-1 sigma separately for the current parameter.
-                            up = func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][0] + func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][1]
-                            down = func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][0] + func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][2]
-                            func_sub_up = func_sub.replace(f'a{i+1}', str(round_a_number(up, 6)))
-                            func_sub_down = func_sub.replace(f'a{i+1}', str(round_a_number(down, 6)))
-                            
-                            # Substitute the rest parameters with their best-fit values.
-                            for j in range(len(func_candidate['Parameters: (best-fit, +1, -1)'])):
-                                # The current parameter i is already substituted with its +/-1 sigma.
-                                if j is not i:
-                                    func_sub_up = func_sub_up.replace(f'a{j+1}', str(func_candidate['Parameters: (best-fit, +1, -1)'][f'a{j+1}'][0]))
-                                    func_sub_down = func_sub_down.replace(f'a{j+1}', str(func_candidate['Parameters: (best-fit, +1, -1)'][f'a{j+1}'][0]))
-                                    
-                            print('a{} (up):\n'.format(str(i + 1)) + func_sub_up + '\n')
-                            print('a{} (down):\n'.format(str(i + 1)) + func_sub_down + '\n')
-            else:
-                print('best-fit:\n' + func_unsub + '\n')
+                    # Possible only if the parameter has +/-1 sigma values stored.
+                    if func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][1] > 0:
+                        # Substitute with +/-1 sigma separately for the current parameter.
+                        up = func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][0] + func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][1]
+                        down = func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][0] + func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][2]
+                        func_sub_up = func_sub.replace(f'a{i+1}', str(round_a_number(up, 6)))
+                        func_sub_down = func_sub.replace(f'a{i+1}', str(round_a_number(down, 6)))
+                        
+                        # Substitute the rest parameters with their best-fit values.
+                        for j in range(len(func_candidate['Parameters: (best-fit, +1, -1)'])):
+                            # The current parameter i is already substituted with its +/-1 sigma.
+                            if j is not i:
+                                func_sub_up = func_sub_up.replace(f'a{j+1}', str(func_candidate['Parameters: (best-fit, +1, -1)'][f'a{j+1}'][0]))
+                                func_sub_down = func_sub_down.replace(f'a{j+1}', str(func_candidate['Parameters: (best-fit, +1, -1)'][f'a{j+1}'][0]))
+                                
+                        print('a{} (up):\n'.format(str(i + 1)) + func_sub_up + '\n')
+                        print('a{} (down):\n'.format(str(i + 1)) + func_sub_down + '\n')
+
         
         # Print result for all candidate functions (# = 99) or just for a particular one.
         if candidate_number == 99:
             for i in range(len(func_candidates)):
-                print('#################################################################')
-                print_candidate(func_candidate = func_candidates.iloc[i], substitute = substitute)
+                print('\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n')
+                print_candidate(func_candidate = func_candidates.iloc[i])
+                print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n')
         else:
             if candidate_number < len(func_candidates):
-                print('#################################################################')
-                print_candidate(func_candidate = func_candidates.iloc[candidate_number], substitute = substitute)
+                print('\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n')
+                print_candidate(func_candidate = func_candidates.iloc[candidate_number])
+                print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n')
             else:
                 print('Error: candidate_number must be 0-{}'.format(str(len(func_candidates) - 1)))
                 
