@@ -753,7 +753,8 @@ def plot_gof(func_candidates, gof, log_scale = True):
     plt.legend(loc = 'best', fontsize = 20)
     
     if log_scale:
-        plt.yscale('log')
+        if gof != 'p-value':
+            plt.yscale('log')
         
     plt.title(gof, loc='center', size=25)
     
@@ -810,4 +811,5 @@ def plot_all_gof(func_candidates, y_up, y_down, pdf_path):
             plot_gof(func_candidates, gof[i])
             plt.savefig(pdf, format = 'pdf')
             plt.close()
+
 

@@ -2,6 +2,64 @@ import numpy as np
 from .utils import round_a_number
     
 
+def dataset_formatting(x, y, y_up, y_down, fit_y_unc):
+
+    dim = 0
+    # Input dataset is in python lists.
+    if isinstance(x, list):
+        # dataset[0] is the independent variable x that takes the form:
+        # [1, 2, 3,...] of 1D;
+        # [[1, 1], [1, 2], [1, 3],...] for 2D;
+        # [[1, 1, 1], [1, 1, 2], [1, 1, 3],...] for 3D etc.
+        if isinstance(x[0], list):
+            dim = len(x[0])
+        else:
+            dim = 1
+    elif isinstance(x, np.ndarray):
+        # dataset[0] is the independent variable in np.ndarray with shape (n, dim).
+        dim = np.shape(x)[1]
+    else:
+        raise TypeError('Input dataset should be either lists or numpy arrays.')
+            
+    # Get x and y.
+    x = np.reshape(np.array(x), (-1, dim))
+    y = np.reshape(np.array(y), (-1, 1))
+    
+    assert(x.shape[0] == y.shape[0])
+        
+    # Get uncertainties for y.
+    if y_up is not None and y_down is not None:
+        #if isinstance(dataset[2], list) and isinstance(dataset[3], list):
+        #    pass
+        #elif isinstance(dataset[2], np.ndarray) and isinstance(dataset[3], np.ndarray):
+        #    pass
+        #else:
+        #    raise TypeError('Input dataset should be either python lists or numpy arrays.')
+        
+        y_up = np.reshape(np.array(y_up), (-1, 1))
+        y_down = np.reshape(np.array(y_down), (-1, 1))
+        
+        assert(x.shape[0] == y.shape[0] == y_up.shape[0] == y_down.shape[0])
+
+        if fit_y_unc:
+            # Do not fit with y uncert. if any of these is zero,
+            # since loss = (y_pred - y_true)^2/y_unc^2 would become undefined.
+            if np.any(np.logical_and(y_up == 0, y_down == 0)):
+                y_up = None
+                y_down = None
+                fit_y_unc = False
+        else:
+            y_up = None
+            y_down = None
+            fit_y_unc = False
+    else:
+        y_up = None
+        y_down = None
+        fit_y_unc = False
+        
+    return x, y, y_up, y_down, fit_y_unc, dim
+        
+
 def histogram_scale(x, y, y_up, y_down, x_min = 0, x_max = 1, scale_y_by = None):
     '''
     Pre-process the input data by scaling both x and y:

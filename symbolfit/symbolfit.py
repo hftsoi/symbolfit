@@ -35,7 +35,6 @@ class SymbolFit:
         fit_y_unc = True,
         random_seed = None,
         loss_weights = None,
-        dim = 0
     ):
         self.func_candidates = func_candidates
         self.pysr_config = pysr_config
@@ -45,7 +44,6 @@ class SymbolFit:
         self.fit_y_unc = fit_y_unc
         self.random_seed = random_seed
         self.loss_weights = loss_weights
-        self.dim = dim
         
         
     def fit(
@@ -132,62 +130,8 @@ class SymbolFit:
         random_seed = self.random_seed
         loss_weights = self.loss_weights
         
-        # Check the input format.
-        # Input dataset should be a tuple: (x, y) or (x, y, y_up, y_down)
-        # or (x, y, y_up, y_down, x_bin_edges).
-        dim = 0
-        # Input dataset is in python lists.
-        if isinstance(x, list):
-            # dataset[0] is the independent variable x that takes the form:
-            # [1, 2, 3,...] of 1D;
-            # [[1, 1], [1, 2], [1, 3],...] for 2D;
-            # [[1, 1, 1], [1, 1, 2], [1, 1, 3],...] for 3D etc.
-            if isinstance(x[0], list):
-                dim = len(x[0])
-            else:
-                dim = 1
-        elif isinstance(x, np.ndarray):
-            # dataset[0] is the independent variable in np.ndarray with shape (n, dim).
-            dim = np.shape(x)[1]
-        else:
-            raise TypeError('Input dataset should be either lists or numpy arrays.')
-        self.dim = dim
-            
-        # Get x and y.
-        x = np.reshape(np.array(x), (-1, dim))
-        y = np.reshape(np.array(y), (-1, 1))
-        
-        assert(x.shape[0] == y.shape[0])
-            
-        # Get uncertainties for y.
-        if y_up is not None and y_down is not None:
-            #if isinstance(dataset[2], list) and isinstance(dataset[3], list):
-            #    pass
-            #elif isinstance(dataset[2], np.ndarray) and isinstance(dataset[3], np.ndarray):
-            #    pass
-            #else:
-            #    raise TypeError('Input dataset should be either python lists or numpy arrays.')
-            
-            y_up = np.reshape(np.array(y_up), (-1, 1))
-            y_down = np.reshape(np.array(y_down), (-1, 1))
-            
-            assert(x.shape[0] == y.shape[0] == y_up.shape[0] == y_down.shape[0])
-
-            if fit_y_unc:
-                # Do not fit with y uncert. if any of these is zero,
-                # since loss = (y_pred - y_true)^2/y_unc^2 would become undefined.
-                if np.any(np.logical_and(y_up == 0, y_down == 0)):
-                    y_up = None
-                    y_down = None
-                    fit_y_unc = False
-            else:
-                y_up = None
-                y_down = None
-                fit_y_unc = False
-        else:
-            y_up = None
-            y_down = None
-            fit_y_unc = False
+        x, y, y_up, y_down, fit_y_unc, dim = dataset_formatting(x, y, y_up, y_down, self.fit_y_unc)
+        self.fit_y_unc = fit_y_unc
             
             
         # Rescale the input data before training to prevent overflows in the fits,
@@ -690,9 +634,11 @@ class SymbolFit:
         os.makedirs(output_dir) if not os.path.exists(output_dir) else None
         
         # Save the full func_candidates dataframe to a csv file.
+        print('Saving full results to {}candidates.csv...'.format(output_dir))
         func_candidates.to_csv(output_dir + 'candidates.csv')
         
         # Save the reduced version removing unnecessary info.
+        print('Saving reduced results to {}candidates_reduced.csv...'.format(output_dir))
         try:
             func_candidates[['Parameterized equation, unscaled', 'Parameters: (best-fit, +1, -1)', 'Correlation', 'RMSE', 'R2', 'NDF', 'Chi2', 'Chi2/NDF', 'p-value']].to_csv(output_dir + 'candidates_reduced.csv')
         except:
@@ -714,66 +660,16 @@ class SymbolFit:
         
         func_candidates = self.func_candidates
         
-        if isinstance(x, list):
-            # dataset[0] is the independent variable x that takes the form:
-            # [1, 2, 3,...] of 1D;
-            # [[1, 1], [1, 2], [1, 3],...] for 2D;
-            # [[1, 1, 1], [1, 1, 2], [1, 1, 3],...] for 3D etc.
-            if isinstance(x[0], list):
-                dim = len(x[0])
-            else:
-                dim = 1
-        elif isinstance(x, np.ndarray):
-            # dataset[0] is the independent variable in np.ndarray with shape (n, dim).
-            dim = np.shape(x)[1]
-        else:
-            raise TypeError('Input dataset should be either lists or numpy arrays.')
-        self.dim = dim
-            
-        # Get x and y.
-        x = np.reshape(np.array(x), (-1, dim))
-        y = np.reshape(np.array(y), (-1, 1))
-        
-        assert(x.shape[0] == y.shape[0])
-            
-        # Get uncertainties for y.
-        if y_up is not None and y_down is not None:
-            #if isinstance(dataset[2], list) and isinstance(dataset[3], list):
-            #    pass
-            #elif isinstance(dataset[2], np.ndarray) and isinstance(dataset[3], np.ndarray):
-            #    pass
-            #else:
-            #    raise TypeError('Input dataset should be either python lists or numpy arrays.')
-            
-            y_up = np.reshape(np.array(y_up), (-1, 1))
-            y_down = np.reshape(np.array(y_down), (-1, 1))
-            
-            assert(x.shape[0] == y.shape[0] == y_up.shape[0] == y_down.shape[0])
-
-            if self.fit_y_unc:
-                # Do not fit with y uncert. if any of these is zero,
-                # since loss = (y_pred - y_true)^2/y_unc^2 would become undefined.
-                if np.any(np.logical_and(y_up == 0, y_down == 0)):
-                    y_up = None
-                    y_down = None
-                    fit_y_unc = False
-            else:
-                y_up = None
-                y_down = None
-                fit_y_unc = False
-        else:
-            y_up = None
-            y_down = None
-            fit_y_unc = False
+        x, y, y_up, y_down, _, dim = dataset_formatting(x, y, y_up, y_down, self.fit_y_unc)
         
         # Define output directory to store csv and pdf files.
         output_dir = output_dir if output_dir.endswith('/') else output_dir + '/'
         os.makedirs(output_dir) if not os.path.exists(output_dir) else None
         
         # Plot results and write to output pdf files.
-        if self.dim == 1:
+        if dim == 1:
             plot_all_syst_all_func_1D(func_candidates, x, bin_widths_1d, y, y_up, y_down, output_dir + 'candidates.pdf', logy = plot_logy, logx = plot_logx)
-        elif self.dim == 2:
+        elif dim == 2:
             plot_all_syst_all_func_2D(func_candidates, x, bin_edges_2d, y, y_up, y_down, output_dir + 'candidates.pdf', logy = plot_logy, logx = plot_logx)
             
         plot_all_corr(func_candidates, y_up, y_down, output_dir + 'candidates_correlation.pdf')
