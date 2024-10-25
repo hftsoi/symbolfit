@@ -36,6 +36,7 @@ class SymbolFit:
         scale_y_by = None,
         max_stderr = 40,
         fit_y_unc = True,
+        random_seed = None,
         loss_weights = None,
         bin_widths_1d = None,
         bin_edges_2d = None,
@@ -202,6 +203,11 @@ class SymbolFit:
         
         # Run PySR fit.
         pysr_model = pysr_config.pysr_config
+        if random_seed is not None:
+            pysr_model.set_params(procs = 0,
+                                  multithreading = False,
+                                  random_state = random_seed,
+                                  deterministic = True)
         pysr_model.fit(X, Y, weights = loss_weights.flatten())
         
         
