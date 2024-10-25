@@ -33,11 +33,46 @@ Two inputs are all needed to run:
 1) An input dataset such as the python file at [examples/toy_dataset_1/dataset.py](https://github.com/hftsoi/symbolfit/blob/main/examples/toy_dataset_1/dataset.py)
 2) A PySR configuration such as the python file at [examples/toy_dataset_1/pysr_config.py](https://github.com/hftsoi/symbolfit/blob/main/examples/toy_dataset_1/pysr_config.py)
 
-The main function to run the fit is:
+To run the fit:
 ```
 from symbolfit.symbolfit import *
-model = SymbolFit()
-model.fit(...)
+
+dataset = importlib.import_module('examples.toy_dataset_1.dataset')
+pysr_config = importlib.import_module('examples.toy_dataset_1.pysr_config')
+
+model = SymbolFit(
+	pysr_config = pysr_config,
+	input_rescale = True,
+	scale_y_by = 'mean',
+	max_stderr = 40,
+	fit_y_unc = True,
+	random_seed = 12345,
+	loss_weights = None
+)
+model.fit(
+	x = dataset.x,
+	y = dataset.y,
+	y_up = dataset.y_up,
+	y_down = dataset.y_down
+)
+```
+After the fit, save results to csv:
+```
+model.save_to_csv(output_dir = 'output_dir')
+```
+and plot results to pdf:
+```
+model.plot_to_pdf(
+	x = dataset.x,
+	y = dataset.y,
+	y_up = dataset.y_up,
+	y_down = dataset.y_down,
+	bin_widths_1d = dataset.bin_widths_1d,
+	#bin_edges_2d = dataset.bin_edges_2d,
+	output_dir = 'test',
+	plot_logy = False,
+	plot_logx = False
+)
 ```
 Each single run will produce a batch of candidate functions and will automatically save all results to five output files:
 1) ```candidates.csv```: saves all candidate functions and evaluations in a dataframe format, e.g., [examples/toy_dataset_1/candidates.csv](https://github.com/hftsoi/symbolfit/blob/main/examples/toy_dataset_1/run1/candidates.csv)
@@ -45,49 +80,6 @@ Each single run will produce a batch of candidate functions and will automatical
 3) ```candidates.pdf```: plot all candidate functions with associated uncertainties one by one for fit quality evaluation, e.g., [examples/toy_dataset_1/candidates.pdf](https://github.com/hftsoi/symbolfit/blob/main/examples/toy_dataset_1/run1/candidates.pdf)
 4) ```candidates_gof.pdf```: plot goodness-of-fit scores, e.g., [examples/toy_dataset_1/candidates_gof.pdf](https://github.com/hftsoi/symbolfit/blob/main/examples/toy_dataset_1/run1/candidates_gof.pdf)
 5) ```candidates_correlation.pdf```: plot correlation matrices for parameters of each candidate function, e.g., [examples/toy_dataset_1/candidates_correlation.pdf](https://github.com/hftsoi/symbolfit/blob/main/examples/toy_dataset_1/run1/candidates_correlation.pdf)
-
-Example script to run on the toy dataset 1 (1D binned histogram), e.g, [fit_toydataset1-1d.py](https://github.com/hftsoi/symbolfit/blob/main/fit_toydataset1-1d.py):
-```
-from symbolfit.symbolfit import *
-model = SymbolFit()
-
-dataset = importlib.import_module('examples.toy_dataset_1.dataset')
-pysr_config = importlib.import_module('examples.toy_dataset_1.pysr_config')
-
-model.fit(dataset=(dataset.x, dataset.y, dataset.y_up, dataset.y_down),
-          bin_widths_1d = dataset.bin_widths_1d,
-          pysr_config = pysr_config,
-          output_dir = 'examples/toy_dataset_1/run',
-          input_rescale = True,
-          scale_y_by = 'mean',
-          max_stderr = 40,
-          loss_weights = None,
-          fit_y_unc = True,
-          plot_logy = False,
-          plot_logx = False
-         )
-```
-
-Example script to run on the toy dataset 3b (2D binned histogram), e.g., [fit_toydataset3b-2d.py](https://github.com/hftsoi/symbolfit/blob/main/fit_toydataset3b-2d.py):
-```
-from symbolfit.symbolfit import *
-model = SymbolFit()
-
-dataset = importlib.import_module('examples.toy_dataset_3.dataset_3b')
-pysr_config = importlib.import_module('examples.toy_dataset_3.pysr_config')
-
-model.fit(dataset=(dataset.x, dataset.y, dataset.y_up, dataset.y_down),
-          bin_edges_2d = dataset.bin_edges_2d,
-          pysr_config = pysr_config,
-          output_dir = 'examples/toy_dataset_3/run_b',
-          input_rescale = False,
-          scale_y_by = None,
-          max_stderr = 40,
-          fit_y_unc = True,
-          plot_logy = False,
-          plot_logx = False
-         )
-```
 
 ## Documentation
 coming soon...
