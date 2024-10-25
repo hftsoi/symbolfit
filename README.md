@@ -29,16 +29,12 @@ coming soon...
 coming soon...
 
 ## Getting Started
-Two inputs are all needed to run:
-1) An input dataset such as the python file at [examples/toy_dataset_1/dataset.py](https://github.com/hftsoi/symbolfit/blob/main/examples/toy_dataset_1/dataset.py)
-2) A PySR configuration such as the python file at [examples/toy_dataset_1/pysr_config.py](https://github.com/hftsoi/symbolfit/blob/main/examples/toy_dataset_1/pysr_config.py)
-
 To run an example fit:
 ```
 from symbolfit.symbolfit import *
 
 dataset = importlib.import_module('examples.toy_dataset_1.dataset')
-pysr_config = importlib.import_module('examples.common_pysr_configs.pysr_config_1')
+pysr_config = importlib.import_module('examples.pysr_configs.pysr_config_1')
 
 model = SymbolFit(
 	pysr_config = pysr_config,
@@ -311,4 +307,23 @@ public data from [HEPDATA](https://www.hepdata.net/record/ins2678141), [2307.087
 
 
 ## Citation
-If this is useful for your research, please consider citing the Symbolfit (coming soon...) and PySR (https://arxiv.org/abs/2305.01582) papers.
+If you find this useful in your research, please consider citing Symbolfit:
+```
+coming soon...
+```
+and PySR:
+```
+@misc{cranmerInterpretableMachineLearning2023,
+    title = {Interpretable {Machine} {Learning} for {Science} with {PySR} and {SymbolicRegression}.jl},
+    url = {http://arxiv.org/abs/2305.01582},
+    doi = {10.48550/arXiv.2305.01582},
+    urldate = {2023-07-17},
+    publisher = {arXiv},
+    author = {Cranmer, Miles},
+    month = may,
+    year = {2023},
+    note = {arXiv:2305.01582 [astro-ph, physics:physics]},
+    keywords = {Astrophysics - Instrumentation and Methods for Astrophysics, Computer Science - Machine Learning, Computer Science - Neural and Evolutionary Computing, Computer Science - Symbolic Computation, Physics - Data Analysis, Statistics and Probability},
+}
+```
+
