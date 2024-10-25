@@ -296,9 +296,9 @@ def plot_all_syst_all_func_1D(func_candidates, x, bin_widths_1d, y, y_up, y_down
             plt.close()
             
             if i < len(func_candidates) - 1:
-                print('Plotting candidate functions {0}/{1} to {2}...'.format(i+1, len(func_candidates), pdf_path), end='\r')
+                print('Plotting candidate functions {0}/{1} >>> {2}'.format(i+1, len(func_candidates), pdf_path), end='\r')
             else:
-                print('Plotting candidate functions {0}/{1} to {2}...'.format(i+1, len(func_candidates), pdf_path))
+                print('Plotting candidate functions {0}/{1} >>> {2}'.format(i+1, len(func_candidates), pdf_path))
                 
             func_candidate = func_candidates.iloc[len(func_candidates) - 1 - i]
             
@@ -552,9 +552,9 @@ def plot_all_syst_all_func_2D(func_candidates, x, bin_edges_2d, y, y_up, y_down,
             plt.close()
             
             if i < len(func_candidates) - 1:
-                print('Plotting candidate functions {0}/{1} to {2}...'.format(i+1, len(func_candidates), pdf_path), end='\r')
+                print('Plotting candidate functions {0}/{1} >>> {2}'.format(i+1, len(func_candidates), pdf_path), end='\r')
             else:
-                print('Plotting candidate functions {0}/{1} to {2}...'.format(i+1, len(func_candidates), pdf_path))
+                print('Plotting candidate functions {0}/{1} >>> {2}'.format(i+1, len(func_candidates), pdf_path))
                 
             func_candidate = func_candidates.iloc[len(func_candidates) - 1 - i]
             
@@ -705,9 +705,9 @@ def plot_all_corr(func_candidates, y_up, y_down, pdf_path):
     with PdfPages(pdf_path) as pdf:
         for i in range(len(func_candidates)):
             if i < len(func_candidates) - 1:
-                print('Plotting correlation matrices {0}/{1} to {2}...'.format(i+1, len(func_candidates), pdf_path), end='\r')
+                print('Plotting correlation matrices {0}/{1} >>> {2}'.format(i+1, len(func_candidates), pdf_path), end='\r')
             else:
-                print('Plotting correlation matrices {0}/{1} to {2}...'.format(i+1, len(func_candidates), pdf_path))
+                print('Plotting correlation matrices {0}/{1} >>> {2}'.format(i+1, len(func_candidates), pdf_path))
                 
             plot_correlation(func_candidates.iloc[len(func_candidates) - 1 - i], len(func_candidates) - 1 - i, y_up, y_down)
             plt.savefig(pdf, format='pdf')
@@ -798,7 +798,7 @@ def plot_all_gof(func_candidates, y_up, y_down, pdf_path):
     Plot all gof metrices at once and save to an output file.
     '''
     
-    print('Plotting goodness-of-fit to {}...'.format(pdf_path))
+    print('Plotting goodness-of-fit scores >>> {}'.format(pdf_path))
     
     # List of gof to plot.
     gof = ['RMSE', 'R2']

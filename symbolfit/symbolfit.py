@@ -26,13 +26,14 @@ class SymbolFit:
     
     plot_to_pdf():
     
-    print_in_prompt(): display results in command lines after running fit().
+    print_candidate():
     '''
     
     def __init__(
         self,
         func_candidates: pd.DataFrame = None,
         pysr_config = None,
+        max_complexity = None,
         input_rescale = True,
         scale_y_by = None,
         max_stderr = 40,
@@ -42,6 +43,7 @@ class SymbolFit:
     ):
         self.func_candidates = func_candidates
         self.pysr_config = pysr_config
+        self.max_complexity = max_complexity
         self.input_rescale = input_rescale
         self.scale_y_by = scale_y_by
         self.max_stderr = max_stderr
@@ -127,6 +129,8 @@ class SymbolFit:
                 candidates_gof.pdf:          plot some goodness-of-fit metrics.
         '''
         
+        pysr_model = self.pysr_config.pysr_config
+        max_complexity = self.max_complexity
         input_rescale = self.input_rescale
         scale_y_by = self.scale_y_by
         max_stderr = self.max_stderr
@@ -163,22 +167,23 @@ class SymbolFit:
             
         
         # Run PySR fit.
-        pysr_model = self.pysr_config.pysr_config
         if self.random_seed is not None:
             pysr_model.set_params(procs = 0,
                                   multithreading = False,
                                   random_state = self.random_seed,
                                   deterministic = True)
+                                  
+        if self.max_complexity is not None:
+            pysr_model.set_params(maxsize = max_complexity)
+            
         pysr_model.fit(X, Y, weights = loss_weights.flatten())
         
-        print('\n')
+        print('\n\n\n\n')
         
         # Get essential info from the PySR output file (hall_.pkl),
         # and save to a df for later processing/refit.
         os.rename(glob('hall*.pkl')[0],'pysr_model_temp.pkl')
         func_candidates = simplify_pkl('pysr_model_temp.pkl', x = X)
-        
-        print('\n')
         
             
         # The constants in the fitted functions from PySR do not have uncert. estimation,
@@ -643,11 +648,11 @@ class SymbolFit:
         os.makedirs(output_dir) if not os.path.exists(output_dir) else None
         
         # Save the full func_candidates dataframe to a csv file.
-        print('Saving full results to {}candidates.csv...'.format(output_dir))
+        print('Saving full results >>> {}candidates.csv'.format(output_dir))
         func_candidates.to_csv(output_dir + 'candidates.csv')
         
         # Save the reduced version removing unnecessary info.
-        print('Saving reduced results to {}candidates_reduced.csv...'.format(output_dir))
+        print('Saving reduced results >>> {}candidates_reduced.csv'.format(output_dir))
         try:
             func_candidates[['Parameterized equation, unscaled', 'Parameters: (best-fit, +1, -1)', 'Correlation', 'RMSE', 'R2', 'NDF', 'Chi2', 'Chi2/NDF', 'p-value']].to_csv(output_dir + 'candidates_reduced.csv')
         except:
@@ -685,7 +690,7 @@ class SymbolFit:
         plot_all_gof(func_candidates, y_up, y_down, output_dir + 'candidates_gof.pdf')
         
         
-    def print_in_prompt(
+    def print_candidate(
         self,
         candidate_number = 99,
     ):
@@ -709,7 +714,7 @@ class SymbolFit:
             func_candidates = self.func_candidates[['Parameterized equation, unscaled', 'Parameters: (best-fit, +1, -1)', 'Correlation', 'RMSE', 'R2']]
         
         # A function to print a particular candidate.
-        def print_candidate(func_candidate):
+        def print_cand(func_candidate):
             print(func_candidate)
             
             # Print candidate function separately with its best-fit parameters and +/-1 sigma substituted.
@@ -736,6 +741,7 @@ class SymbolFit:
                         # Substitute with +/-1 sigma separately for the current parameter.
                         up = func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][0] + func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][1]
                         down = func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][0] + func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][2]
+                        
                         func_sub_up = func_sub.replace(f'a{i+1}', str(round_a_number(up, 6)))
                         func_sub_down = func_sub.replace(f'a{i+1}', str(round_a_number(down, 6)))
                         
@@ -754,12 +760,12 @@ class SymbolFit:
         if candidate_number == 99:
             for i in range(len(func_candidates)):
                 print('\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n')
-                print_candidate(func_candidate = func_candidates.iloc[i])
+                print_cand(func_candidate = func_candidates.iloc[i])
                 print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n')
         else:
             if candidate_number < len(func_candidates):
                 print('\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n')
-                print_candidate(func_candidate = func_candidates.iloc[candidate_number])
+                print_cand(func_candidate = func_candidates.iloc[candidate_number])
                 print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n')
             else:
                 print('Error: candidate_number must be 0-{}'.format(str(len(func_candidates) - 1)))
