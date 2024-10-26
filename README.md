@@ -10,9 +10,9 @@ Paper: coming soon...
 - [Installation](#installation)
 - [Getting Started](#getting-started)
 - [Documentation](#documentation)
-- [Troubleshooting](#troubleshooting)
 - [Examples](#examples)
 	- [Toy Dataset 1 (1D)](#toy-dataset-1-1d)
+- [Troubleshooting](#troubleshooting)
 - [Citation](#citation)
 
 ## Overview
@@ -26,10 +26,14 @@ To run an example fit:
 ```
 from symbolfit.symbolfit import *
 
-dataset = importlib.import_module('examples.toy_dataset_1.dataset')
+dataset = importlib.import_module('examples.datasets.toy_dataset_1.dataset')
 pysr_config = importlib.import_module('examples.pysr_configs.pysr_config_1')
 
 model = SymbolFit(
+	x = dataset.x,
+	y = dataset.y,
+	y_up = dataset.y_up,
+	y_down = dataset.y_down,
 	pysr_config = pysr_config,
 	max_complexity = 40,
 	input_rescale = True,
@@ -39,27 +43,18 @@ model = SymbolFit(
 	random_seed = 12345,
 	loss_weights = None
 )
-model.fit(
-	x = dataset.x,
-	y = dataset.y,
-	y_up = dataset.y_up,
-	y_down = dataset.y_down
-)
+model.fit()
 ```
 After the fit, save results to csv:
 ```
-model.save_to_csv(output_dir = 'output_dir')
+model.save_to_csv(output_dir = 'output_dir/')
 ```
 and plot results to pdf:
 ```
 model.plot_to_pdf(
-	x = dataset.x,
-	y = dataset.y,
-	y_up = dataset.y_up,
-	y_down = dataset.y_down,
 	bin_widths_1d = dataset.bin_widths_1d,
 	#bin_edges_2d = dataset.bin_edges_2d,
-	output_dir = 'test',
+	output_dir = 'output_dir/',
 	plot_logy = False,
 	plot_logx = False
 )
@@ -76,17 +71,7 @@ Candidate functions with full substitutions can be printed in prompt:
 model.print_candidate(candidate_number = 10)
 ```
 
-<details>
-  <summary>Expand to see explanations of all method options</summary>
-  model = SymbolFit(...):
-  - ```pysr_config```
-  - ```max_complexity```
-</details>
-
 ## Documentation
-coming soon...
-
-## Troubleshooting
 coming soon...
 
 ## Examples
@@ -133,6 +118,11 @@ coming soon...
       <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-corr.png" width="800"/>
     </p>
 </details>
+
+More demonstrations in
+
+## Troubleshooting
+coming soon...
 
 ## Citation
 If you find this useful in your research, please consider citing Symbolfit:
