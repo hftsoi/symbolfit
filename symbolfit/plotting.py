@@ -245,7 +245,7 @@ def plot_single_syst_single_func_1D(
     
     # Show the candidate # being plotted and some of the gof metrics.
     if y_up is not None and y_down is not None:
-        axes[0].set_title(r"$\bfit{{Candidate\,\#{}}}$".format(candidate_idx) + "\n$\\chi^2$/NDF = {0}/{1}, p-value = {3}, RMSE = {2}".format(func_candidate['Chi2'], func_candidate['NDF'], func_candidate['RMSE'], func_candidate['p-value']), loc = 'right', size = 9.5)
+        axes[0].set_title(r"$\bfit{{Candidate\,\#{}}}$".format(candidate_idx) + "\n$\\chi^2$/NDF = {0}/{1}, p-value = {3}, RMSE = {2}".format(func_candidate['Chi2'], func_candidate['NDF'], func_candidate['RMSE'], round_a_number(func_candidate['p-value'], 4)), loc = 'right', size = 9.5)
         
     else:
         axes[0].set_title(r"$\bfit{{Candidate\,\#{}}}$".format(candidate_idx) + "\nRMSE = {0}, R2 = {1}".format(func_candidate['RMSE'], func_candidate['R2']), loc = 'right', size = 9.5)
@@ -781,7 +781,7 @@ def plot_single_syst_single_func_2D(
     
     # Show the candidate # being plotted and some of the gof metrics.
     if y_up is not None and y_down is not None:
-        axes[0,1].set_title(r"$\bfit{{Candidate\,\#{}}}$".format(candidate_idx) + "\n$\\chi^2$/NDF = {0}/{1}, p-value = {3}, RMSE = {2}".format(func_candidate['Chi2'], func_candidate['NDF'], func_candidate['RMSE'], func_candidate['p-value']), loc = 'right', size = 9.5)
+        axes[0,1].set_title(r"$\bfit{{Candidate\,\#{}}}$".format(candidate_idx) + "\n$\\chi^2$/NDF = {0}/{1}, p-value = {3}, RMSE = {2}".format(func_candidate['Chi2'], func_candidate['NDF'], func_candidate['RMSE'], round_a_number(func_candidate['p-value'], 4)), loc = 'right', size = 9.5)
         
     else:
         axes[0,1].set_title(r"$\bfit{{Candidate\,\#{}}}$".format(candidate_idx) + "\nRMSE = {0}, R2 = {1}".format(func_candidate['RMSE'], func_candidate['R2']), loc = 'right', size = 9.5)
@@ -1020,7 +1020,7 @@ def plot_correlation(
     
     # Display the candidate # being plotted and some of the gof metrics.
     if y_up is not None and y_down is not None:
-        plt.title(r"$\bfit{{Candidate\,\#{}}}$".format(candidate_idx) + "\n$\\chi^2$/NDF = {0}/{1}, p-value = {3}, RMSE = {2}".format(func_candidate['Chi2'], func_candidate['NDF'], func_candidate['RMSE'], func_candidate['p-value']), loc='right', size=9.5)
+        plt.title(r"$\bfit{{Candidate\,\#{}}}$".format(candidate_idx) + "\n$\\chi^2$/NDF = {0}/{1}, p-value = {3}, RMSE = {2}".format(func_candidate['Chi2'], func_candidate['NDF'], func_candidate['RMSE'], round_a_number(func_candidate['p-value'], 4)), loc='right', size=9.5)
         
     else:
         plt.title(r"$\bfit{{Candidate\,\#{}}}$".format(candidate_idx) + "\nRMSE = {0}, R2 = {1}".format(func_candidate['RMSE'], func_candidate['R2']), loc='right', size=9.5)

@@ -3,7 +3,6 @@ import sympy
 
 pysr_config = PySRRegressor(
     model_selection = 'accuracy',
-    timeout_in_seconds = 60*100,
     niterations = 200,
     maxsize = 80,
     binary_operators = [
@@ -13,14 +12,6 @@ pysr_config = PySRRegressor(
         'exp',
         'tanh',
     ],
-    constraints = {
-        '*'    : (12, 12),
-        '/'    : (12, 12),
-        '^'    : (12, 12),
-        'exp'  : 12,
-        'tanh' : 12,
-    },
-    #complexity_of_operators={'exp': 5, 'gauss': 5, '/': 5, 'cond': 5, 'pow': 5},
     nested_constraints = {
         'exp':    {'exp': 0, 'tanh': 0, '*': 2, '/': 1, '^': 1},
         'tanh':   {'exp': 0, 'tanh': 0, '*': 2, '/': 1, '^': 1},

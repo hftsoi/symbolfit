@@ -211,10 +211,13 @@ def add_gof(
     
     if y_up is not None and y_down is not None:
         func_candidates['NDF'] = ndf_values
+        
         func_candidates['Chi2 (before ROF)'] = chi2_values_pysr
         func_candidates['Chi2'] = chi2_values
+        
         func_candidates['Chi2/NDF (before ROF)'] = chi2_ndf_values_pysr
         func_candidates['Chi2/NDF'] = chi2_ndf_values
+        
         func_candidates['p-value (before ROF)'] = p_values_pysr
         func_candidates['p-value'] = p_values
         

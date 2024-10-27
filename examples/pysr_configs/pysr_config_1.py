@@ -3,9 +3,8 @@ import sympy
 
 pysr_config = PySRRegressor(
     model_selection = 'accuracy',
-    timeout_in_seconds = 60*100,
     niterations = 200,
-    maxsize = 30,
+    maxsize = 60,
     binary_operators = [
         '+', '*'
                      ],
@@ -14,12 +13,6 @@ pysr_config = PySRRegressor(
         'gauss(x) = exp(-x*x)',
         'tanh',
     ],
-    constraints = {
-        #'*'    : (12, 12),
-        #'tanh' : 12,
-        #'exp'  : 12,
-        #'gauss': 12,
-    },
     nested_constraints = {
         'tanh':   {'tanh': 0, 'exp': 0, 'gauss': 0, '*': 2},
         'exp':    {'tanh': 0, 'exp': 0, 'gauss': 0, '*': 2},
