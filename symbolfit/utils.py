@@ -18,6 +18,7 @@ def round_a_number(number, sig_fig = 6):
     
     if number == 0:
         return number
+        
     else:
         return np.round(number, sig_fig - 1 - int(np.floor(log10(np.abs(number)))))
 
@@ -30,6 +31,7 @@ def round_numbers_in_sympy_expr(sympy_expr, sig_fig = 3):
     def rounding(x, sig = sig_fig):
         if x.is_Number and not x.is_Integer:
             return x.round(sig - 1 - int(sympy.floor(sympy.log(abs(x), 10))))
+            
         else:
             return x
     
@@ -76,7 +78,9 @@ def simplify_pkl(pysr_pkl, x):
         equ = str(equ).replace('^', '**').replace('Piecewise(', 'piecewise').replace(' > 0), (0.0, True))', ')')
         
         equation.append(equ)
+        
         complexity.append(model.equations_['complexity'][i])
+        
         loss.append(round_a_number(model.equations_['loss'][i] * len(x), sig_fig = 3))
         
     df = pd.DataFrame({'PySR equation': equation, 'Complexity': complexity, 'PySR loss': loss})

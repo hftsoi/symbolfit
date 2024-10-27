@@ -4,7 +4,14 @@ import scipy
 
 
 # compute the refitted function, with all parameters at their best fit values, or have one of them shifted +/-1sigma
-def func_evaluate(func_candidate, x, dim, param_shifted = None, sigma_pm = None, evaluate_pysr = False):
+def func_evaluate(
+    func_candidate,
+    x,
+    dim,
+    param_shifted = None,
+    sigma_pm = None,
+    evaluate_pysr = False
+):
     '''
     Compute the function values corresponding to the input array x.
     
@@ -41,20 +48,24 @@ def func_evaluate(func_candidate, x, dim, param_shifted = None, sigma_pm = None,
             func = re.sub(r'\b(a\d+)\b',
                         r"func_candidate['Parameters: (best-fit, +1, -1)']['\1'][0]",
                         func_candidate['Parameterized equation, unscaled'])
+                        
         else:
             func = re.sub(r'\b(a\d+)\b',
                         r"func_candidate['Parameterization']['\1']",
                         func_candidate['Parameterized equation, unscaled'])
+                        
     else:
         # First substitute with all best-fit parameters.
         func = re.sub(r'\b(a\d+)\b',
                       r"func_candidate['Parameters: (best-fit, +1, -1)']['\1'][0]",
                       func_candidate['Parameterized equation, unscaled'])
+                      
         # Then replace the param_shifted with its +/-1 sigma value.
         if sigma_pm == '+':
             func = re.sub(r"func_candidate\['Parameters: \(best-fit, \+1, -1\)'\]\['" + re.escape(param_shifted) + r"'\]\[0\]",
                           r"(func_candidate['Parameters: (best-fit, +1, -1)']['" + param_shifted + r"'][0] + func_candidate['Parameters: (best-fit, +1, -1)']['" + param_shifted + r"'][1])",
                           func)
+                          
         elif sigma_pm == '-':
             func = re.sub(r"func_candidate\['Parameters: \(best-fit, \+1, -1\)'\]\['" + re.escape(param_shifted) + r"'\]\[0\]",
                           r"(func_candidate['Parameters: (best-fit, +1, -1)']['" + param_shifted + r"'][0] + func_candidate['Parameters: (best-fit, +1, -1)']['" + param_shifted + r"'][2])",
@@ -63,17 +74,26 @@ def func_evaluate(func_candidate, x, dim, param_shifted = None, sigma_pm = None,
     if dim > 1:
         for i in range(dim):
             globals()[f'x{i}'] = np.reshape(x[:, i], (-1, 1))
+            
     else:
         x0 = x
         
     if re.findall(r'x\d+', func_candidate['Parameterized equation, unscaled']):
         return eval(func)
+        
     else:
         # For function not depending on x.
         return np.full((x.shape[0], 1), eval(func))
         
         
-def add_gof(func_candidates, x, y, y_up, y_down, dim):
+def add_gof(
+    func_candidates,
+    x,
+    y,
+    y_up,
+    y_down,
+    dim
+):
     '''
     Compute goodness-of-fit metrics for all function candidates at once.
     
@@ -111,7 +131,7 @@ def add_gof(func_candidates, x, y, y_up, y_down, dim):
             Chi2/NDF (before refit): similar as above,
             Chi2/NDF: similar as above.
     '''
-    
+    # Functions after ROF.
     rmse_values = []
     r2_values = []
     chi2_values = []
@@ -119,6 +139,7 @@ def add_gof(func_candidates, x, y, y_up, y_down, dim):
     chi2_ndf_values = []
     p_values = []
     
+    # Functions before ROF.
     chi2_values_pysr = []
     chi2_ndf_values_pysr = []
     p_values_pysr = []
@@ -126,8 +147,10 @@ def add_gof(func_candidates, x, y, y_up, y_down, dim):
 
     for i in range(len(func_candidates)):
         func_candidate = func_candidates.iloc[i]
+        
         # Function evaluated with re-fitted parameters from LMFIT.
         y_pred = func_evaluate(func_candidate, x, dim)
+        
         # Function evaluated with original parameters from PySR.
         y_pred_pysr = func_evaluate(func_candidate, x, dim, evaluate_pysr = True)
         
@@ -161,8 +184,10 @@ def add_gof(func_candidates, x, y, y_up, y_down, dim):
                 for j in range(len(func_candidate['Parameters: (best-fit, +1, -1)'])):
                     if func_candidate['Parameters: (best-fit, +1, -1)'][f'a{j+1}'][1] > 0:
                         num_free_param += 1
+                        
             if y.size - num_free_param > 0:
                 ndf = y.size - num_free_param
+                
             else:
                 ndf = -1
                 
@@ -176,12 +201,14 @@ def add_gof(func_candidates, x, y, y_up, y_down, dim):
             chi2_ndf_values_pysr.append(round_a_number(chi2_pysr/ndf, 4))
             p_values.append(round_a_number(p_value, 4))
             p_values_pysr.append(round_a_number(p_value_pysr, 4))
+            
         else:
             rmse_pysr = np.sqrt(np.sum((y - y_pred_pysr)**2) / y.size)
             rmse_values_pysr.append(round_a_number(rmse_pysr, 4))
         
     func_candidates['RMSE'] = rmse_values
     func_candidates['R2'] = r2_values
+    
     if y_up is not None and y_down is not None:
         func_candidates['NDF'] = ndf_values
         func_candidates['Chi2 (before ROF)'] = chi2_values_pysr
@@ -190,6 +217,7 @@ def add_gof(func_candidates, x, y, y_up, y_down, dim):
         func_candidates['Chi2/NDF'] = chi2_ndf_values
         func_candidates['p-value (before ROF)'] = p_values_pysr
         func_candidates['p-value'] = p_values
+        
     else:
         func_candidates['RMSE (before ROF)'] = rmse_values_pysr
     
