@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/hftsoi/symbolfit/blob/main/display/logo.png" width="300"/>
+  <img src="https://github.com/hftsoi/symbolfit/blob/main/docs/logo.png" width="300"/>
 </p>
 
 An API to automate parametric modeling with symbolic regression
@@ -10,8 +10,6 @@ Paper: coming soon...
 - [Installation](#installation)
 - [Getting Started](#getting-started)
 - [Documentation](#documentation)
-- [Examples](#examples)
-	- [Toy Dataset 1 (1D)](#toy-dataset-1-1d)
 - [Troubleshooting](#troubleshooting)
 - [Citation](#citation)
 
@@ -66,61 +64,14 @@ model.print_candidate(candidate_number = 10)
 ```
 
 Each run will produce a batch of candidate functions and will automatically save all results to five output files:
-1) ```candidates.csv```: saves all candidate functions and evaluations in a dataframe format, e.g., [examples/datasets/toy_dataset_1/candidates.csv](https://github.com/hftsoi/symbolfit/blob/main/examples/datasets/toy_dataset_1/run1/candidates.csv)
-2) ```candidates_reduced.csv```: a reduced version for essential information without intermediate results, e.g., [examples/datasets/toy_dataset_1/candidates_reduced.csv](https://github.com/hftsoi/symbolfit/blob/main/examples/datasets/toy_dataset_1/run1/candidates_reduced.csv)
-3) ```candidates.pdf```: plot all candidate functions with associated uncertainties one by one for fit quality evaluation, e.g., [examples/datasets/toy_dataset_1/candidates.pdf](https://github.com/hftsoi/symbolfit/blob/main/examples/datasets/toy_dataset_1/run1/candidates.pdf)
-4) ```candidates_gof.pdf```: plot goodness-of-fit scores, e.g., [examples/datasets/toy_dataset_1/candidates_gof.pdf](https://github.com/hftsoi/symbolfit/blob/main/examples/datasets/toy_dataset_1/run1/candidates_gof.pdf)
-5) ```candidates_correlation.pdf```: plot correlation matrices for parameters of each candidate function, e.g., [examples/datasets/toy_dataset_1/candidates_correlation.pdf](https://github.com/hftsoi/symbolfit/blob/main/examples/datasets/toy_dataset_1/run1/candidates_correlation.pdf)
+1) ```candidates.csv```: saves all candidate functions and evaluations in a dataframe format.
+2) ```candidates_reduced.csv```: a reduced version for essential information without intermediate results.
+3) ```candidates.pdf```: plot all candidate functions with associated uncertainties one by one for fit quality evaluation.
+4) ```candidates_gof.pdf```: plot goodness-of-fit scores.
+5) ```candidates_correlation.pdf```: plot correlation matrices for parameters of each candidate function.
 
 ## Documentation
 coming soon...
-
-## Examples
-
-### Toy dataset 1 (1D)
-<details>
-  <summary>Expand to see goodness-of-fit scores for candidate functions obtained from a single run</summary>
-    <p align="center">
-      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-gof_chi2.png" width="800"/>
-    </p>
-    <p align="center">
-      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-gof_rmse.png" width="800"/>
-    </p>
-    <p align="center">
-      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-gof_r2.png" width="800"/>
-    </p>
-</details>
-
-<details>
-  <summary>Expand to see plots of candidate function #36 (best-fits and uncertainties)</summary>
-    <p align="center">
-      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-candidates1.png" width="800"/>
-    </p>
-    <p align="center">
-      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-candidates2.png" width="800"/>
-    </p>
-    <p align="center">
-      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-candidates3.png" width="800"/>
-    </p>
-    <p align="center">
-      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-candidates4.png" width="800"/>
-    </p>
-    <p align="center">
-      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-candidates5.png" width="800"/>
-    </p>
-    <p align="center">
-      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-candidates6.png" width="800"/>
-    </p>
-</details>
-
-<details>
-  <summary>Expand to see correlation matrix for the parameters of candidate function #36</summary>
-    <p align="center">
-      <img src="https://github.com/hftsoi/symbolfit/blob/main/display/toy_dataset_1/toy_dataset_1-corr.png" width="800"/>
-    </p>
-</details>
-
-More demonstrations in
 
 ## Troubleshooting
 coming soon...
