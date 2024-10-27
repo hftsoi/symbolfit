@@ -166,7 +166,12 @@ class SymbolFit:
         loss_weights = self.loss_weights
         
         
-        x, y, y_up, y_down, fit_y_unc, dim = dataset_formatting(x, y, y_up, y_down, fit_y_unc)
+        x, y, y_up, y_down, fit_y_unc, dim = dataset_formatting(x = x,
+                                                                y = y,
+                                                                y_up = y_up,
+                                                                y_down = y_down,
+                                                                fit_y_unc = fit_y_unc
+                                                                )
         self.fit_y_unc = fit_y_unc
             
             
@@ -174,7 +179,15 @@ class SymbolFit:
         # since say exp(x) would cause problem if x is large.
         # E.g., x -> [0,1] and norm -> 1.
         if self.input_rescale:
-            X, Y, Y_up, Y_down, y_scale = histogram_scale(x, y, y_up, y_down, x_min = 0, x_max = 1, scale_y_by = self.scale_y_by)
+            X, Y, Y_up, Y_down, y_scale = histogram_scale(x = x,
+                                                          y = y,
+                                                          y_up = y_up,
+                                                          y_down = y_down,
+                                                          x_min = 0,
+                                                          x_max = 1,
+                                                          scale_y_by = scale_y_by
+                                                          )
+            
         else:
             X, Y, Y_up, Y_down, y_scale = x, y, y_up, y_down, 1.
             
@@ -187,9 +200,11 @@ class SymbolFit:
         # In PySR, set weighted loss = (y_model - y_label)^2 * loss_weights.
         if loss_weights is not None:
             loss_weights = np.reshape(np.array(loss_weights), (-1, 1))
+            
         elif y_up is not None and y_down is not None:
             loss_weights = np.where(Y_up != 0, Y_up, Y_down)
             loss_weights = 1 / loss_weights**2
+            
         else:
             loss_weights = np.ones(y.shape)
             
@@ -204,6 +219,7 @@ class SymbolFit:
         if self.max_complexity is not None:
             pysr_model.set_params(maxsize = max_complexity)
             
+            
         pysr_model.fit(X, Y, weights = loss_weights.flatten())
         
         print('\n\n\n\n')
@@ -211,7 +227,10 @@ class SymbolFit:
         # Get essential info from the PySR output file (hall_.pkl),
         # and save to a df for later processing/refit.
         os.rename(glob('hall*.pkl')[0],'pysr_model_temp.pkl')
-        func_candidates = simplify_pkl('pysr_model_temp.pkl', x = X)
+        
+        func_candidates = simplify_pkl(pysr_pkl = 'pysr_model_temp.pkl',
+                                       x = X
+                                       )
         
             
         # The constants in the fitted functions from PySR do not have uncert. estimation,
@@ -251,6 +270,7 @@ class SymbolFit:
             # If there are 3 constants (1.2, 3.4, 5.6), then create {1.2: 'a1', 3.4: 'a2', 5.6: 'a3'} for them.
             parameterization = {}
             variable_counter = 0
+            
             for a in sympy.preorder_traversal(func):
                 # Replace non-integer constants only,
                 # as sometimes constants like 1 are trivial.
@@ -311,13 +331,26 @@ class SymbolFit:
             # and store as new columns.
             func_param_all = []
             param_all = []
+            
             for i in range(len(func_candidates)):
-                _, func_param, param = parameterize_func_single(func_candidates['PySR equation'][i], dim)
+                _, func_param, param = parameterize_func_single(func_str = func_candidates['PySR equation'][i],
+                                                                dim = dim
+                                                                )
+                
                 func_param_all.append(func_param)
                 param_all.append(param)
+                
             func_candidates['Parameterized equation'] = func_param_all
+            
             func_candidates['Parameterization'] = param_all
-            func_candidates = func_candidates[['PySR equation', 'Parameterized equation', 'Parameterization', 'Complexity']]
+            
+            func_candidates = func_candidates[[
+                'PySR equation',
+                'Parameterized equation',
+                'Parameterization',
+                'Complexity'
+            ]]
+            
             return func_candidates
 
 
@@ -346,6 +379,7 @@ class SymbolFit:
             # Get numbers of a fitted parameter from the LMFIT result
             numbers = re.findall(r"[-+]?\d*\.?\d+(?:[eE][-+]?\d+)?", str(param))
             numbers = np.array(numbers, dtype=float)
+            
             value = None
             std_err = None
             ratio = 99999
@@ -358,6 +392,7 @@ class SymbolFit:
             if len(numbers) == 3:
                 value, std_err = numbers[1], numbers[2]
                 ratio = std_err / np.abs(value) * 100
+                
             return value, std_err, ratio
             
 
@@ -380,25 +415,40 @@ class SymbolFit:
             # Get the number of fitted parameters that were not held fixed.
             num_param = len(fit_result.params)
             param_varied = []
+            
             for i in range(num_param):
                 if 'fixed' not in str(fit_result.params[f'a{i+1}']):
                     param_varied.append(f'a{i+1}')
+                    
             num_param_varied = len(param_varied)
             
             # Calculate correlation as covariance(x, y) / (stderr_x * stderr_y).
             correlation = {}
+            
+            # Correlation only when at least one pair of parameters exist.
             if num_param_varied > 1:
+                # All possible pairs.
                 for i in range(num_param_varied - 1):
                     for j in range(i + 1, num_param_varied):
+                        # Get a pair of parameters.
                         pair = '{0}, {1}'.format(param_varied[i], param_varied[j])
-                        _, error_i, _ = get_rel_err(fit_result.params[param_varied[i]])
-                        _, error_j, _ = get_rel_err(fit_result.params[param_varied[j]])
-                        corr = round_a_number(fit_result.covar[i][j] / (error_i * error_j), 4)
-                        # Numerical rounding causing correlation > 1 or < 1.
+                        
+                        # Get standard errors from covariance matrix.
+                        _, error_i, _ = get_rel_err(param = fit_result.params[param_varied[i]])
+                        _, error_j, _ = get_rel_err(param = fit_result.params[param_varied[j]])
+                        
+                        # Compute the correlation value.
+                        corr = round_a_number(number = fit_result.covar[i][j] / (error_i * error_j),
+                                              sig_fig = 4
+                                              )
+                        
+                        # Numerical rounding causing correlation slightly > 1 or < 1.
                         if corr > 1:
                             corr = 1
+                            
                         elif corr < -1:
                             corr = -1
+                            
                         correlation[pair] = corr
                         
             return correlation
@@ -453,6 +503,7 @@ class SymbolFit:
                 if dim > 1:
                     for i in range(dim):
                         globals()[f'x{i}'] = np.reshape(x[:, i], (-1, 1))
+                        
                 else:
                     x0 = x
                     
@@ -468,7 +519,8 @@ class SymbolFit:
                 if y_up is not None and y_down is not None:
                     y_unc = np.where(residual > 0,
                                      np.where(y_up != 0, y_up, y_down),
-                                     np.where(y_down != 0, y_down, y_up))
+                                     np.where(y_down != 0, y_down, y_up)
+                                     )
                                      
                     residual = residual / y_unc
                     
@@ -488,16 +540,21 @@ class SymbolFit:
             def vary_combinations(num_params):
                 # Start from a list with all True's.
                 vary_combo = [[True] * num_params]
+                
                 # Create new combinations by turning some into False's.
                 for r in range(1, num_params + 1):
                     for combo in combinations(range(num_params), r):
                         temp_list = vary_combo[0].copy()
+                        
                         for index in combo:
                             temp_list[index] = False
+                            
                         vary_combo.append(temp_list)
+                        
                 return vary_combo
             
             num_params = len(func_candidate['Parameterization'])
+            
             # In case the function does not have any parameter to fit, e.g. y=1 or y=exp(x).
             if num_params == 0:
                 return None
@@ -510,16 +567,28 @@ class SymbolFit:
                 print('    >>> loop of re-parameterization with less NDF for bad fits {0}/{1}...'.format(vary_trial + 1, len(vary_combo)), end='\r')
                 
                 params = Parameters()
+                
                 for i in range(num_params):
                     # Define the LMFIT Parameter for the current fit,
                     # setting which parameters to vary/fixed from the vary_combo,
                     # and their initial values from the parameterization.
                     init_value = func_candidate['Parameterization'][f'a{i+1}']
-                    params.add(f'a{i+1}', init_value, vary=vary_combo[vary_trial][i])
+                    
+                    # LMFIT Parameter class method add().
+                    params.add(name = f'a{i+1}',
+                               value = init_value,
+                               vary = vary_combo[vary_trial][i]
+                               )
+                    
                 try:
                     # Fit the parameters with the LMFIT minimizer.
-                    mini = Minimizer(residual, params, fcn_args=(x, y, y_up, y_down, dim))
+                    mini = Minimizer(userfcn = residual,
+                                     params = params,
+                                     fcn_args = (x, y, y_up, y_down, dim))
+                                     # ^ arguments for residual()
+                                     
                     result = mini.minimize()
+                    
                 except Exception as e:
                     # The fit might not converge due to complex phase space,
                     # in that case we give up the current vary_combo and
@@ -528,9 +597,11 @@ class SymbolFit:
                     
                 # If the above fit converges, get the standard errors in %.
                 rel_errors = []
+                
                 for i in range(num_params):
                     if vary_combo[vary_trial][i]:
-                        _, _, ratio = get_rel_err(result.params[f'a{i+1}'])
+                        _, _, ratio = get_rel_err(param = result.params[f'a{i+1}'])
+                        
                         rel_errors.append(ratio)
                 
                 # Here, check if all relative errors are within the pre-set max_stderr,
@@ -542,18 +613,23 @@ class SymbolFit:
                 # errors would be too small for a meaningful uncertainty model.
                 if len(rel_errors) > 0 and all(rel_error < max_stderr for rel_error in rel_errors):
                     print('    >>> loop of re-parameterization with less NDF for bad fits {0}/{1}...\n'.format(vary_trial + 1, len(vary_combo)))
+                    
                     break
                     
             # Compute the correlation for fitted parameters from the standard error estimation.
-            correlation = get_correlation(result)
+            correlation = get_correlation(fit_result = result)
             
             # Compute the confidence intervals for the fitted parameters,
             # which are more robust estimation of the uncertainties than standard errors.
             if len(rel_errors) > 1:
                 try:
-                    ci = lmfit.conf_interval(mini, result)
+                    ci = lmfit.conf_interval(minimizer = mini,
+                                             result = result
+                                             )
+                    
                 except:
                     ci = None
+                    
             else:
                 ci = None
 
@@ -598,41 +674,62 @@ class SymbolFit:
             '''
             
             def get_val_err(param_str):
+                # Get relevant numbers from Parameter in string.
                 numbers = re.findall(r"[-+]?\d*\.?\d+(?:[eE][-+]?\d+)?", param_str)
                 numbers = np.array(numbers, dtype = float)
+                
+                # If fit returns, there will be 3 numbers.
+                # First is best-fit, then up and down unc.
                 if len(numbers) == 3:
                     value, error = numbers[1], numbers[2]
+                    
                 else:
                     value = numbers[1]
                     error = 0
+                    
                 return value, error
             
             refitted_params = []
             correlations = []
             confidence_intervals = []
             
-            
             for i in range(len(func_candidates)):
                 print('Re-optimizing parameterized candidate function {0}/{1}...'.format(i + 1, len(func_candidates)))
+                
                 # Do nothing for candidate without any parameter to fit.
                 if func_candidates['Parameterization'][i] == {}:
                     refitted_params.append({})
                     correlations.append({})
                     confidence_intervals.append(None)
+                    
                 else:
                     refitted_param = {}
-                    result, correlation, ci = refit_single(func_candidates.iloc[i], x, y, y_up, y_down, max_stderr, dim)
+                    
+                    # Run the refit.
+                    result, correlation, ci = refit_single(func_candidate = func_candidates.iloc[i],
+                                                           x = x,
+                                                           y = y,
+                                                           y_up = y_up,
+                                                           y_down = y_down,
+                                                           max_stderr = max_stderr,
+                                                           dim = dim
+                                                           )
+                    
                     # Either all from standard least-square or all from ci.
                     for j in range(len(result.params)):
                         #value, error = get_val_err(str(result.params[f'a{j+1}']))
                         #refitted_param[f'a{j+1}'] = round_a_number(value, sig_fig=6), round_a_number(error, sig_fig=6)
                         try:
+                            # See LMFIT confidence intervals output format.
                             central = ci[f'a{j+1}'][3][1]
                             up = ci[f'a{j+1}'][4][1] - central
                             down = ci[f'a{j+1}'][2][1] - central
+                            
                             refitted_param[f'a{j+1}'] = round_a_number(central), round_a_number(up), round_a_number(down)
+                            
                         except:
-                            central, std_err = get_val_err(str(result.params[f'a{j+1}']))
+                            central, std_err = get_val_err(param_str = str(result.params[f'a{j+1}']))
+                            
                             refitted_param[f'a{j+1}'] = round_a_number(central), round_a_number(std_err), round_a_number(-std_err)
                         
                     refitted_params.append(refitted_param)
@@ -643,28 +740,57 @@ class SymbolFit:
             func_candidates['Correlation'] = correlations
             func_candidates['Confidence interval'] = confidence_intervals
             
-            func_candidates = func_candidates[['Complexity', 'PySR equation', 'Parameterized equation', 'Parameterization', 'Parameters: (best-fit, +1, -1)', 'Correlation']]
+            func_candidates = func_candidates[[
+                'Complexity',
+                'PySR equation',
+                'Parameterized equation',
+                'Parameterization',
+                'Parameters: (best-fit, +1, -1)',
+                'Correlation'
+            ]]
                     
             return func_candidates
         
         
         # Parameterize all functional forms from PySR outputs.
-        func_candidates = parameterize_func_all(func_candidates, dim)
+        func_candidates = parameterize_func_all(func_candidates = func_candidates,
+                                                dim = dim
+                                                )
         
         # Re-optimization loop (ROF) to improve constants and provide unc estimation.
-        func_candidates = refit_all(func_candidates, X, Y, Y_up, Y_down, max_stderr, dim)
+        func_candidates = refit_all(func_candidates = func_candidates,
+                                    x = X,
+                                    y = Y,
+                                    y_up = Y_up,
+                                    y_down = Y_down,
+                                    max_stderr = max_stderr,
+                                    dim = dim
+                                    )
         
         # Undo the input rescaling after all the fits.
-        func_candidates = functions_unscale(func_candidates, x, X, y_scale, input_rescale, dim)
+        func_candidates = functions_unscale(func_candidates = func_candidates,
+                                            x = x,
+                                            X = X,
+                                            y_scale = y_scale,
+                                            input_scale = input_rescale,
+                                            dim = dim
+                                            )
         
         # Compute goodness-of-fit scores.
-        func_candidates = add_gof(func_candidates, x, y, y_up, y_down, dim)
+        func_candidates = add_gof(func_candidates = func_candidates,
+                                  x = x,
+                                  y = y,
+                                  y_up = y_up,
+                                  y_down = y_down,
+                                  dim = dim
+                                  )
         
         
         # Remove intermediate files.
         intermediate_files = glob('hall*')
         for f in intermediate_files:
             os.remove(f)
+            
         os.remove('pysr_model_temp.pkl')
         
         # Update the full func_candidates dataframe containing all results.
@@ -689,19 +815,44 @@ class SymbolFit:
         func_candidates = self.func_candidates
         
         # Define output directory to store csv and pdf files.
-        output_dir = output_dir if output_dir.endswith('/') else output_dir + '/'
+        if output_dir.endswith('/'):
+            output_dir = output_dir
+            
+        else:
+            output_dir = output_dir + '/'
+            
         os.makedirs(output_dir) if not os.path.exists(output_dir) else None
+        
         
         # Save the full func_candidates dataframe to a csv file.
         print('Saving full results >>> {}candidates.csv'.format(output_dir))
+        
         func_candidates.to_csv(output_dir + 'candidates.csv')
         
         # Save the reduced version removing unnecessary info.
         print('Saving reduced results >>> {}candidates_reduced.csv'.format(output_dir))
+        
         try:
-            func_candidates[['Parameterized equation, unscaled', 'Parameters: (best-fit, +1, -1)', 'Correlation', 'RMSE', 'R2', 'NDF', 'Chi2', 'Chi2/NDF', 'p-value']].to_csv(output_dir + 'candidates_reduced.csv')
+            func_candidates[[
+                'Parameterized equation, unscaled',
+                'Parameters: (best-fit, +1, -1)',
+                'Correlation',
+                'RMSE',
+                'R2',
+                'NDF',
+                'Chi2',
+                'Chi2/NDF',
+                'p-value'
+            ]].to_csv(output_dir + 'candidates_reduced.csv')
+            
         except:
-            func_candidates[['Parameterized equation, unscaled', 'Parameters: (best-fit, +1, -1)', 'Correlation', 'RMSE', 'R2']].to_csv(output_dir + 'candidates_reduced.csv')
+            func_candidates[[
+                'Parameterized equation, unscaled',
+                'Parameters: (best-fit, +1, -1)',
+                'Correlation',
+                'RMSE',
+                'R2'
+            ]].to_csv(output_dir + 'candidates_reduced.csv')
     
     
     def plot_to_pdf(
@@ -728,30 +879,68 @@ class SymbolFit:
             Plot functions in log scale for x in candidates.pdf.
         '''
         
+        
         x = self.x
         y = self.y
         y_up = self.y_up
         y_down = self.y_down
+        fit_y_unc = self.fit_y_unc
         bin_widths_1d = self.bin_widths_1d
         bin_edges_2d = self.bin_edges_2d
         func_candidates = self.func_candidates
         
-        x, y, y_up, y_down, _, dim = dataset_formatting(x, y, y_up, y_down, self.fit_y_unc)
+        x, y, y_up, y_down, _, dim = dataset_formatting(x = x,
+                                                        y = y,
+                                                        y_up = y_up,
+                                                        y_down = y_down,
+                                                        fit_y_unc = fit_y_unc
+                                                        )
         
         # Define output directory to store csv and pdf files.
-        output_dir = output_dir if output_dir.endswith('/') else output_dir + '/'
+        if output_dir.endswith('/'):
+            output_dir = output_dir
+            
+        else:
+            output_dir = output_dir + '/'
+            
         os.makedirs(output_dir) if not os.path.exists(output_dir) else None
         
         # Plot results and write to output pdf files.
         if dim == 1:
-            plot_all_syst_all_func_1D(func_candidates, x, bin_widths_1d, y, y_up, y_down,
-                                      output_dir + 'candidates.pdf', logy = plot_logy, logx = plot_logx)
+            plot_all_syst_all_func_1D(func_candidates = func_candidates,
+                                      x = x,
+                                      bin_widths_1d = bin_widths_1d,
+                                      y = y,
+                                      y_up = y_up,
+                                      y_down = y_down,
+                                      pdf_path = output_dir + 'candidates.pdf',
+                                      logy = plot_logy,
+                                      logx = plot_logx
+                                      )
+                                      
         elif dim == 2:
-            plot_all_syst_all_func_2D(func_candidates, x, bin_edges_2d, y, y_up, y_down,
-                                      output_dir + 'candidates.pdf', logy = plot_logy, logx = plot_logx)
-            
-        plot_all_corr(func_candidates, y_up, y_down, output_dir + 'candidates_correlation.pdf')
-        plot_all_gof(func_candidates, y_up, y_down, output_dir + 'candidates_gof.pdf')
+            plot_all_syst_all_func_2D(func_candidates = func_candidates,
+                                      x = x,
+                                      bin_edges_2d = bin_edges_2d,
+                                      y = y,
+                                      y_up = y_up,
+                                      y_down = y_down,
+                                      pdf_path = output_dir + 'candidates.pdf',
+                                      logy = plot_logy,
+                                      logx = plot_logx
+                                      )
+        
+        plot_all_corr(func_candidates = func_candidates,
+                      y_up = y_up,
+                      y_down = y_down,
+                      pdf_path = output_dir + 'candidates_correlation.pdf'
+                      )
+        
+        plot_all_gof(func_candidates = func_candidates,
+                     y_up = y_up,
+                     y_down = y_down,
+                     pdf_path = output_dir + 'candidates_gof.pdf'
+                     )
         
         
     def print_candidate(
@@ -772,13 +961,31 @@ class SymbolFit:
         
         # Whether to print relevant info or full info including all intermediate results.
         try:
-            func_candidates = self.func_candidates[['Parameterized equation, unscaled', 'Parameters: (best-fit, +1, -1)', 'Correlation', 'RMSE', 'R2', 'NDF', 'Chi2', 'Chi2/NDF', 'p-value']]
+            func_candidates = self.func_candidates[[
+                'Parameterized equation, unscaled',
+                'Parameters: (best-fit, +1, -1)',
+                'Correlation',
+                'RMSE',
+                'R2',
+                'NDF',
+                'Chi2',
+                'Chi2/NDF',
+                'p-value'
+            ]]
+            
         except:
             # 'NDF', 'Chi2', 'Chi2/NDF' do not exist if y_up/y_down were not considered in fits.
-            func_candidates = self.func_candidates[['Parameterized equation, unscaled', 'Parameters: (best-fit, +1, -1)', 'Correlation', 'RMSE', 'R2']]
+            func_candidates = self.func_candidates[[
+                'Parameterized equation, unscaled',
+                'Parameters: (best-fit, +1, -1)',
+                'Correlation',
+                'RMSE',
+                'R2'
+            ]]
         
         # A function to print a particular candidate.
         def print_cand(func_candidate):
+        
             print(func_candidate)
             
             # Print candidate function separately with its best-fit parameters and +/-1 sigma substituted.
@@ -787,37 +994,58 @@ class SymbolFit:
             func_unsub = func_candidate['Parameterized equation, unscaled']
             
             print('\nFunction:\n' + func_unsub)
+            
             print('\nParameters (best-fit, +1, -1):\n' + str(func_candidate['Parameters: (best-fit, +1, -1)']))
+            
             print('\nCorrelation:\n' + str(func_candidate['Correlation']))
             
             # Then print the substituted function.
             if len(func_candidate['Parameters: (best-fit, +1, -1)']) > 0:
                 # Substitute all parameters with their best-fit values and print the function.
                 func_sub = func_unsub
+                
                 for i in range(len(func_candidate['Parameters: (best-fit, +1, -1)'])):
-                    func_sub = func_sub.replace(f'a{i+1}', str(func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][0]))
+                    func_sub = func_sub.replace(f'a{i+1}',
+                                                str(func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][0])
+                                                )
+                    
                 print('\nBest-fit:\n' + func_sub + '\n')
                 
                 # Substitute with each parameter shifted by +/-1 sigma while keeping others in their best-fit values.
                 for i in range(len(func_candidate['Parameters: (best-fit, +1, -1)'])):
                     func_sub = func_unsub
+                    
                     # Possible only if the parameter has +/-1 sigma values stored.
                     if func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][1] > 0:
                         # Substitute with +/-1 sigma separately for the current parameter.
-                        up = func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][0] + func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][1]
-                        down = func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][0] + func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][2]
+                        up = func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][0]
+                        up = up + func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][1]
                         
-                        func_sub_up = func_sub.replace(f'a{i+1}', str(round_a_number(up, 6)))
-                        func_sub_down = func_sub.replace(f'a{i+1}', str(round_a_number(down, 6)))
+                        down = func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][0]
+                        down = down + func_candidate['Parameters: (best-fit, +1, -1)'][f'a{i+1}'][2]
+                        
+                        func_sub_up = func_sub.replace(f'a{i+1}',
+                                                       str(round_a_number(up, 6))
+                                                       )
+                        
+                        func_sub_down = func_sub.replace(f'a{i+1}',
+                                                         str(round_a_number(down, 6))
+                                                         )
                         
                         # Substitute the rest parameters with their best-fit values.
                         for j in range(len(func_candidate['Parameters: (best-fit, +1, -1)'])):
                             # The current parameter i is already substituted with its +/-1 sigma.
                             if j is not i:
-                                func_sub_up = func_sub_up.replace(f'a{j+1}', str(func_candidate['Parameters: (best-fit, +1, -1)'][f'a{j+1}'][0]))
-                                func_sub_down = func_sub_down.replace(f'a{j+1}', str(func_candidate['Parameters: (best-fit, +1, -1)'][f'a{j+1}'][0]))
+                                func_sub_up = func_sub_up.replace(f'a{j+1}',
+                                                                  str(func_candidate['Parameters: (best-fit, +1, -1)'][f'a{j+1}'][0])
+                                                                  )
+                                
+                                func_sub_down = func_sub_down.replace(f'a{j+1}',
+                                                                      str(func_candidate['Parameters: (best-fit, +1, -1)'][f'a{j+1}'][0])
+                                                                      )
                                 
                         print('a{} (up):\n'.format(str(i + 1)) + func_sub_up + '\n')
+                        
                         print('a{} (down):\n'.format(str(i + 1)) + func_sub_down + '\n')
 
         
