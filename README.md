@@ -40,9 +40,12 @@ model = SymbolFit(
 	scale_y_by = 'mean',
 	max_stderr = 40,
 	fit_y_unc = True,
-	random_seed = 12345,
-	loss_weights = None
+	random_seed = None,
+	loss_weights = None,
+	bin_widths_1d = dataset.bin_widths_1d,
+	#bin_edges_2d = dataset.bin_edges_2d,
 )
+
 model.fit()
 ```
 After the fit, save results to csv:
@@ -52,24 +55,22 @@ model.save_to_csv(output_dir = 'output_dir/')
 and plot results to pdf:
 ```
 model.plot_to_pdf(
-	bin_widths_1d = dataset.bin_widths_1d,
-	#bin_edges_2d = dataset.bin_edges_2d,
 	output_dir = 'output_dir/',
 	plot_logy = False,
 	plot_logx = False
 )
 ```
-Each single run will produce a batch of candidate functions and will automatically save all results to five output files:
-1) ```candidates.csv```: saves all candidate functions and evaluations in a dataframe format, e.g., [examples/toy_dataset_1/candidates.csv](https://github.com/hftsoi/symbolfit/blob/main/examples/toy_dataset_1/run1/candidates.csv)
-2) ```candidates_reduced.csv```: a reduced version for essential information without intermediate results, e.g., [examples/toy_dataset_1/candidates_reduced.csv](https://github.com/hftsoi/symbolfit/blob/main/examples/toy_dataset_1/run1/candidates_reduced.csv)
-3) ```candidates.pdf```: plot all candidate functions with associated uncertainties one by one for fit quality evaluation, e.g., [examples/toy_dataset_1/candidates.pdf](https://github.com/hftsoi/symbolfit/blob/main/examples/toy_dataset_1/run1/candidates.pdf)
-4) ```candidates_gof.pdf```: plot goodness-of-fit scores, e.g., [examples/toy_dataset_1/candidates_gof.pdf](https://github.com/hftsoi/symbolfit/blob/main/examples/toy_dataset_1/run1/candidates_gof.pdf)
-5) ```candidates_correlation.pdf```: plot correlation matrices for parameters of each candidate function, e.g., [examples/toy_dataset_1/candidates_correlation.pdf](https://github.com/hftsoi/symbolfit/blob/main/examples/toy_dataset_1/run1/candidates_correlation.pdf)
-
 Candidate functions with full substitutions can be printed in prompt:
 ```
 model.print_candidate(candidate_number = 10)
 ```
+
+Each run will produce a batch of candidate functions and will automatically save all results to five output files:
+1) ```candidates.csv```: saves all candidate functions and evaluations in a dataframe format, e.g., [examples/datasets/toy_dataset_1/candidates.csv](https://github.com/hftsoi/symbolfit/blob/main/examples/datasets/toy_dataset_1/run1/candidates.csv)
+2) ```candidates_reduced.csv```: a reduced version for essential information without intermediate results, e.g., [examples/datasets/toy_dataset_1/candidates_reduced.csv](https://github.com/hftsoi/symbolfit/blob/main/examples/datasets/toy_dataset_1/run1/candidates_reduced.csv)
+3) ```candidates.pdf```: plot all candidate functions with associated uncertainties one by one for fit quality evaluation, e.g., [examples/datasets/toy_dataset_1/candidates.pdf](https://github.com/hftsoi/symbolfit/blob/main/examples/datasets/toy_dataset_1/run1/candidates.pdf)
+4) ```candidates_gof.pdf```: plot goodness-of-fit scores, e.g., [examples/datasets/toy_dataset_1/candidates_gof.pdf](https://github.com/hftsoi/symbolfit/blob/main/examples/datasets/toy_dataset_1/run1/candidates_gof.pdf)
+5) ```candidates_correlation.pdf```: plot correlation matrices for parameters of each candidate function, e.g., [examples/datasets/toy_dataset_1/candidates_correlation.pdf](https://github.com/hftsoi/symbolfit/blob/main/examples/datasets/toy_dataset_1/run1/candidates_correlation.pdf)
 
 ## Documentation
 coming soon...
