@@ -18,20 +18,101 @@ class SymbolFit:
     '''
     SymbolFit class
     
-    Methods
-    -------
-    fit(): run all fits at once and automatically save results to output files.
     
-    save_to_csv():
+    Parameters
+    ----------
+    x : list | ndarray
+        Independent variable x, or bin center values for histogram data.
+        If provided as a python list,
+        e.g., [1, 2, 3,...] for 1D,
+        [[1, 1], [1, 2], [1, 3],...] for 2D,
+        [[1, 1, 1], [1, 1, 2], [1, 1, 3],...] for 3D etc.
+        If provided as ndarray, then shape is (num_examples, dim).
+        
+    y : list | ndarray
+        Dependent variable y, or bin content values for histogram data.
+        Shape is (num_examples, 1).
+        
+    y_up : list | ndarray
+        Upper one standard deviation of y (+1 sigma).
+        It should be the deviation value and non-negative.
+        Shape is (num_examples, 1).
+        
+    y_down : list | ndarray
+        Lower one standard deviation of y (-1 sigma).
+        It should be the deviation value and non-negative.
+        Shape is (num_examples, 1).
     
-    plot_to_pdf():
+    pysr_config : python module
+        Configuration file for PySR training,
+        see https://github.com/MilesCranmer/PySR.
+        The configuration can be stored in a python file like pysr_config.py:
+            from pysr import PySRRegressor
+            pysr_config = PySRRegressor(...)
+        and source from there:
+            pysr_config = importlib.import_module('directory.pysr_config')
+            model = SymbolFit(..., pysr_config = pysr_config,...)
+            
+    max_complexity : int
+        Maximum complexity of expression tree.
+        Overwrite the maxsize parameter in PySRRegressor() if provided.
+            
+    input_rescale : bool
+        Rescale x to the range of (0, 1) for fitting,
+        which could avoid fit instability or overflow.
+        Fitted functions will be unscaled at outputs.
+        
+    scale_y_by : str
+        Normalize y for fitting:
+        divide y by its 'max', 'mean', 'l2', or None.
+        Fitted functions will be unscaled at outputs.
+        Applicable when input_rescale is True.
+        
+    max_stderr : float (%)
+        During refitting with LMFIT, fit is considered failed when
+        any of the parameters has an uncertainty larger than max_stderr,
+        then retry the fit by decreasing the ndf,
+        keeping some parameters fixed to their initial values.
+        It is to avoid bad fits when any parameters get unrealistically large.
+        Note: setting max_uncertainty to O(10) suffices in most cases.
+        
+    fit_y_unc : bool
+        Consider y_up and y_down in the fits,
+        i.e., take chi2 loss = (y_pred - y_true)^2 / y_unc^2.
+        Here, for each bin, y_unc is taken as y_up when (fit - y) > 0,
+        and taken as y_down when (fit - y) < 0.
     
-    print_candidate():
+    random_seed : int
+        Overwrite pysr_config:
+            pysr_model.set_params(procs = 0,
+                                  multithreading = False,
+                                  random_state = self.random_seed,
+                                  deterministic = True)
+        for reproducing the same batch of candidate functions.
+        This will force to run PySR in single thread, so much slower.
+        
+    loss_weights : list | ndarray
+        Scale loss by (y_model - y_label)^2 * loss_weights in fits.
+        Will overwrite (y_model - y_label)^2 / y_unc^2 if provided.
+        Shape is (num_examples, 1).
+    
+    bin_widths_1d : list | ndarray
+        Bin widths for x for plotting 1D histogram data.
+        Shape is (num_examples, 1).
+    
+    bin_edges_2d : list | ndarray
+        Bin edges for x for plotting 2D histogram data,
+        i.e., [[x0_0, x0_1,...], [x1_0, x1_1,...]],
+        where the leftmost bin in x0 has edges x0_0 and x0_1.
+        Shape is (num_x0_bins + 1, num_x1_bins + 1).
     '''
     
     def __init__(
         self,
-        func_candidates: pd.DataFrame = None,
+        x = None,
+        y = None,
+        y_up = None,
+        y_down = None,
         pysr_config = None,
         max_complexity = None,
         input_rescale = True,
@@ -40,8 +121,14 @@ class SymbolFit:
         fit_y_unc = True,
         random_seed = None,
         loss_weights = None,
+        bin_widths_1d = None,
+        bin_edges_2d = None,
+        func_candidates = pd.DataFrame()
     ):
-        self.func_candidates = func_candidates
+        self.x = x
+        self.y = y
+        self.y_up = y_up
+        self.y_down = y_down
         self.pysr_config = pysr_config
         self.max_complexity = max_complexity
         self.input_rescale = input_rescale
@@ -50,85 +137,25 @@ class SymbolFit:
         self.fit_y_unc = fit_y_unc
         self.random_seed = random_seed
         self.loss_weights = loss_weights
+        self.bin_widths_1d = bin_widths_1d
+        self.bin_edges_2d = bin_edges_2d
+        self.func_candidates = func_candidates
         
         
     def fit(
-        self,
-        x = None,
-        y = None,
-        y_up = None,
-        y_down = None
+        self
     ):
         '''
-        Parameters
-        ----------
-        dataset : tuple of lists or arrays ([x], [y], [y_up], [y_down])
-            Input should be a tuple of python lists containing data points of 1D histogram/plot.
-            The four lists can be stored in a python file like dataset.py and source from there:
-                dataset = importlib.import_module('example_directory.dataset')
-                model.fit(..., dataset = (dataset.x, dataset.y, dataset.y_up, dataset.y_down),...)
-            [x]: independent variable, the horizontal axis, e.g., [0, 1, 2,...] (bin width can be non-uniform)
-            [y]: dependent variable, the vertical axis, e.g., [4, 10, 1,...]
-            [y_up]: +1 sigma uncertainty of y, e.g., [0.1, 0.5, 0.02,...] (positive numbers)
-            [y_down]: -1 sigma uncertainty of y, e.g., [0.05, 0.5, 0.025,...] (positive numbers)
-        
-        pysr_config : python module
-            Configuration file for PySR training (see https://github.com/MilesCranmer/PySR).
-            The configuration can be stored in a python file like pysr_config.py:
-                from pysr import PySRRegressor
-                import sympy
-                pysr_config = PySRRegressor(...)
-            and source from there:
-                pysr_config = importlib.import_module('example_directory.pysr_config')
-                model.fit(..., pysr_config = pysr_config,...)
-                
-        output_dir : str
-            Save results (pdf and csv files) to a directory.
-                
-        input_rescale : bool
-            Rescale input data to have, e.g., x in [0,1] and a norm of 1,
-            which can stablize the fit and avoid fails due to overflows and etc.
-            
-        fit_y_unc : bool
-            Include y_up and y_down in the fits,
-            e.g., loss = (y_pred - y_true)^2/y_unc^2.
-            
-        bin_edges_2d : lists or arrays
-            For plotting purposes, the bin edges can be specified:
-            [[x0_0, x0_1,...], [x1_0, x1_1,...]],
-            where the first bin in x0 is between x0_0 and x0_1 etc.
-            
-        scale_y_by : str
-            Preprocess the data before fits.
-            It scales the y to prevent overflow etc.
-            Options: 'max', 'mean', 'l2', or None.
-        
-        max_stderr : float (%)
-            During refitting with LMFIT, when any of the parameters has an uncertainty
-            larger than this value, then retry the fit by loosening the ndf (keeping some parameters fixed).
-            It is to avoid bad fits where any parameters get unrealistically large.
-            E.g., setting max_uncertainty=100 suffices in most cases.
-            Note this is limiting the std errors not the confidence intervals.
-            
-        plot_logy : bool
-            Plot the candidate functions in log scale for y in the output file (candidates.pdf).
-            
-        plot_logx : bool
-            Plot the candidate functions in log scale for x in the output file (candidates.pdf).
-            
-            
-        Returns
-        -------
-        pd.dataframe
-            Contains outputs of all intermediate and final steps.
-            Candidate functions and their evaluation are saved to:
-                candidates.csv:              full list saving all results and metrics;
-                candidates_reduced.csv:      reduced list saving most relevant results;
-                candidates.pdf:              plot all candidates and their uncert. comparing with the input;
-                candidates_correlation.pdf:  plot correlation matrices for the parameters;
-                candidates_gof.pdf:          plot some goodness-of-fit metrics.
+        Performs a search for functional forms with PySR.
+        Parameterizes constants in all functions.
+        Creates a loop of re-optimization fit (ROF) to improve
+        the constants and provide uncertainty estimation.
         '''
         
+        x = self.x
+        y = self.y
+        y_up = self.y_up
+        y_down = self.y_down
         pysr_model = self.pysr_config.pysr_config
         max_complexity = self.max_complexity
         input_rescale = self.input_rescale
@@ -138,7 +165,8 @@ class SymbolFit:
         random_seed = self.random_seed
         loss_weights = self.loss_weights
         
-        x, y, y_up, y_down, fit_y_unc, dim = dataset_formatting(x, y, y_up, y_down, self.fit_y_unc)
+        
+        x, y, y_up, y_down, fit_y_unc, dim = dataset_formatting(x, y, y_up, y_down, fit_y_unc)
         self.fit_y_unc = fit_y_unc
             
             
@@ -191,14 +219,14 @@ class SymbolFit:
         # The first step is to parameterize the fitted functions from PySR.
         def parameterize_func_single(func_str, dim):
             '''
-            Parameterizing a function is like: '1.2*x0 + exp(3.4*x0)' -> 'a1*x0 + exp(a2*x0)'.
+            Parameterizing a function like: '1.2*x0 + exp(3.4*x0)' -> 'a1*x0 + exp(a2*x0)'.
             Set the constants as initial conditions for the parameters in the second fits:
                 e.g., {'a1': 1.2, 'a2': 3.4}.
             
             Arguments
             ---------
             func_str (str):
-                PySR function in str like '1.2*x0 + exp(3.4*x0)'.
+                Function in str like '1.2*x0 + exp(3.4*x0)'.
             
             
             Returns
@@ -619,13 +647,20 @@ class SymbolFit:
                     
             return func_candidates
         
-        # Run through all the steps after PySR fit.
+        
+        # Parameterize all functional forms from PySR outputs.
         func_candidates = parameterize_func_all(func_candidates, dim)
+        
+        # Re-optimization loop (ROF) to improve constants and provide unc estimation.
         func_candidates = refit_all(func_candidates, X, Y, Y_up, Y_down, max_stderr, dim)
+        
+        # Undo the input rescaling after all the fits.
         func_candidates = functions_unscale(func_candidates, x, X, y_scale, input_rescale, dim)
+        
+        # Compute goodness-of-fit scores.
         func_candidates = add_gof(func_candidates, x, y, y_up, y_down, dim)
         
-            
+        
         # Remove intermediate files.
         intermediate_files = glob('hall*')
         for f in intermediate_files:
@@ -640,6 +675,16 @@ class SymbolFit:
         self,
         output_dir = './',
     ):
+        '''
+        Saves the func_candidates dataframe (results) to a csv file.
+        1) Full info -> candidates.csv.
+        2) Reduced info -> candidates_reduced.csv.
+        
+        Arguments
+        ---------
+        output_dir : str
+            Output directory.
+        '''
         
         func_candidates = self.func_candidates
         
@@ -661,17 +706,34 @@ class SymbolFit:
     
     def plot_to_pdf(
         self,
-        x,
-        y,
-        y_up,
-        y_down,
-        bin_widths_1d = None,
-        bin_edges_2d = None,
         output_dir = './',
         plot_logy = False,
         plot_logx = False
     ):
+        '''
+        Plots all candidate functions to pdf files.
+        1) Candidate functions -> candidates.pdf.
+        2) Goodness-of-fit scores -> candidates_gof.pdf.
+        3) Correlation matrices -> candidates_correlation.pdf.
         
+        Arguments
+        ---------
+        output_dir : str
+            Output directory.
+        
+        plot_logy : bool
+            Plot functions in log scale for y in candidates.pdf.
+            
+        plot_logx : bool
+            Plot functions in log scale for x in candidates.pdf.
+        '''
+        
+        x = self.x
+        y = self.y
+        y_up = self.y_up
+        y_down = self.y_down
+        bin_widths_1d = self.bin_widths_1d
+        bin_edges_2d = self.bin_edges_2d
         func_candidates = self.func_candidates
         
         x, y, y_up, y_down, _, dim = dataset_formatting(x, y, y_up, y_down, self.fit_y_unc)
@@ -682,9 +744,11 @@ class SymbolFit:
         
         # Plot results and write to output pdf files.
         if dim == 1:
-            plot_all_syst_all_func_1D(func_candidates, x, bin_widths_1d, y, y_up, y_down, output_dir + 'candidates.pdf', logy = plot_logy, logx = plot_logx)
+            plot_all_syst_all_func_1D(func_candidates, x, bin_widths_1d, y, y_up, y_down,
+                                      output_dir + 'candidates.pdf', logy = plot_logy, logx = plot_logx)
         elif dim == 2:
-            plot_all_syst_all_func_2D(func_candidates, x, bin_edges_2d, y, y_up, y_down, output_dir + 'candidates.pdf', logy = plot_logy, logx = plot_logx)
+            plot_all_syst_all_func_2D(func_candidates, x, bin_edges_2d, y, y_up, y_down,
+                                      output_dir + 'candidates.pdf', logy = plot_logy, logx = plot_logx)
             
         plot_all_corr(func_candidates, y_up, y_down, output_dir + 'candidates_correlation.pdf')
         plot_all_gof(func_candidates, y_up, y_down, output_dir + 'candidates_gof.pdf')
@@ -695,11 +759,11 @@ class SymbolFit:
         candidate_number = 99,
     ):
         '''
-        Print results in command lines.
+        Print candidate functions in prompt.
         
         Arguments
         ---------
-        candidate_number (np.int):
+        candidate_number : int
             Print result for a particular candidate function by setting it to its #,
             or for all candidates by setting it to 99.
         '''
@@ -721,6 +785,7 @@ class SymbolFit:
             # First print the parameterized function before substitution,
             # as well as the parameters and their correlation.
             func_unsub = func_candidate['Parameterized equation, unscaled']
+            
             print('\nFunction:\n' + func_unsub)
             print('\nParameters (best-fit, +1, -1):\n' + str(func_candidate['Parameters: (best-fit, +1, -1)']))
             print('\nCorrelation:\n' + str(func_candidate['Correlation']))
@@ -760,12 +825,16 @@ class SymbolFit:
         if candidate_number == 99:
             for i in range(len(func_candidates)):
                 print('\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n')
+                
                 print_cand(func_candidate = func_candidates.iloc[i])
+                
                 print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n')
         else:
             if candidate_number < len(func_candidates):
                 print('\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n')
+                
                 print_cand(func_candidate = func_candidates.iloc[candidate_number])
+                
                 print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n')
             else:
                 print('Error: candidate_number must be 0-{}'.format(str(len(func_candidates) - 1)))
