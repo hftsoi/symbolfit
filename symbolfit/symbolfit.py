@@ -95,16 +95,6 @@ class SymbolFit:
         Scale loss by (y_model - y_label)^2 * loss_weights in fits.
         Will overwrite (y_model - y_label)^2 / y_unc^2 if provided.
         Shape is (num_examples, 1).
-    
-    bin_widths_1d : list | ndarray
-        Bin widths for x for plotting 1D histogram data.
-        Shape is (num_examples, 1).
-    
-    bin_edges_2d : list | ndarray
-        Bin edges for x for plotting 2D histogram data,
-        i.e., [[x0_0, x0_1,...], [x1_0, x1_1,...]],
-        where the leftmost bin in x0 has edges x0_0 and x0_1.
-        Shape is (num_x0_bins + 1, num_x1_bins + 1).
     '''
     
     def __init__(
@@ -121,8 +111,6 @@ class SymbolFit:
         fit_y_unc = True,
         random_seed = None,
         loss_weights = None,
-        bin_widths_1d = None,
-        bin_edges_2d = None,
         func_candidates = pd.DataFrame()
     ):
         self.x = x
@@ -137,8 +125,6 @@ class SymbolFit:
         self.fit_y_unc = fit_y_unc
         self.random_seed = random_seed
         self.loss_weights = loss_weights
-        self.bin_widths_1d = bin_widths_1d
-        self.bin_edges_2d = bin_edges_2d
         self.func_candidates = func_candidates
         
         
@@ -858,6 +844,8 @@ class SymbolFit:
     def plot_to_pdf(
         self,
         output_dir = './',
+        bin_widths_1d = None,
+        bin_edges_2d = None,
         plot_logy = False,
         plot_logx = False
     ):
@@ -871,6 +859,16 @@ class SymbolFit:
         ---------
         output_dir : str
             Output directory.
+            
+        bin_widths_1d : list | ndarray
+            Bin widths for x for plotting 1D histogram data.
+            Shape is (num_examples, 1).
+        
+        bin_edges_2d : list | ndarray
+            Bin edges for x for plotting 2D histogram data,
+            i.e., [[x0_0, x0_1,...], [x1_0, x1_1,...]],
+            where the leftmost bin in x0 has edges x0_0 and x0_1.
+            Shape is (num_x0_bins + 1, num_x1_bins + 1).
         
         plot_logy : bool
             Plot functions in log scale for y in candidates.pdf.
@@ -885,8 +883,6 @@ class SymbolFit:
         y_up = self.y_up
         y_down = self.y_down
         fit_y_unc = self.fit_y_unc
-        bin_widths_1d = self.bin_widths_1d
-        bin_edges_2d = self.bin_edges_2d
         func_candidates = self.func_candidates
         
         x, y, y_up, y_down, _, dim = dataset_formatting(x = x,

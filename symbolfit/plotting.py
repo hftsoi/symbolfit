@@ -387,7 +387,7 @@ def plot_single_syst_single_func_1D(
         axes[0].set_xscale('log')
     
     # Add logo to every plot.
-    logo_img = mpimg.imread('display/logo.png')
+    logo_img = mpimg.imread('docs/logo.png')
     
     bbox = axes[0].get_position()
     
@@ -790,7 +790,7 @@ def plot_single_syst_single_func_2D(
 
     
     # Add logo to every plot.
-    logo_img = mpimg.imread('display/logo.png')
+    logo_img = mpimg.imread('docs/logo.png')
     bbox = axes[0,0].get_position()
     
     logo_width = 0.13
@@ -1029,7 +1029,7 @@ def plot_correlation(
     plt.yticks(fontsize=10)
     
     # Add logo to every plot.
-    logo_img = mpimg.imread('display/logo.png')
+    logo_img = mpimg.imread('docs/logo.png')
     
     logo_width = 0.1
     logo_height = logo_width * (logo_img.shape[0] / logo_img.shape[1])
@@ -1144,7 +1144,7 @@ def plot_gof(
     plt.title(gof, loc='center', size=25)
     
     # Add logo to every plot.
-    logo_img = mpimg.imread('display/logo.png')
+    logo_img = mpimg.imread('docs/logo.png')
     
     logo_width = 0.15
     logo_height = logo_width * (logo_img.shape[0] / logo_img.shape[1])
