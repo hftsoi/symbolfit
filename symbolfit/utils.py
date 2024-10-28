@@ -15,12 +15,12 @@ def round_a_number(number, sig_fig = 6):
     '''
     Round a numpy float number to a certain significant figure.
     '''
-    
-    if number == 0:
-        return number
         
-    else:
+    try:
         return np.round(number, sig_fig - 1 - int(np.floor(log10(np.abs(number)))))
+        
+    except:
+        return number
 
 
 def round_numbers_in_sympy_expr(sympy_expr, sig_fig = 3):

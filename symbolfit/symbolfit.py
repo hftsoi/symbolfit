@@ -89,7 +89,7 @@ class SymbolFit:
                                   random_state = self.random_seed,
                                   deterministic = True)
         for reproducing the same batch of candidate functions.
-        This will force to run PySR in single thread, so much slower.
+        This will force to run PySR in single thread, so slower.
         
     loss_weights : list | ndarray
         Scale loss by (y_model - y_label)^2 * loss_weights in fits.

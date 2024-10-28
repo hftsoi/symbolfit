@@ -14,10 +14,10 @@ Paper: coming soon...
 - [Citation](#citation)
 
 ## Overview
-coming soon...
+
 
 ## Installation
-coming soon...
+
 
 ## Getting Started
 To run an example fit:
@@ -71,15 +71,15 @@ Each run will produce a batch of candidate functions and will automatically save
 5) ```candidates_correlation.pdf```: plot correlation matrices for parameters of each candidate function.
 
 ## Documentation
-coming soon...
+
 
 ## Troubleshooting
-coming soon...
+
 
 ## Citation
 If you find this useful in your research, please consider citing Symbolfit:
 ```
-coming soon...
+
 ```
 and PySR:
 ```
