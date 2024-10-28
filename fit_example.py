@@ -9,12 +9,12 @@ model = SymbolFit(
     y_up = dataset.y_up,
     y_down = dataset.y_down,
     pysr_config = pysr_config,
-    max_complexity = 80,
+    max_complexity = 60,
     input_rescale = True,
     scale_y_by = 'mean',
     max_stderr = 40,
     fit_y_unc = True,
-    random_seed = None,
+    random_seed = 42,
     loss_weights = None
 )
                   
