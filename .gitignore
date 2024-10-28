@@ -7,3 +7,5 @@ hall*
 **/*.png
 .ipynb_checkpoints/
 output_dir/
+dist/
+*.egg-info/
