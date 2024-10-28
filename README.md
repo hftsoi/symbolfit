@@ -52,8 +52,8 @@ and plot results to pdf:
 ```
 model.plot_to_pdf(
 	output_dir = 'output_dir/',
-    bin_widths_1d = dataset.bin_widths_1d,
-    #bin_edges_2d = dataset.bin_edges_2d,
+        bin_widths_1d = dataset.bin_widths_1d,
+        #bin_edges_2d = dataset.bin_edges_2d,
 	plot_logy = False,
 	plot_logx = False
 )

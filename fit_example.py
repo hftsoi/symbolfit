@@ -16,7 +16,7 @@ model = SymbolFit(
     fit_y_unc = True,
     random_seed = 42,
     loss_weights = None
-    )
+)
                   
 model.fit()
 
@@ -28,4 +28,4 @@ model.plot_to_pdf(
     #bin_edges_2d = dataset.bin_edges_2d,
     plot_logy = False,
     plot_logx = False
-    )
+)
