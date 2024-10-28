@@ -28,7 +28,7 @@ python3 -m pysr install
 ```
 
 ## Getting Started
-To run an example fit:
+To run an example fit (or ```python fit_example.py```):
 ```
 from symbolfit.symbolfit import *
 
