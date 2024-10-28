@@ -1,9 +1,9 @@
 **/*.pkl
 *.csv
-*.pptx
 hall*
 **/.DS_Store
 **/__pycache__
 **/*.pdf
 **/*.png
 .ipynb_checkpoints/
+output_dir/
