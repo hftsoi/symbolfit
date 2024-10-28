@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/hftsoi/symbolfit/blob/main/docs/logo.png" width="300"/>
+  <img src="https://raw.githubusercontent.com/hftsoi/symbolfit/main/docs/logo.png" width="300"/>
 </p>
 
 [![Documentation Status](https://readthedocs.org/projects/symbolfit/badge/?version=latest)](https://symbolfit.readthedocs.io/?badge=latest)
