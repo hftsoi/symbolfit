@@ -17,7 +17,14 @@ It is designed to maximize automatation with minimal human input. Each run produ
 
 ## Installation
 ```
+# First install julia
+curl -fsSL https://install.julialang.org | sh
+
+# In a virtual env
 pip install symbolfit
+
+# Then
+python3 -m pysr install
 ```
 
 ## Getting Started
