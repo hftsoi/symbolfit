@@ -4,15 +4,12 @@
 
 [![Documentation Status](https://readthedocs.org/projects/symbolfit/badge/?version=latest)](https://symbolfit.readthedocs.io/?badge=latest)
 
-An API to automate parametric modeling with symbolic regression
-
-Paper: coming soon...
+An API to automate parametric modeling with symbolic regression.
 
 - [Overview](#overview)
 - [Installation](#installation)
 - [Getting Started](#getting-started)
 - [Documentation](#documentation)
-- [Troubleshooting](#troubleshooting)
 - [Citation](#citation)
 
 ## Overview
@@ -66,22 +63,19 @@ model.print_candidate(candidate_number = 10)
 ```
 
 Each run will produce a batch of candidate functions and will automatically save all results to five output files:
-1) ```candidates.csv```: saves all candidate functions and evaluations in a dataframe format.
-2) ```candidates_reduced.csv```: a reduced version for essential information without intermediate results.
-3) ```candidates.pdf```: plot all candidate functions with associated uncertainties one by one for fit quality evaluation.
-4) ```candidates_gof.pdf```: plot goodness-of-fit scores.
-5) ```candidates_correlation.pdf```: plot correlation matrices for parameters of each candidate function.
+1) ```candidates.csv```: saves all candidate functions and evaluations in a csv table.
+2) ```candidates_reduced.csv```: saves a reduced version for essential information without intermediate results.
+3) ```candidates.pdf```: plots all candidate functions with associated uncertainties one by one for fit quality evaluation.
+4) ```candidates_gof.pdf```: plots the goodness-of-fit scores.
+5) ```candidates_correlation.pdf```: plots the correlation matrices for the parameters of each candidate function.
 
 ## Documentation
 The documentation can be found [here](https://symbolfit.readthedocs.io/) for more info and demonstrations.
 
-## Troubleshooting
-
-
 ## Citation
 If you find this useful in your research, please consider citing Symbolfit:
 ```
-
+Coming soon!
 ```
 and PySR:
 ```
