@@ -2,21 +2,23 @@
   <img src="https://raw.githubusercontent.com/hftsoi/symbolfit/main/docs/logo.png" width="300"/>
 </p>
 
-[![Documentation Status](https://readthedocs.org/projects/symbolfit/badge/?version=latest)](https://symbolfit.readthedocs.io/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/symbolfit/badge/?version=latest)](https://symbolfit.readthedocs.io)
 
-An API to automate parametric modeling with symbolic regression.
+An API to automate parametric modeling with symbolic regression, originally developed for data analysis in the experimental high-energy physics community, but also applicable beyond.
 
-- [Overview](#overview)
+Symbolfit takes binned data with measurement/systematic uncertainties as input, utilizes [PySR](https://github.com/MilesCranmer/PySR) to perform a machine-search for batches of functional forms that model the data, parameterizes these functions, and utilizes [LMFIT](https://github.com/lmfit/lmfit-py) to re-optimize the functions and provide uncertainty estimation, all in one go.
+It is designed to maximize automatation with minimal human input. Each run produces a batch of functions with uncertainty estimation, which are evaluated, saved, and plotted automatically into readable output files, ready for downstream tasks.
+
 - [Installation](#installation)
 - [Getting Started](#getting-started)
 - [Documentation](#documentation)
 - [Citation](#citation)
 
-## Overview
-
 
 ## Installation
-
+```
+pip install symbolfit
+```
 
 ## Getting Started
 To run an example fit:
@@ -70,7 +72,7 @@ Each run will produce a batch of candidate functions and will automatically save
 5) ```candidates_correlation.pdf```: plots the correlation matrices for the parameters of each candidate function.
 
 ## Documentation
-The documentation can be found [here](https://symbolfit.readthedocs.io/) for more info and demonstrations.
+The documentation can be found [here](https://symbolfit.readthedocs.io) for more info and demonstrations.
 
 ## Citation
 If you find this useful in your research, please consider citing Symbolfit:
