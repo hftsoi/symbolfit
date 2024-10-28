@@ -2,6 +2,8 @@
   <img src="https://github.com/hftsoi/symbolfit/blob/main/docs/logo.png" width="300"/>
 </p>
 
+[![Documentation Status](https://readthedocs.org/projects/symbolfit/badge/?version=latest)](https://symbolfit.readthedocs.io/?badge=latest)
+
 An API to automate parametric modeling with symbolic regression
 
 Paper: coming soon...
@@ -71,7 +73,7 @@ Each run will produce a batch of candidate functions and will automatically save
 5) ```candidates_correlation.pdf```: plot correlation matrices for parameters of each candidate function.
 
 ## Documentation
-
+The documentation can be found [here](https://symbolfit.readthedocs.io/) for more info and demonstrations.
 
 ## Troubleshooting
 
