@@ -1,6 +1,6 @@
 Welcome to SymbolFit documentation!
 ===================================
-.. image:: https://github.com/hftsoi/symbolfit/blob/main/docs/logo.png
+.. image:: logo.png
    :width: 300px
    :align: center
 
