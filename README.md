@@ -14,16 +14,26 @@ It is designed to maximize automatation with minimal human input. Each run produ
 - [Documentation](#documentation)
 - [Citation](#citation)
 
-
 ## Installation
+**Prerequisite**
+
+Install Julia (backend for PySR)
 ```
-# First install julia
 curl -fsSL https://install.julialang.org | sh
+```
+then check if installed properly
+```
+julia --version
+```
 
-# In a virtual env
+**Installation via PyPI**
+
+With Python>=3.9
+```
 pip install symbolfit
-
-# Then
+```
+Upon first installation, run
+```
 python3 -m pysr install
 ```
 
@@ -46,7 +56,7 @@ model = SymbolFit(
     	scale_y_by = 'mean',
     	max_stderr = 40,
     	fit_y_unc = True,
-    	random_seed = 42,
+    	random_seed = None,
     	loss_weights = None
 )
 
