@@ -3,6 +3,7 @@
 </p>
 
 [![Documentation Status](https://readthedocs.org/projects/symbolfit/badge/?version=latest)](https://symbolfit.readthedocs.io)
+[![PyPI version](https://badge.fury.io/py/symbolfit.svg)](https://badge.fury.io/py/symbolfit)
 
 An API to automate parametric modeling with symbolic regression, originally developed for data analysis in the experimental high-energy physics community, but also applicable beyond.
 
