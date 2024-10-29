@@ -14,7 +14,7 @@ model = SymbolFit(
     scale_y_by = 'mean',
     max_stderr = 40,
     fit_y_unc = True,
-    random_seed = 42,
+    random_seed = None,
     loss_weights = None
 )
                   
