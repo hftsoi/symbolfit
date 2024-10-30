@@ -609,9 +609,10 @@ class SymbolFit:
             # which are more robust estimation of the uncertainties than standard errors.
             if len(rel_errors) > 1:
                 try:
-                    ci = lmfit.conf_interval(minimizer = mini,
-                                             result = result
-                                             )
+                    #ci = lmfit.conf_interval(minimizer = mini,
+                    #                         result = result
+                    #                         )
+                    ci = None
                     
                 except:
                     ci = None
