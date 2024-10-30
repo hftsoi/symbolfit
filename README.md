@@ -33,10 +33,6 @@ With Python>=3.9
 ```
 pip install symbolfit
 ```
-Upon first installation, run
-```
-python3 -m pysr install
-```
 
 ## Getting Started
 To run an example fit (or ```python fit_example.py```):

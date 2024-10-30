@@ -208,7 +208,7 @@ class SymbolFit:
             
         pysr_model.fit(X, Y, weights = loss_weights.flatten())
         
-        print('\n\n\n\n')
+        print('\n')
         
         # Get essential info from the PySR output file (hall_.pkl),
         # and save to a df for later processing/refit.
@@ -217,6 +217,8 @@ class SymbolFit:
         func_candidates = simplify_pkl(pysr_pkl = 'pysr_model_temp.pkl',
                                        x = X
                                        )
+                                       
+        print('\n')
         
             
         # The constants in the fitted functions from PySR do not have uncert. estimation,
@@ -722,6 +724,7 @@ class SymbolFit:
                     refitted_params.append(refitted_param)
                     correlations.append(correlation)
                     confidence_intervals.append(ci)
+                    
                     
             func_candidates['Parameters: (best-fit, +1, -1)'] = refitted_params
             func_candidates['Correlation'] = correlations
