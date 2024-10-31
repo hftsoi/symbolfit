@@ -1,7 +1,7 @@
 from symbolfit.symbolfit import *
 
 dataset = importlib.import_module('examples.datasets.toy_dataset_1.dataset')
-pysr_config = importlib.import_module('examples.pysr_configs.pysr_config_1')
+pysr_config = importlib.import_module('examples.pysr_configs.pysr_config_1').pysr_config
 
 model = SymbolFit(
     x = dataset.x,

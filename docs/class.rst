@@ -30,13 +30,21 @@ Dataset
 Fit configuration
 ~~~~~~~~~~~~~~~~~
 
-* ``pysr_config``: python module
+* ``pysr_config``: pysr.PySRRegressor class
    Configuration file for PySR training, see https://github.com/MilesCranmer/PySR.
    The configuration can be stored in a python file like pysr_config.py:
-.. code-block:: python
 
-       from pysr import PySRRegressor
-       pysr_config = PySRRegressor(...)
+   .. code-block:: python
+
+      from pysr import PySRRegressor
+      pysr_config = PySRRegressor(...)
+
+   and source from there:
+
+   .. code-block:: python
+
+      pysr_config = importlib.import_module('directory.pysr_config').pysr_config
+      model = SymbolFit(..., pysr_config = pysr_config,...)
 
 * ``max_complexity``: int
    Maximum complexity of expression tree.
@@ -62,12 +70,13 @@ Fit configuration
 
 * ``random_seed``: int
    Overwrite pysr_config:
-.. code-block:: python
 
-            pysr_model.set_params(procs = 0,
-                                  multithreading = False,
-                                  random_state = self.random_seed,
-                                  deterministic = True)
+   .. code-block:: python
+
+      pysr_model.set_params(procs = 0,
+                            multithreading = False,
+                            random_state = self.random_seed,
+                            deterministic = True)
 
 for reproducing the same batch of candidate functions.
 This will force to run PySR in single thread, so slower.

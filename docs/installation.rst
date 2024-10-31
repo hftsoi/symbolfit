@@ -18,6 +18,7 @@ then check if installed properly
 
 Installation via PyPI
 ---------------------
+
 With Python>=3.9
 
 .. code-block:: python
@@ -25,7 +26,8 @@ With Python>=3.9
    pip install symbolfit
 
 Requirements
-============
+------------
+
 .. code-block:: python
 
    python>=3.9

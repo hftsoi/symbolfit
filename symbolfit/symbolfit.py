@@ -43,14 +43,14 @@ class SymbolFit:
         It should be the deviation value and non-negative.
         Shape is (num_examples, 1).
     
-    pysr_config : python module
-        Configuration file for PySR training,
+    pysr_config : pysr.PySRRegressor class
+        Configuration for PySR training,
         see https://github.com/MilesCranmer/PySR.
         The configuration can be stored in a python file like pysr_config.py:
             from pysr import PySRRegressor
             pysr_config = PySRRegressor(...)
         and source from there:
-            pysr_config = importlib.import_module('directory.pysr_config')
+            pysr_config = importlib.import_module('directory.pysr_config').pysr_config
             model = SymbolFit(..., pysr_config = pysr_config,...)
             
     max_complexity : int
@@ -142,7 +142,7 @@ class SymbolFit:
         y = self.y
         y_up = self.y_up
         y_down = self.y_down
-        pysr_model = self.pysr_config.pysr_config
+        pysr_model = self.pysr_config
         max_complexity = self.max_complexity
         input_rescale = self.input_rescale
         scale_y_by = self.scale_y_by
