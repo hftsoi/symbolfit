@@ -39,5 +39,5 @@ html_context = {
     "github_user": "hftsoi",
     "github_repo": "symbolfit",
     "github_version": "main",
-    "conf_py_path": "/",
+    "conf_py_path": "/docs/",
 }

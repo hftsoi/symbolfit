@@ -1,9 +1,10 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/hftsoi/symbolfit/main/docs/logo.png" width="300"/>
+  <img src="https://raw.githubusercontent.com/hftsoi/symbolfit/main/docs/logo.png" width="400"/>
 </p>
 
 [![Read the Docs](https://img.shields.io/readthedocs/symbolfit)](https://symbolfit.readthedocs.io)
 [![PyPI - Version](https://img.shields.io/pypi/v/symbolfit)](https://pypi.org/project/symbolfit)
+[![Pepy Total Downloads](https://img.shields.io/pepy/dt/symbolfit)](https://www.pepy.tech/projects/symbolfit)
 
 An API to automate parametric modeling with symbolic regression, originally developed for data analysis in the experimental high-energy physics community, but also applicable beyond.
 

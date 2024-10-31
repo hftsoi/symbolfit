@@ -1,0 +1,136 @@
+SymbolFit Class
+=================
+
+Arguments
+---------
+
+Dataset
+~~~~~~~
+
+* ``x``: list | ndarray
+   Independent variable x, or bin center values for histogram data.
+   If provided as a python list, e.g., [1, 2, 3,...] for 1D, [[1, 1], [1, 2], [1, 3],...] for 2D, [[1, 1, 1], [1, 1, 2], [1, 1, 3],...] for 3D etc.
+   If provided as ndarray, then shape is (num_examples, dim).
+
+* ``y``: list | ndarray
+   Dependent variable y, or bin content values for histogram data.
+   Shape is (num_examples, 1).
+
+* ``y_up``: list | ndarray
+   Upper one standard deviation of y (+1 sigma).
+   It should be the deviation value and non-negative.
+   Shape is (num_examples, 1).
+
+* ``y_down``: list | ndarray
+   Lower one standard deviation of y (-1 sigma).
+   It should be the deviation value and non-negative.
+   Shape is (num_examples, 1).
+
+
+Fit configuration
+~~~~~~~~~~~~~~~~~
+
+* ``pysr_config``: python module
+   Configuration file for PySR training, see https://github.com/MilesCranmer/PySR.
+   The configuration can be stored in a python file like pysr_config.py:
+.. code-block:: python
+
+       from pysr import PySRRegressor
+       pysr_config = PySRRegressor(...)
+
+* ``max_complexity``: int
+   Maximum complexity of expression tree.
+   Overwrite the maxsize parameter in PySRRegressor() if provided.
+
+* ``input_rescale``: bool
+   Rescale x to the range of (0, 1) for fitting, which could avoid fit instability or overflow.
+   Fitted functions will be unscaled at outputs.
+
+* ``scale_y_by``: str
+   Normalize y for fitting: divide y by its 'max', 'mean', 'l2', or None.
+   Fitted functions will be unscaled at outputs.
+   Applicable when input_rescale is True.
+
+* ``max_stderr``: float (%)
+   During refitting with LMFIT, fit is considered failed when any of the parameters has an uncertainty larger than max_stderr, then retry the fit by decreasing the ndf, keeping some parameters fixed to their initial values.
+   It is to avoid bad fits when any parameters get unrealistically large.
+   Note: setting max_uncertainty to O(10) suffices in most cases.
+
+* ``fit_y_unc``: bool
+   Consider y_up and y_down in the fits, i.e., take chi2 loss = (y_pred - y_true)^2 / y_unc^2.
+   Here, for each bin, y_unc is taken as y_up when (fit - y) > 0, and taken as y_down when (fit - y) < 0.
+
+* ``random_seed``: int
+   Overwrite pysr_config:
+.. code-block:: python
+
+            pysr_model.set_params(procs = 0,
+                                  multithreading = False,
+                                  random_state = self.random_seed,
+                                  deterministic = True)
+
+for reproducing the same batch of candidate functions.
+This will force to run PySR in single thread, so slower.
+
+* ``loss_weights``: list | ndarray
+   Scale loss by (y_model - y_label)^2 * loss_weights in fits.
+   Will overwrite (y_model - y_label)^2 / y_unc^2 if provided.
+   Shape is (num_examples, 1).
+
+
+Class Methods
+-------------
+
+``fit()``
+~~~~~~~~~~~~~~~
+Performs a search for functional forms with PySR.
+Parameterizes constants in all functions.
+Creates a loop of re-optimization fit (ROF) to improve the constants and provide uncertainty estimation.
+
+``save_to_csv()``
+~~~~~~~~~~~~~~~~~
+
+Saves the func_candidates dataframe (results) to a csv file.
+
+1) Full info -> ``candidates.csv``.
+2) Reduced info -> ``candidates_reduced.csv``.
+
+* ``output_dir``: str
+   Output directory.
+
+``plot_to_pdf()``
+~~~~~~~~~~~~~~~~~
+
+Plots all candidate functions to pdf files.
+
+1) Candidate functions -> ``candidates.pdf``.
+2) Goodness-of-fit scores -> ``candidates_gof.pdf``.
+3) Correlation matrices -> ``candidates_correlation.pdf``.
+
+* ``output_dir``: str
+   Output directory.
+
+* ``bin_widths_1d``: list | ndarray
+   Bin widths for x for plotting 1D histogram data.
+   Shape is (num_examples, 1).
+
+* ``bin_edges_2d``: list | ndarray
+   Bin edges for x for plotting 2D histogram data,
+   i.e., [[x0_0, x0_1,...], [x1_0, x1_1,...]],
+   where the leftmost bin in x0 has edges x0_0 and x0_1.
+   Shape is (num_x0_bins + 1, num_x1_bins + 1).
+
+* ``plot_logx``: bool
+   Plot functions in log scale for y in candidates.pdf.
+
+* ``plot_logy``: bool
+   Plot functions in log scale for x in candidates.pdf.
+
+``print_candidate()``
+~~~~~~~~~~~~~~~~~~~~~
+
+Print candidate functions in prompt.
+
+* ``candidate_number``: int
+   Print result for a particular candidate function by setting it to its #, or for all candidates by setting it to 99.
+

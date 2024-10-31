@@ -1,2 +1,0 @@
-Fit Configuration
-=================
