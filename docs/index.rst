@@ -1,8 +1,10 @@
 Welcome to SymbolFit documentation!
 ===================================
+
 .. image:: logo.png
    :width: 400px
    :align: center
+
 
 An API to automate parametric modeling with symbolic regression, originally developed for data analysis in the experimental high-energy physics community, but also applicable beyond.
 
@@ -10,12 +12,14 @@ Symbolfit takes binned data with measurement/systematic uncertainties as input, 
 
 .. note::
 
-   Coming soon!
+   Under construction
 
 .. toctree::
    :hidden:
 
-   installation.rst
+   overview.rst
+   install.rst
    quick_start.rst
    class.rst 
-   examples.rst
+   demo.rst
+   citation.rst
