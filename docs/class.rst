@@ -78,8 +78,8 @@ Fit configuration
                             random_state = self.random_seed,
                             deterministic = True)
 
-for reproducing the same batch of candidate functions.
-This will force to run PySR in single thread, so slower.
+   for reproducing the same batch of candidate functions.
+   This will force to run PySR in single thread, so slower.
 
 * ``loss_weights``: list | ndarray
    Scale loss by (y_model - y_label)^2 * loss_weights in fits.
@@ -87,7 +87,7 @@ This will force to run PySR in single thread, so slower.
    Shape is (num_examples, 1).
 
 
-Class Methods
+Methods
 -------------
 
 ``fit()``

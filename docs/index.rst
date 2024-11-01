@@ -22,4 +22,5 @@ Symbolfit takes binned data with measurement/systematic uncertainties as input, 
    quick_start.rst
    class.rst 
    demo.rst
+   tuning.rst
    citation.rst
