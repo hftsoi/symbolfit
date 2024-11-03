@@ -384,7 +384,7 @@ class SymbolFit:
             return value, std_err, ratio
             
 
-        def get_correlation(fit_result):
+        def get_covariance_correlation(fit_result):
             '''
             Get correlation of all fitted parameters from the LMFIT result.
             
@@ -409,6 +409,9 @@ class SymbolFit:
                     param_varied.append(f'a{i+1}')
                     
             num_param_varied = len(param_varied)
+            
+            # Store diagonal and upper or lower triangular elements.
+            covariance = {}
             
             # Calculate correlation as covariance(x, y) / (stderr_x * stderr_y).
             correlation = {}
@@ -439,7 +442,15 @@ class SymbolFit:
                             
                         correlation[pair] = corr
                         
-            return correlation
+                        # Off diagonal elements of the covariance matrix.
+                        covariance[pair] = fit_result.covar[i][j]
+                        
+                # Diagonal elements of the covariance matrix.
+                for i in range(num_param_varied):
+                    pair = '{0}, {1}'.format(param_varied[i], param_varied[i])
+                    covariance[pair] = fit_result.covar[i][i]
+                        
+            return covariance, correlation
             
             
         def refit_single(func_candidate, x, y, y_up, y_down, max_stderr, dim):
@@ -478,6 +489,9 @@ class SymbolFit:
             result:
                 Full fit result returned by the LMFIT Minimizer.
             
+            covariance:
+                Covariance matrix of the fitted parameters.
+                
             correlation:
                 Correlation matrix of the fitted parameters.
             
@@ -605,7 +619,7 @@ class SymbolFit:
                     break
                     
             # Compute the correlation for fitted parameters from the standard error estimation.
-            correlation = get_correlation(fit_result = result)
+            covariance, correlation = get_covariance_correlation(fit_result = result)
             
             # Compute the confidence intervals for the fitted parameters,
             # which are more robust estimation of the uncertainties than standard errors.
@@ -622,7 +636,7 @@ class SymbolFit:
             else:
                 ci = None
 
-            return result, correlation, ci
+            return result, covariance, correlation, ci
 
         
         def refit_all(func_candidates, x, y, y_up, y_down, max_stderr, dim):
@@ -658,8 +672,9 @@ class SymbolFit:
             func_candidates (pd.dataframe):
                 Update the dataframe by adding new columns:
                     1) 'Parameters: (best-fit, +1, -1)',
-                    2) 'Correlation',
-                    3) 'Confidence interval'.
+                    2) 'Covariance',
+                    3) 'Correlation',
+                    4) 'Confidence interval'.
             '''
             
             def get_val_err(param_str):
@@ -679,6 +694,7 @@ class SymbolFit:
                 return value, error
             
             refitted_params = []
+            covariances = []
             correlations = []
             confidence_intervals = []
             
@@ -688,6 +704,8 @@ class SymbolFit:
                 # Do nothing for candidate without any parameter to fit.
                 if func_candidates['Parameterization'][i] == {}:
                     refitted_params.append({})
+                    
+                    covariances.append({})
                     correlations.append({})
                     confidence_intervals.append(None)
                     
@@ -695,14 +713,14 @@ class SymbolFit:
                     refitted_param = {}
                     
                     # Run the refit.
-                    result, correlation, ci = refit_single(func_candidate = func_candidates.iloc[i],
-                                                           x = x,
-                                                           y = y,
-                                                           y_up = y_up,
-                                                           y_down = y_down,
-                                                           max_stderr = max_stderr,
-                                                           dim = dim
-                                                           )
+                    result, covariance, correlation, ci = refit_single(func_candidate = func_candidates.iloc[i],
+                                                                       x = x,
+                                                                       y = y,
+                                                                       y_up = y_up,
+                                                                       y_down = y_down,
+                                                                       max_stderr = max_stderr,
+                                                                       dim = dim
+                                                                       )
                     
                     # Either all from standard least-square or all from ci.
                     for j in range(len(result.params)):
@@ -722,11 +740,13 @@ class SymbolFit:
                             refitted_param[f'a{j+1}'] = round_a_number(central), round_a_number(std_err), round_a_number(-std_err)
                         
                     refitted_params.append(refitted_param)
+                    covariances.append(covariance)
                     correlations.append(correlation)
                     confidence_intervals.append(ci)
                     
                     
             func_candidates['Parameters: (best-fit, +1, -1)'] = refitted_params
+            func_candidates['Covariance'] = covariances
             func_candidates['Correlation'] = correlations
             func_candidates['Confidence interval'] = confidence_intervals
             
@@ -736,6 +756,7 @@ class SymbolFit:
                 'Parameterized equation',
                 'Parameterization',
                 'Parameters: (best-fit, +1, -1)',
+                'Covariance',
                 'Correlation'
             ]]
                     
@@ -826,6 +847,7 @@ class SymbolFit:
             func_candidates[[
                 'Parameterized equation, unscaled',
                 'Parameters: (best-fit, +1, -1)',
+                'Covariance',
                 'Correlation',
                 'RMSE',
                 'R2',
@@ -839,6 +861,7 @@ class SymbolFit:
             func_candidates[[
                 'Parameterized equation, unscaled',
                 'Parameters: (best-fit, +1, -1)',
+                'Covariance',
                 'Correlation',
                 'RMSE',
                 'R2'
@@ -964,6 +987,7 @@ class SymbolFit:
             func_candidates = self.func_candidates[[
                 'Parameterized equation, unscaled',
                 'Parameters: (best-fit, +1, -1)',
+                'Covariance',
                 'Correlation',
                 'RMSE',
                 'R2',
@@ -978,6 +1002,7 @@ class SymbolFit:
             func_candidates = self.func_candidates[[
                 'Parameterized equation, unscaled',
                 'Parameters: (best-fit, +1, -1)',
+                'Covariance',
                 'Correlation',
                 'RMSE',
                 'R2'
@@ -996,6 +1021,8 @@ class SymbolFit:
             print('\nFunction:\n' + func_unsub)
             
             print('\nParameters (best-fit, +1, -1):\n' + str(func_candidate['Parameters: (best-fit, +1, -1)']))
+            
+            print('\nCovariance:\n' + str(func_candidate['Covariance']))
             
             print('\nCorrelation:\n' + str(func_candidate['Correlation']))
             
