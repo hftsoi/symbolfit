@@ -1,5 +1,6 @@
 import numpy as np
 from .utils import *
+import sympy
 import scipy
 
 
@@ -85,6 +86,128 @@ def func_evaluate(
         # For function not depending on x.
         return np.full((x.shape[0], 1), eval(func))
         
+        
+def func_sampling_1d(
+    func_str,
+    param,
+    cov,
+    x,
+    n_samples
+):
+    '''
+    Perform Monte Carlo sampling of the given function by
+    sampling the parameters from their best fit values
+    and covariance matrix.
+    
+    Arguments
+    ---------
+    func_str (str):
+        Parameterized function in string format.
+        
+    param (dict):
+        Parameter dictionary storing the best-fit and up/down unc.
+        
+    cov (dict):
+        Covariance matrix.
+        
+    x (np.ndarray):
+        Numpy array of the independent variable.
+        
+    n_samples (int):
+        Number of samples.
+    '''
+    x0 = sympy.symbols('x0')
+    param_symbols = {p: sympy.symbols(p) for p in param.keys()}
+    
+    func_expr = eval(func_str,
+                     {**param_symbols,
+                        'x0': x0,
+                        'sin': sympy.sin, 'cos': sympy.cos, 'tan': sympy.tan,
+                        'exp': sympy.exp, 'sinh': sympy.sinh, 'cosh': sympy.cosh, 'tanh': sympy.tanh,
+                        'log': sympy.log,
+                        'gauss': lambda arg: sympy.exp(-arg**2),
+                        'sigmoid': lambda arg: 1./(1.+sympy.exp(-arg)),}
+                     )
+                     
+    # Substitute parameter when it was held fixed in the fit.
+    varied_params = []
+    varied_params_values = []
+    for p, (best_fit, up, down) in param.items():
+        if up == 0 and down == 0:
+            # Treat as constant parameter and substitute directly.
+            func_expr = func_expr.subs(param_symbols[p], best_fit)
+            
+        else:
+            # Add variable parameter to parameter list and values.
+            varied_params.append(param_symbols[p])
+            varied_params_values.append(best_fit)
+            
+    # Convert function to a numerical function.
+    func = sympy.lambdify((x0, *varied_params), func_expr, 'numpy')
+    
+    # Fill the covariance matrix for varied parameters only.
+    cov_matrix = np.zeros((len(varied_params), len(varied_params)))
+    
+    for i, p1 in enumerate(varied_params):
+        for j, p2 in enumerate(varied_params):
+            key = f"{p1}, {p2}"
+            
+            if i == j:
+                # Variance (diagonal)
+                if cov:
+                    cov_matrix[i, j] = cov.get(f"{p1}, {p1}", 0)
+                else:
+                    cov_matrix[i, j] = param[f"{p1}"][1]**2
+                
+            else:
+                # Covariance (off-diagonal)
+                cov_matrix[i, j] = cov.get(key, 0)
+                
+    # Monte Carlo Sampling.
+    samples = scipy.stats.multivariate_normal.rvs(mean = varied_params_values,
+                                                  cov = cov_matrix,
+                                                  size = n_samples
+                                                  )
+                                                  
+    if len(samples.shape) == 1:
+        samples = samples.reshape(-1, 1)
+                                      
+    # Define a finer grid for x within the range of original x.
+    x_finer = np.linspace(np.min(x), np.max(x), 200)
+    
+    # Evaluate the function for each parameter sample on the original and finer grid.
+    func_samples = np.array([func(x, *sample) for sample in samples])
+    func_samples_finer = np.array([func(x_finer, *sample) for sample in samples])
+    
+    # Calculate the mean and +/-1 sigma at each point in the grids
+    mean_func = np.mean(func_samples, axis=0)
+    lower_2sigma = np.percentile(func_samples, 2.5, axis=0)
+    lower_1sigma = np.percentile(func_samples, 16, axis=0)
+    upper_1sigma = np.percentile(func_samples, 84, axis=0)
+    upper_2sigma = np.percentile(func_samples, 97.5, axis=0)
+    
+    mean_func_finer = np.mean(func_samples_finer, axis=0)
+    lower_2sigma_finer = np.percentile(func_samples_finer, 2.5, axis=0)
+    lower_1sigma_finer = np.percentile(func_samples_finer, 16, axis=0)
+    upper_1sigma_finer = np.percentile(func_samples_finer, 84, axis=0)
+    upper_2sigma_finer = np.percentile(func_samples_finer, 97.5, axis=0)
+    
+    func_bands = (mean_func,
+                  lower_2sigma,
+                  lower_1sigma,
+                  upper_1sigma,
+                  upper_2sigma
+                  )
+                  
+    func_bands_finer = (mean_func_finer,
+                        lower_2sigma_finer,
+                        lower_1sigma_finer,
+                        upper_1sigma_finer,
+                        upper_2sigma_finer
+                        )
+    
+    return func_bands, x_finer, func_bands_finer
+    
         
 def add_gof(
     func_candidates,

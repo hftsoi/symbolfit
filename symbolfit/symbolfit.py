@@ -941,6 +941,18 @@ class SymbolFit:
                                       logx = plot_logx
                                       )
                                       
+            plot_total_unc_coverage_all_func_1D(func_candidates = func_candidates,
+                                                x = x,
+                                                bin_widths_1d = bin_widths_1d,
+                                                y = y,
+                                                y_up = y_up,
+                                                y_down = y_down,
+                                                n_samples = 1000,
+                                                pdf_path = output_dir + 'candidates_total_unc.pdf',
+                                                logy = plot_logy,
+                                                logx = plot_logx
+                                                )
+                                      
         elif dim == 2:
             plot_all_syst_all_func_2D(func_candidates = func_candidates,
                                       x = x,

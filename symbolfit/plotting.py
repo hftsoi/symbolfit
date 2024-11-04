@@ -175,7 +175,7 @@ def plot_single_syst_single_func_1D(
             axes[0].plot(x0,
                          up,
                          color = 'g',
-                         label = '{0} Up ($+1\\sigma$)'.format(param_shifted),
+                         label = '{0} Up'.format(param_shifted),
                          linewidth = linewidth,
                          alpha = alpha,
                          linestyle = 'dashed'
@@ -184,7 +184,7 @@ def plot_single_syst_single_func_1D(
             axes[0].plot(x0,
                          down,
                          color = 'b',
-                         label = '{0} Down ($-1\\sigma$)'.format(param_shifted),
+                         label = '{0} Down'.format(param_shifted),
                          linewidth = linewidth,
                          alpha = alpha,
                          linestyle = 'dashed'
@@ -343,7 +343,7 @@ def plot_single_syst_single_func_1D(
         #axes[1].plot(x, -y_down, marker='none', c='grey', alpha=0.3)
         #axes[1].fill_between(x.flatten(), y_up.flatten(), -y_down.flatten(), color='grey', alpha=0.15)
     #axes[1].legend(loc='upper right', bbox_to_anchor=(1.26, 1))
-        axes[1].set_ylabel('$\\frac{\\text{Data}-\\text{Fit}}{\\text{Uncertainty}}$ $(\\sigma)$', fontsize=15)
+        axes[1].set_ylabel('$\\frac{\\text{Data}-\\text{Fit}}{\\text{Uncertainty}}$', fontsize=15)
         
     else:
         axes[1].set_ylabel('Data$-$Fit')
@@ -372,7 +372,7 @@ def plot_single_syst_single_func_1D(
                          )
                          
     #axes[2].legend(loc='upper right', bbox_to_anchor=(1.25, 1))
-    axes[2].set_ylabel('$\\frac{\\pm 1\\sigma}{\\text{Best-fit}}$', fontsize=15)
+    axes[2].set_ylabel('$\\frac{\\text{Up/Down}}{\\text{Best-fit}}$', fontsize=15)
     
     axes[2].yaxis.set_label_position("right")
     axes[2].yaxis.set_major_formatter(formatter)
@@ -537,6 +537,490 @@ def plot_all_syst_all_func_1D(
                 
                 plt.savefig(pdf, format='pdf')
                 plt.close()
+                
+                
+'''
+Monte Carlo sampling
+'''
+
+def plot_total_unc_coverage_single_func_1D(
+    func_candidate,
+    candidate_idx,
+    x,
+    bin_widths_1d,
+    y,
+    y_up,
+    y_down,
+    n_samples,
+    logy,
+    logx
+):
+    '''
+    Plot a particular candidate function with total uncertainty coverage.
+    The coverage is computed from an ensemble of functions where the parameters
+    are sampled from the multivariate normal distribution according to the
+    best-fit parameter values and the covariance matrix.
+    
+    Arguments
+    ---------
+    func_candidate (pd.dataframe):
+        A particular candidate function (one row of the full func_candidates).
+        
+    candidate_idx (np.int):
+        Candidate function # (ranked by function complexity).
+    
+    x (np.ndarray):
+        The independent variable.
+        
+    y (np.ndarray):
+        The dependent variable.
+    
+    y_up (np.ndarray):
+        +1 sigma of y.
+        
+    y_down (np.ndarray):
+        -1 sigma of y.
+        
+    n_samples (int):
+        Number of samples to be drawn from the multivariate normal distribution.
+    
+    logy (bool):
+        Plot y in log scale.
+    
+    logx (bool):
+        Plot x in log scale.
+    '''
+    fig, axes = plt.subplots(3, 1, sharex=True, figsize=(9,8), gridspec_kw={'height_ratios': [3,1,1]})
+    fig.subplots_adjust(hspace = 0.1)
+    
+    linewidth = 1
+    alpha = 0.8
+    
+    x0 = np.arange(np.min(x), np.max(x), np.abs(np.max(x)-np.min(x))/200)
+    
+    if n_samples is not None:
+        func_bands, x_finer, func_bands_finer = func_sampling_1d(func_str = func_candidate['Parameterized equation, unscaled'],
+                                                                 param = func_candidate['Parameters: (best-fit, +1, -1)'],
+                                                                 cov = func_candidate['Covariance'],
+                                                                 x = x,
+                                                                 n_samples = n_samples
+                                                                 )
+                                                                 
+        (mean_func, lower_2sigma, lower_1sigma, upper_1sigma, upper_2sigma) = func_bands
+        (mean_func_finer, lower_2sigma_finer, lower_1sigma_finer, upper_1sigma_finer, upper_2sigma_finer) = func_bands_finer
+        
+        axes[0].plot(x_finer, mean_func_finer, label = 'Sample mean', color = 'red')
+        
+        axes[0].fill_between(x_finer,
+                             lower_1sigma_finer,
+                             upper_1sigma_finer,
+                             color = 'limegreen',
+                             alpha = 0.5,
+                             label = '68% quantile range'
+                             )
+        
+        axes[0].fill_between(x_finer,
+                             lower_2sigma_finer,
+                             lower_1sigma_finer,
+                             color = 'gold',
+                             alpha = 0.5
+                             )
+                         
+        axes[0].fill_between(x_finer,
+                             upper_1sigma_finer,
+                             upper_2sigma_finer,
+                             color = 'gold',
+                             alpha = 0.5,
+                             label = '95% quantile range'
+                             )
+                             
+    else:
+        # Function evaluated with all parameters in their best-fit values (with finer x0).
+        central = func_evaluate(func_candidate = func_candidate,
+                                x = x0,
+                                dim = 1,
+                                param_shifted = None,
+                                sigma_pm = None
+                                )
+                                
+        # Function evaluated with all parameters in their best-fit values (with the same input x grid).
+        # For computing the errors comparing with the input data points directly.
+        central_hist = func_evaluate(func_candidate = func_candidate,
+                                    x = x,
+                                    dim = 1,
+                                    param_shifted = None,
+                                    sigma_pm = None
+                                    )
+                                    
+        axes[0].plot(x0,
+                    central,
+                    color = 'r',
+                    label = 'Best-fit',
+                    linewidth = linewidth,
+                    alpha = alpha
+                    )
+    
+    # Plot the input data in errorbar style if there are uncertainties in y provided,
+    # otherwise plot in scatter style.
+    if bin_widths_1d is not None:
+        bin_widths_1d = np.reshape(np.array(bin_widths_1d), (-1, 1))
+        
+    if y_up is not None and y_down is not None:
+        if bin_widths_1d is not None:
+            axes[0].errorbar(x.flatten(),
+                             y.flatten(),
+                             yerr = [y_down.flatten(), y_up.flatten()],
+                             xerr = bin_widths_1d.flatten() / 2,
+                             fmt = '.',
+                             c = 'black',
+                             ecolor = 'grey',
+                             capsize = 0,
+                             label = 'Data'
+                             )
+            
+        else:
+            axes[0].errorbar(x.flatten(),
+                             y.flatten(),
+                             yerr = [y_down.flatten(), y_up.flatten()],
+                             fmt = '.',
+                             c = 'black',
+                             ecolor = 'grey',
+                             capsize = 0,
+                             label = 'Data'
+                             )
+    else:
+        axes[0].scatter(x,
+                        y,
+                        marker = 'o',
+                        c = 'black',
+                        alpha = 1,
+                        label = 'Data'
+                        )
+                        
+            
+    axes[0].legend()
+    
+    # Define a string containing all the parameters in the function with each one in the form of
+    # best-fit^{+1 sigma}_{-1 sigma}, with relative % error next to the +/-1 sigma values.
+    # Highlight the one that is being shifted.
+    parameters_string = ""
+    parameters = func_candidate['Parameters: (best-fit, +1, -1)']
+    
+    for i in range(len(parameters)):
+        # If the parameter is held fixed in the fit, it does not have +/-1 sigma values.
+        if parameters[f'a{i+1}'][1] == 0:
+            parameters_string += r"${0} = {1}$".format(
+                f'a{i+1}',
+                round_a_number(parameters[f'a{i+1}'][0], 6),
+                )
+                
+        else:
+            parameters_string += r"$\text{{{0}}} = {1}^{{+ {2} ({4}\%) }}_{{- {3} ({5}\%)}}$".format(
+            f'a{i+1}',
+            round_a_number(parameters[f'a{i+1}'][0], 6),
+            round_a_number(parameters[f'a{i+1}'][1], 4),
+            round_a_number(np.abs(parameters[f'a{i+1}'][2]), 4),
+            round_a_number(100 * np.abs(float(parameters[f'a{i+1}'][1]) / float(parameters[f'a{i+1}'][0])), 3),
+            round_a_number(100 * np.abs(float(parameters[f'a{i+1}'][2]) / float(parameters[f'a{i+1}'][0])), 3)
+            )
+        
+        if i < len(parameters) - 1:
+            parameters_string += ",  "
+            
+        if np.mod(i + 1, 2) == 0:
+            parameters_string += "\n"
+            
+    # Print parameter string defined above as title.
+    title = textwrap.fill(func_candidate['Parameterized equation, unscaled'], width = 95) + "\n\n" + parameters_string
+    axes[0].set_title(title, loc = 'left', size = 9.5)
+    
+    # Show the candidate # being plotted and some of the gof metrics.
+    axes[0].set_title(r"$\bfit{{Candidate\,\#{}}}$".format(candidate_idx) + "\nEnsemble of functions from sampling of parameters", loc = 'right', size = 9.5)
+
+    formatter = ticker.FormatStrFormatter('%.3g')
+    
+    # Plot a panel showing the difference between the prediction and the input data point, essentially (y_pred - y_label) in sigmas.
+    axes[1].plot(x0,
+                 np.zeros(x0.shape),
+                 c = 'black',
+                 linestyle = 'dashed',
+                 linewidth = linewidth,
+                 alpha = 0.5
+                 )
+    
+    if y_up is not None and y_down is not None:
+        if n_samples is not None:
+            residual_mean = y - mean_func
+        else:
+            residual_mean = y - central_hist
+        
+        # Plot the residual error in terms of the input y uncertainties.
+        y_unc_mean =  np.where(residual_mean < 0,
+                               np.where(y_up != 0, y_up, y_down),
+                               np.where(y_down != 0, y_down, y_up)
+                               )
+                                  
+        if bin_widths_1d is not None:
+            axes[1].bar(x.flatten(),
+                        (residual_mean/y_unc_mean).flatten(),
+                        width=bin_widths_1d.flatten(),
+                        edgecolor='none',
+                        color='red',
+                        alpha=alpha
+                        )
+        else:
+            axes[1].scatter(x,
+                            residual_mean/y_unc_mean,
+                            marker='.',
+                            c='r',
+                            alpha=alpha
+                            )
+        
+        axes[1].set_ylim(-1.3*max(np.abs(residual_mean/y_unc_mean)),
+                         1.3*max(np.abs(residual_mean/y_unc_mean))
+                         )
+        
+    else:
+        if n_samples is not None:
+            residual_mean = y - mean_func
+        else:
+            residual_mean = y - central_hist
+            
+        if bin_widths_1d is not None:
+            axes[1].bar(x.flatten(),
+                        residual_mean.flatten(),
+                        width=bin_widths_1d.flatten(),
+                        edgecolor='none',
+                        color='red',
+                        alpha=alpha
+                        )
+        
+        else:
+            axes[1].scatter(x,
+                            residual_mean,
+                            marker='.',
+                            c='r',
+                            alpha=alpha)
+                            
+            
+        axes[1].set_ylim(-1.3*max(np.abs(residual_mean)),
+                         1.3*max(np.abs(residual_mean))
+                         )
+                
+    if y_up is not None and y_down is not None:
+        axes[1].set_ylabel('$\\frac{\\text{Data}-\\text{Fit}}{\\text{Uncertainty}}$', fontsize=15)
+        
+    else:
+        axes[1].set_ylabel('Data$-$Fit')
+        
+    axes[1].yaxis.set_label_position("right")
+    axes[1].yaxis.set_major_formatter(formatter)
+    
+    # Ratio plot: (function evaluated with one of the parameters shifted) / (function evaluated with all parameters in best-fit).
+    # This is to show the uncertainty variations comparing with the central best-fit.
+    axes[2].plot(x0, np.ones(x0.shape), color='black', linestyle='dashed', linewidth=linewidth, alpha=0.5)
+    
+    if n_samples is not None:
+        axes[2].plot(x0,
+                     upper_1sigma_finer/mean_func_finer,
+                     color = 'limegreen',
+                     linewidth = linewidth,
+                     alpha = 1
+                     )
+                     
+        axes[2].plot(x0,
+                     lower_1sigma_finer/mean_func_finer,
+                     color = 'limegreen',
+                     linewidth = linewidth,
+                     alpha = 1
+                     )
+                     
+        axes[2].plot(x0,
+                     upper_2sigma_finer/mean_func_finer,
+                     color = 'gold',
+                     linewidth = linewidth,
+                     alpha = 1
+                     )
+                     
+        axes[2].plot(x0,
+                     lower_2sigma_finer/mean_func_finer,
+                     color = 'gold',
+                     linewidth = linewidth,
+                     alpha = 1
+                     )
+                         
+    #axes[2].legend(loc='upper right', bbox_to_anchor=(1.25, 1))
+    axes[2].set_ylabel('$\\frac{\\text{Quantile range}}{\\text{Mean}}$', fontsize=15)
+    
+    axes[2].yaxis.set_label_position("right")
+    axes[2].yaxis.set_major_formatter(formatter)
+    
+    #axes[2].set_ylim(0.5,1.5)
+    
+    if logy:
+        axes[0].set_yscale('log')
+        #axes[1].set_yscale('symlog')
+        
+    if logx:
+        axes[0].set_xscale('log')
+    
+    # Add logo to every plot.
+    logo_img = mpimg.imread('docs/logo.png')
+    
+    bbox = axes[0].get_position()
+    
+    logo_width = 0.13
+    logo_height = logo_width * (logo_img.shape[0] / logo_img.shape[1])
+
+    ax_inset = fig.add_axes([bbox.x0 +0.73,
+                            bbox.y1 + 0.085,
+                            logo_width,
+                            logo_height]
+                            )
+
+    ax_inset.imshow(logo_img)
+    ax_inset.axis('off')
+    
+    plt.tight_layout()
+                
+
+def plot_total_unc_coverage_all_func_1D(
+    func_candidates,
+    x,
+    bin_widths_1d,
+    y,
+    y_up,
+    y_down,
+    n_samples,
+    pdf_path,
+    logy,
+    logx
+):
+    '''
+    Plot all candidate functions with total uncertainty coverage.
+    The coverage is computed from an ensemble of functions where the parameters
+    are sampled from the multivariate normal distribution according to the
+    best-fit parameter values and the covariance matrix.
+    
+    Arguments
+    ---------
+    func_candidates (pd.dataframe):
+        Full dataframe containing all candidate functions after fits.
+    
+    x (np.ndarray):
+        The independent variable.
+        
+    y (np.ndarray):
+        The dependent variable.
+    
+    y_up (np.ndarray):
+        +1 sigma of y.
+        
+    y_down (np.ndarray):
+        -1 sigma of y.
+        
+    n_samples (int):
+        Number of samples to be drawn from the multivariate normal distribution.
+        
+    pdf_path (str):
+        Save the output files to this directory.
+    
+    logy (bool):
+        Plot y in log scale.
+    
+    logx (bool):
+        Plot x in log scale.
+    
+    
+    Returns
+    -------
+    Plot all candidate functions with total unc coverage and write to an output file.
+    '''
+    
+    with PdfPages(pdf_path) as pdf:
+        for i in range(len(func_candidates)):
+            # Print candidate # page.
+            fig, axes = plt.subplots(figsize = (9, 7))
+            axes.axis('off')
+            plt.text(0.5,
+                     0.5,
+                     'Candidate function #{}'.format(len(func_candidates) - 1 - i),
+                     fontsize = 20,
+                     ha = 'center',
+                     va = 'center'
+                     )
+                     
+            plt.tight_layout()
+            
+            plt.savefig(pdf, format = 'pdf')
+            
+            plt.close()
+            
+            if i < len(func_candidates) - 1:
+                print('Plotting candidate functions {0}/{1} >>> {2}'.format(i+1, len(func_candidates), pdf_path), end='\r')
+                
+            else:
+                print('Plotting candidate functions {0}/{1} >>> {2}'.format(i+1, len(func_candidates), pdf_path))
+                
+            func_candidate = func_candidates.iloc[len(func_candidates) - 1 - i]
+            
+            if len(func_candidate['Parameters: (best-fit, +1, -1)']) > 0:
+                # Check if the function has any parameter that has variations.
+                has_uncert = False
+                
+                for j in range(len(func_candidate['Parameters: (best-fit, +1, -1)'])):
+                    if func_candidate['Parameters: (best-fit, +1, -1)'][f'a{j+1}'][1] > 0:
+                        has_uncert = True
+
+                if has_uncert:
+                    plot_total_unc_coverage_single_func_1D(func_candidate = func_candidate,
+                                                           candidate_idx = len(func_candidates) - 1 - i,
+                                                           x = x,
+                                                           bin_widths_1d = bin_widths_1d,
+                                                           y = y,
+                                                           y_up = y_up,
+                                                           y_down = y_down,
+                                                           n_samples = n_samples,
+                                                           logy = logy,
+                                                           logx = logx
+                                                           )
+                    
+                    plt.savefig(pdf, format='pdf')
+                    plt.close()
+                        
+                else:
+                    plot_total_unc_coverage_single_func_1D(func_candidate = func_candidate,
+                                                           candidate_idx = len(func_candidates) - 1 - i,
+                                                           x = x,
+                                                           bin_widths_1d = bin_widths_1d,
+                                                           y = y,
+                                                           y_up = y_up,
+                                                           y_down = y_down,
+                                                           n_samples = None,
+                                                           logy = logy,
+                                                           logx = logx
+                                                           )
+                    
+                    plt.savefig(pdf, format='pdf')
+                    plt.close()
+                
+            else:
+                plot_total_unc_coverage_single_func_1D(func_candidate = func_candidate,
+                                                       candidate_idx = len(func_candidates) - 1 - i,
+                                                       x = x,
+                                                       bin_widths_1d = bin_widths_1d,
+                                                       y = y,
+                                                       y_up = y_up,
+                                                       y_down = y_down,
+                                                       n_samples = None,
+                                                       logy = logy,
+                                                       logx = logx
+                                                       )
+                
+                plt.savefig(pdf, format='pdf')
+                plt.close()
+
+
 
 '''
 2D candidate plots
@@ -709,7 +1193,7 @@ def plot_single_syst_single_func_2D(
         cbar_error = plt.colorbar(fig_error[3],
                                   ax = axes[1,1],
                                   pad = 0,
-                                  label = '$\\frac{\\text{Data}-\\text{Fit}}{\\text{Uncertainty}}$ $(\\sigma)$'
+                                  label = '$\\frac{\\text{Data}-\\text{Fit}}{\\text{Uncertainty}}$'
                                   )
         
     else:
