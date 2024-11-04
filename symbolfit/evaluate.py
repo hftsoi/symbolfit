@@ -92,6 +92,7 @@ def func_sampling_1d(
     param,
     cov,
     x,
+    x_finer,
     n_samples
 ):
     '''
@@ -171,9 +172,6 @@ def func_sampling_1d(
                                                   
     if len(samples.shape) == 1:
         samples = samples.reshape(-1, 1)
-                                      
-    # Define a finer grid for x within the range of original x.
-    x_finer = np.linspace(np.min(x), np.max(x), 200)
     
     # Evaluate the function for each parameter sample on the original and finer grid.
     func_samples = np.array([func(x, *sample) for sample in samples])
@@ -206,7 +204,7 @@ def func_sampling_1d(
                         upper_2sigma_finer
                         )
     
-    return func_bands, x_finer, func_bands_finer
+    return func_bands, func_bands_finer
     
         
 def add_gof(
