@@ -879,8 +879,9 @@ class SymbolFit:
         '''
         Plots all candidate functions to pdf files.
         1) Candidate functions -> candidates.pdf.
-        2) Goodness-of-fit scores -> candidates_gof.pdf.
-        3) Correlation matrices -> candidates_correlation.pdf.
+        2) Candidate functions (sampling of parameters) -> candidates_sampling.pdf.
+        3) Goodness-of-fit scores -> candidates_gof.pdf.
+        4) Correlation matrices -> candidates_correlation.pdf.
         
         Arguments
         ---------
@@ -948,7 +949,7 @@ class SymbolFit:
                                                 y_up = y_up,
                                                 y_down = y_down,
                                                 n_samples = 1000,
-                                                pdf_path = output_dir + 'candidates_total_unc.pdf',
+                                                pdf_path = output_dir + 'candidates_sampling.pdf',
                                                 logy = plot_logy,
                                                 logx = plot_logx
                                                 )

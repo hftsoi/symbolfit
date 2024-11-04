@@ -343,7 +343,7 @@ def plot_single_syst_single_func_1D(
         #axes[1].plot(x, -y_down, marker='none', c='grey', alpha=0.3)
         #axes[1].fill_between(x.flatten(), y_up.flatten(), -y_down.flatten(), color='grey', alpha=0.15)
     #axes[1].legend(loc='upper right', bbox_to_anchor=(1.26, 1))
-        axes[1].set_ylabel('$\\frac{\\text{Data}-\\text{Fit}}{\\text{Uncertainty}}$', fontsize=15)
+        axes[1].set_ylabel('$\\frac{\\text{Data}-\\text{Fit}}{\\text{Data unc.}}$', fontsize=15)
         
     else:
         axes[1].set_ylabel('Data$-$Fit')
@@ -751,6 +751,11 @@ def plot_total_unc_coverage_single_func_1D(
     if y_up is not None and y_down is not None:
         if n_samples is not None:
             residual_mean = y - mean_func
+            residual_upper_1sigma = y - upper_1sigma
+            residual_upper_2sigma = y - upper_2sigma
+            residual_lower_1sigma = y - lower_1sigma
+            residual_lower_2sigma = y - lower_2sigma
+            
         else:
             residual_mean = y - central_hist
         
@@ -759,15 +764,94 @@ def plot_total_unc_coverage_single_func_1D(
                                np.where(y_up != 0, y_up, y_down),
                                np.where(y_down != 0, y_down, y_up)
                                )
+                               
+        if n_samples is not None:
+            y_unc_upper_1sigma = np.where(residual_upper_1sigma < 0,
+                                          np.where(y_up != 0, y_up, y_down),
+                                          np.where(y_down != 0, y_down, y_up)
+                                          )
+                                          
+            y_unc_upper_2sigma = np.where(residual_upper_2sigma < 0,
+                                          np.where(y_up != 0, y_up, y_down),
+                                          np.where(y_down != 0, y_down, y_up)
+                                          )
+                                          
+            y_unc_lower_1sigma = np.where(residual_lower_1sigma < 0,
+                                          np.where(y_up != 0, y_up, y_down),
+                                          np.where(y_down != 0, y_down, y_up)
+                                          )
+                                          
+            y_unc_lower_2sigma = np.where(residual_lower_2sigma < 0,
+                                          np.where(y_up != 0, y_up, y_down),
+                                          np.where(y_down != 0, y_down, y_up)
+                                          )
                                   
         if bin_widths_1d is not None:
-            axes[1].bar(x.flatten(),
-                        (residual_mean/y_unc_mean).flatten(),
-                        width=bin_widths_1d.flatten(),
-                        edgecolor='none',
-                        color='red',
-                        alpha=alpha
-                        )
+            if n_samples is not None:
+                '''
+                axes[1].bar(x.flatten(),
+                            (residual_mean/y_unc_mean).flatten(),
+                            width = bin_widths_1d.flatten(),
+                            color = 'none',
+                            edgecolor = 'red',
+                            alpha = 1,
+                            )
+                '''
+                            
+                for i in range(x.size):
+                    axes[1].hlines((residual_mean/y_unc_mean).flatten()[i],
+                                   xmin=x[i] - bin_widths_1d[i] / 2,
+                                   xmax=x[i] + bin_widths_1d[i] / 2,
+                                   color='red',
+                                   linewidth=1.5
+                                   )
+                
+                axes[1].bar(x.flatten(),
+                            (- residual_lower_1sigma/y_unc_lower_1sigma + residual_lower_2sigma/y_unc_lower_2sigma).flatten(),
+                            width = bin_widths_1d.flatten(),
+                            bottom = (residual_lower_1sigma/y_unc_lower_1sigma).flatten(),
+                            color = 'gold',
+                            edgecolor = 'none',
+                            alpha = 0.5,
+                            )
+                            
+                axes[1].bar(x.flatten(),
+                            (residual_upper_2sigma/y_unc_upper_2sigma - residual_upper_1sigma/y_unc_upper_1sigma).flatten(),
+                            width = bin_widths_1d.flatten(),
+                            bottom = (residual_upper_1sigma/y_unc_upper_1sigma).flatten(),
+                            color = 'gold',
+                            edgecolor = 'none',
+                            alpha = 0.5,
+                            )
+                
+                axes[1].bar(x.flatten(),
+                            (residual_lower_1sigma/y_unc_lower_1sigma - residual_mean/y_unc_mean).flatten(),
+                            width = bin_widths_1d.flatten(),
+                            bottom = (residual_mean/y_unc_mean).flatten(),
+                            color = 'limegreen',
+                            edgecolor = 'none',
+                            alpha = 0.5,
+                            )
+                            
+                axes[1].bar(x.flatten(),
+                            (residual_upper_1sigma/y_unc_upper_1sigma - residual_mean/y_unc_mean).flatten(),
+                            width = bin_widths_1d.flatten(),
+                            bottom = (residual_mean/y_unc_mean).flatten(),
+                            color = 'limegreen',
+                            edgecolor = 'none',
+                            alpha = 0.5,
+                            )
+            
+            else:
+                axes[1].bar(x.flatten(),
+                            (residual_mean/y_unc_mean).flatten(),
+                            width=bin_widths_1d.flatten(),
+                            edgecolor='none',
+                            color='red',
+                            alpha=alpha
+                            )
+            
+                        
         else:
             axes[1].scatter(x,
                             residual_mean/y_unc_mean,
@@ -776,8 +860,13 @@ def plot_total_unc_coverage_single_func_1D(
                             alpha=alpha
                             )
         
-        axes[1].set_ylim(-1.3*max(np.abs(residual_mean/y_unc_mean)),
-                         1.3*max(np.abs(residual_mean/y_unc_mean))
+        if n_samples is not None:
+            axes[1].set_ylim(-1.15*max(max(np.abs(residual_lower_2sigma/y_unc_lower_2sigma)), max(np.abs(residual_upper_2sigma/y_unc_upper_2sigma))),
+                         1.15*max(max(np.abs(residual_lower_2sigma/y_unc_lower_2sigma)), max(np.abs(residual_upper_2sigma/y_unc_upper_2sigma)))
+                         )
+        else:
+            axes[1].set_ylim(-1.3*max(np.abs(residual_mean)),
+                         1.3*max(np.abs(residual_mean))
                          )
         
     else:
@@ -808,7 +897,7 @@ def plot_total_unc_coverage_single_func_1D(
                          )
                 
     if y_up is not None and y_down is not None:
-        axes[1].set_ylabel('$\\frac{\\text{Data}-\\text{Fit}}{\\text{Uncertainty}}$', fontsize=15)
+        axes[1].set_ylabel('$\\frac{\\text{Data}-\\text{Mean}}{\\text{Data unc.}}$', fontsize=15)
         
     else:
         axes[1].set_ylabel('Data$-$Fit')
@@ -1193,7 +1282,7 @@ def plot_single_syst_single_func_2D(
         cbar_error = plt.colorbar(fig_error[3],
                                   ax = axes[1,1],
                                   pad = 0,
-                                  label = '$\\frac{\\text{Data}-\\text{Fit}}{\\text{Uncertainty}}$'
+                                  label = '$\\frac{\\text{Data}-\\text{Fit}}{\\text{Data unc.}}$'
                                   )
         
     else:

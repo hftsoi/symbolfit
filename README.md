@@ -52,7 +52,7 @@ model = SymbolFit(
     	max_complexity = 60,
     	input_rescale = True,
     	scale_y_by = 'mean',
-    	max_stderr = 40,
+    	max_stderr = 20,
     	fit_y_unc = True,
     	random_seed = None,
     	loss_weights = None
@@ -83,8 +83,9 @@ Each run will produce a batch of candidate functions and will automatically save
 1) ```candidates.csv```: saves all candidate functions and evaluations in a csv table.
 2) ```candidates_reduced.csv```: saves a reduced version for essential information without intermediate results.
 3) ```candidates.pdf```: plots all candidate functions with associated uncertainties one by one for fit quality evaluation.
-4) ```candidates_gof.pdf```: plots the goodness-of-fit scores.
-5) ```candidates_correlation.pdf```: plots the correlation matrices for the parameters of each candidate function.
+4) ```candidates_sampling.pdf```: plots all candidate functions with total uncertainties from Monte Carlo sampling of parameters.
+5) ```candidates_gof.pdf```: plots the goodness-of-fit scores.
+6) ```candidates_correlation.pdf```: plots the correlation matrices for the parameters of each candidate function.
 
 ## Documentation
 The documentation can be found [here](https://symbolfit.readthedocs.io) for more info and demonstrations.
