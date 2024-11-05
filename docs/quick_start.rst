@@ -42,7 +42,8 @@ and plot results to pdf:
     	   bin_widths_1d = dataset.bin_widths_1d,
     	   #bin_edges_2d = dataset.bin_edges_2d,
     	   plot_logy = False,
-    	   plot_logx = False
+    	   plot_logx = False,
+           sampling_95quantile = False
    )
 
 Candidate functions with full substitutions can be printed in prompt:

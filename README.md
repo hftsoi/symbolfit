@@ -2,9 +2,13 @@
   <img src="https://raw.githubusercontent.com/hftsoi/symbolfit/main/docs/logo.png" width="400"/>
 </p>
 
-[![Read the Docs](https://img.shields.io/readthedocs/symbolfit)](https://symbolfit.readthedocs.io)
-[![PyPI - Version](https://img.shields.io/pypi/v/symbolfit)](https://pypi.org/project/symbolfit)
-[![Pepy Total Downloads](https://img.shields.io/pepy/dt/symbolfit)](https://www.pepy.tech/projects/symbolfit)
+<div align="center">
+
+| Docs | pip version | conda version | pip stats | conda stats |
+| --- | --- | --- |  --- |  --- |
+| [![Read the Docs](https://img.shields.io/readthedocs/symbolfit?color=blue)](https://symbolfit.readthedocs.io) | [![PyPI - Version](https://img.shields.io/pypi/v/symbolfit?color=orange)](https://pypi.org/project/symbolfit) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/symbolfit.svg?color=green)](https://anaconda.org/conda-forge/symbolfit) | [![Pepy Total Downloads](https://img.shields.io/pepy/dt/symbolfit?color=orange)](https://www.pepy.tech/projects/symbolfit) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/symbolfit.svg?color=green)](https://anaconda.org/conda-forge/symbolfit) |
+
+</div>
 
 An API to automate parametric modeling with symbolic regression, originally developed for data analysis in the experimental high-energy physics community, but also applicable beyond.
 
@@ -30,9 +34,17 @@ julia --version
 
 **Installation via PyPI**
 
-With Python>=3.9
 ```
+# With Python>=3.9
 pip install symbolfit
+```
+
+**Installation via conda**
+
+```
+conda create --name symbolfit_env python=3.9
+conda activate symbolfit_env
+conda install conda-forge::symbolfit
 ```
 
 ## Getting Started
@@ -71,7 +83,8 @@ model.plot_to_pdf(
     	bin_widths_1d = dataset.bin_widths_1d,
     	#bin_edges_2d = dataset.bin_edges_2d,
     	plot_logy = False,
-    	plot_logx = False
+    	plot_logx = False,
+        sampling_95quantile = False
 )
 ```
 Candidate functions with full substitutions can be printed in prompt:
