@@ -26,9 +26,8 @@ It is designed to maximize automatation with minimal human input. Each run produ
 Install Julia (backend for PySR)
 ```
 curl -fsSL https://install.julialang.org | sh
-```
-then check if installed properly
-```
+
+# then check if installed properly
 julia --version
 ```
 
@@ -48,7 +47,7 @@ conda install conda-forge::symbolfit
 ```
 
 ## Getting Started
-To run an example fit (or simply ```python fit_example.py```):
+To run an example fit (or simply run ```python fit_example.py``` from the clone):
 ```
 from symbolfit.symbolfit import *
 
