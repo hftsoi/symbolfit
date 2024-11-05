@@ -1680,6 +1680,24 @@ def plot_all_corr(
     
     with PdfPages(pdf_path) as pdf:
         for i in range(len(func_candidates)):
+            # Print candidate # page.
+            fig, axes = plt.subplots(figsize = (9, 7))
+            axes.axis('off')
+            
+            plt.text(0.5,
+                     0.5,
+                     'Candidate function #{}'.format(len(func_candidates) - 1 - i),
+                     fontsize = 20,
+                     ha = 'center',
+                     va = 'center'
+                     )
+                     
+            plt.tight_layout()
+            
+            plt.savefig(pdf, format = 'pdf')
+            
+            plt.close()
+        
             if i < len(func_candidates) - 1:
                 print('Plotting correlation matrices {0}/{1} >>> {2}'.format(i+1, len(func_candidates), pdf_path), end='\r')
                 
