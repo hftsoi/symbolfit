@@ -4,9 +4,9 @@
 
 <div align="center">
 
-| Docs | pip version | conda version | pip stats | conda stats |
-| --- | --- | --- |  --- |  --- |
-| [![Read the Docs](https://img.shields.io/readthedocs/symbolfit?color=blue)](https://symbolfit.readthedocs.io) | [![PyPI - Version](https://img.shields.io/pypi/v/symbolfit?color=orange)](https://pypi.org/project/symbolfit) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/symbolfit.svg?color=green)](https://anaconda.org/conda-forge/symbolfit) | [![Pepy Total Downloads](https://img.shields.io/pepy/dt/symbolfit?color=orange)](https://www.pepy.tech/projects/symbolfit) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/symbolfit.svg?color=green)](https://anaconda.org/conda-forge/symbolfit) |
+| Docs | pip package | conda package |
+|:----------:|:----------|:----------|
+| [![Read the Docs](https://img.shields.io/readthedocs/symbolfit?color=blue)](https://symbolfit.readthedocs.io) | [![PyPI - Version](https://img.shields.io/pypi/v/symbolfit?color=orange)](https://pypi.org/project/symbolfit) <br /> [![Pepy Total Downloads](https://img.shields.io/pepy/dt/symbolfit?color=orange)](https://www.pepy.tech/projects/symbolfit) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/symbolfit.svg?color=green)](https://anaconda.org/conda-forge/symbolfit) <br /> [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/symbolfit.svg?color=green)](https://anaconda.org/conda-forge/symbolfit) |
 
 </div>
 
