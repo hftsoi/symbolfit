@@ -4,9 +4,9 @@
 
 <div align="center">
 
-| Docs | pip | conda | Paper | Colab |
-|:-:|:-:|:-:|:-:|:-:|
-| [![Read the Docs](https://img.shields.io/readthedocs/symbolfit?color=gold)](https://symbolfit.readthedocs.io) | [![PyPI - Version](https://img.shields.io/pypi/v/symbolfit?color=orange)](https://pypi.org/project/symbolfit) <br /> [![Pepy Total Downloads](https://img.shields.io/pepy/dt/symbolfit?color=orange)](https://www.pepy.tech/projects/symbolfit) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/symbolfit.svg?color=green)](https://anaconda.org/conda-forge/symbolfit) <br /> [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/symbolfit.svg?color=green)](https://anaconda.org/conda-forge/symbolfit) | | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/hftsoi/symbolfit/blob/main/colab_demo/colab_demo.ipynb) |
+Docs | GitHub | pip | conda | Paper | Colab |
+|:-:|:-:|:-:|:-:|:-:|:-:|
+[![Read the Docs](https://img.shields.io/readthedocs/symbolfit?color=gold)](https://symbolfit.readthedocs.io) | [![GitHub Created At](https://img.shields.io/github/created-at/hftsoi/symbolfit?color=black)](https://github.com/hftsoi/symbolfit) <br /> [![GitHub Release](https://img.shields.io/github/v/release/hftsoi/symbolfit?color=black)](https://github.com/hftsoi/symbolfit/releases) <br /> [![GitHub Release Date](https://img.shields.io/github/release-date/hftsoi/symbolfit?color=black)](https://github.com/hftsoi/symbolfit/releases) | [![PyPI - Version](https://img.shields.io/pypi/v/symbolfit?color=orange)](https://pypi.org/project/symbolfit) <br /> [![Pepy Total Downloads](https://img.shields.io/pepy/dt/symbolfit?color=orange)](https://www.pepy.tech/projects/symbolfit) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/symbolfit.svg?color=green)](https://anaconda.org/conda-forge/symbolfit) <br /> [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/symbolfit.svg?color=green)](https://anaconda.org/conda-forge/symbolfit) | | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/hftsoi/symbolfit/blob/main/colab_demo/colab_demo.ipynb) |
 
 </div>
 
@@ -113,7 +113,7 @@ Each fit will produce a batch of candidate functions and will automatically save
 5) ```candidates_gof.pdf```: plots the goodness-of-fit scores.
 6) ```candidates_correlation.pdf```: plots the correlation matrices for the parameters of the candidate functions.
 
-More demonstrations can be found in the documentation.
+Check out the Colab notebook and the documentation for more demonstrations.
 
 ## Documentation
 The documentation can be found [here](https://symbolfit.readthedocs.io) for more info and demonstrations.
