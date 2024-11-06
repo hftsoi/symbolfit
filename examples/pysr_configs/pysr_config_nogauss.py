@@ -1,5 +1,4 @@
 from pysr import PySRRegressor
-import sympy
 
 pysr_config = PySRRegressor(
     model_selection = 'accuracy',
