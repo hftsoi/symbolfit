@@ -388,14 +388,10 @@ def plot_single_syst_single_func_1D(
         axes[0].set_xscale('log')
     
     # Add logo to every plot.
-    try:
-        with resources.path("docs", "logo.png") as logo_path:
-            logo_img = mpimg.imread(logo_path)
-    except:
-        logo_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                 '../docs/logo.png'
-                                 )
-        logo_img = mpimg.imread(logo_path)
+    logo_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                             'img/logo.png'
+                             )
+    logo_img = mpimg.imread(logo_path)
     
     bbox = axes[0].get_position()
     
@@ -980,14 +976,10 @@ def plot_total_unc_coverage_single_func_1D(
         axes[0].set_xscale('log')
     
     # Add logo to every plot.
-    try:
-        with resources.path("docs", "logo.png") as logo_path:
-            logo_img = mpimg.imread(logo_path)
-    except:
-        logo_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                 '../docs/logo.png'
-                                 )
-        logo_img = mpimg.imread(logo_path)
+    logo_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                             'img/logo.png'
+                             )
+    logo_img = mpimg.imread(logo_path)
     
     bbox = axes[0].get_position()
     
@@ -1414,14 +1406,10 @@ def plot_single_syst_single_func_2D(
 
     
     # Add logo to every plot.
-    try:
-        with resources.path("docs", "logo.png") as logo_path:
-            logo_img = mpimg.imread(logo_path)
-    except:
-        logo_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                 '../docs/logo.png'
-                                 )
-        logo_img = mpimg.imread(logo_path)
+    logo_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                             'img/logo.png'
+                             )
+    logo_img = mpimg.imread(logo_path)
         
     bbox = axes[0,0].get_position()
     
@@ -1661,14 +1649,10 @@ def plot_correlation(
     plt.yticks(fontsize=10)
     
     # Add logo to every plot.
-    try:
-        with resources.path("docs", "logo.png") as logo_path:
-            logo_img = mpimg.imread(logo_path)
-    except:
-        logo_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                 '../docs/logo.png'
-                                 )
-        logo_img = mpimg.imread(logo_path)
+    logo_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                             'img/logo.png'
+                             )
+    logo_img = mpimg.imread(logo_path)
     
     logo_width = 0.1
     logo_height = logo_width * (logo_img.shape[0] / logo_img.shape[1])
@@ -1801,14 +1785,10 @@ def plot_gof(
     plt.title(gof, loc='center', size=25)
     
     # Add logo to every plot.
-    try:
-        with resources.path("docs", "logo.png") as logo_path:
-            logo_img = mpimg.imread(logo_path)
-    except:
-        logo_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                 '../docs/logo.png'
-                                 )
-        logo_img = mpimg.imread(logo_path)
+    logo_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                             'img/logo.png'
+                             )
+    logo_img = mpimg.imread(logo_path)
     
     logo_width = 0.15
     logo_height = logo_width * (logo_img.shape[0] / logo_img.shape[1])
