@@ -26,15 +26,16 @@ It is designed to maximize automatation with minimal human input. Each run produ
 Install Julia (backend for PySR):
 ```
 curl -fsSL https://install.julialang.org | sh
-
-# Then check if installed properly
+```
+Then check if installed properly:
+```
 julia --version
 ```
 
 **Installation via PyPI**
 
+With python>=3.9 and pip:
 ```
-# With Python>=3.9
 pip install symbolfit
 ```
 
@@ -43,7 +44,15 @@ pip install symbolfit
 ```
 conda create --name symbolfit_env python=3.9
 conda activate symbolfit_env
-conda install conda-forge::symbolfit
+conda install -c conda-forge symbolfit
+```
+
+**For developers**
+
+```
+git clone https://github.com/hftsoi/symbolfit.git
+cd symbolfit
+pip install -e .
 ```
 
 ## Getting Started
