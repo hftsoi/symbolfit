@@ -6,7 +6,7 @@
 
 | Docs | pip | conda | Paper | Colab |
 |:-:|:-:|:-:|:-:|:-:|
-| [![Read the Docs](https://img.shields.io/readthedocs/symbolfit?color=blue)](https://symbolfit.readthedocs.io) | [![PyPI - Version](https://img.shields.io/pypi/v/symbolfit?color=orange)](https://pypi.org/project/symbolfit) <br /> [![Pepy Total Downloads](https://img.shields.io/pepy/dt/symbolfit?color=orange)](https://www.pepy.tech/projects/symbolfit) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/symbolfit.svg?color=green)](https://anaconda.org/conda-forge/symbolfit) <br /> [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/symbolfit.svg?color=green)](https://anaconda.org/conda-forge/symbolfit) | | |
+| [![Read the Docs](https://img.shields.io/readthedocs/symbolfit?color=gold)](https://symbolfit.readthedocs.io) | [![PyPI - Version](https://img.shields.io/pypi/v/symbolfit?color=orange)](https://pypi.org/project/symbolfit) <br /> [![Pepy Total Downloads](https://img.shields.io/pepy/dt/symbolfit?color=orange)](https://www.pepy.tech/projects/symbolfit) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/symbolfit.svg?color=green)](https://anaconda.org/conda-forge/symbolfit) <br /> [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/symbolfit.svg?color=green)](https://anaconda.org/conda-forge/symbolfit) | | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/hftsoi/symbolfit/blob/main/colab_example.ipynb) |
 
 </div>
 
