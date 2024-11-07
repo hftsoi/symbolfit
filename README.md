@@ -32,14 +32,14 @@ Then check if installed properly:
 julia --version
 ```
 
-**Installation via PyPI**
+‣ **Installation via PyPI**
 
 With python>=3.9 and pip:
 ```
 pip install symbolfit
 ```
 
-**Installation via conda**
+‣ **Installation via conda**
 
 ```
 conda create --name symbolfit_env python=3.9
@@ -47,7 +47,7 @@ conda activate symbolfit_env
 conda install -c conda-forge symbolfit
 ```
 
-**Editable installation for developers**
+‣ **Editable installation for developers**
 
 ```
 git clone https://github.com/hftsoi/symbolfit.git
@@ -102,7 +102,7 @@ model.plot_to_pdf(
 ```
 Candidate functions with full substitutions can be printed promptly:
 ```
-model.print_candidate(candidate_number = 10)
+model.print_candidate(candidate_number = 20)
 ```
 
 Each fit will produce a batch of candidate functions and will automatically save all results to six output files:
@@ -113,10 +113,10 @@ Each fit will produce a batch of candidate functions and will automatically save
 5) ```candidates_gof.pdf```: plots the goodness-of-fit scores.
 6) ```candidates_correlation.pdf```: plots the correlation matrices for the parameters of the candidate functions.
 
-Check out the Colab notebook and the documentation for more demonstrations.
+For detailed instructions and more demonstrations, please check out the Colab notebook and the documentation.
 
 ## Documentation
-The documentation can be found [here](https://symbolfit.readthedocs.io) for more info and demonstrations.
+The documentation can be found [here](https://symbolfit.readthedocs.io) for more information and demonstrations.
 
 ## Citation
 If you find this useful in your research, please consider citing Symbolfit:
