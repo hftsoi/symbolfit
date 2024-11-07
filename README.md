@@ -12,13 +12,15 @@ Docs | GitHub | pip | conda | Paper | Colab |
 
 An API to automate parametric modeling with symbolic regression, originally developed for data analysis in the experimental high-energy physics community, but also applicable beyond.
 
-Symbolfit takes binned data with measurement/systematic uncertainties as input, utilizes [PySR](https://github.com/MilesCranmer/PySR) to perform a machine-search for batches of functional forms that model the data, parameterizes these functions, and utilizes [LMFIT](https://github.com/lmfit/lmfit-py) to re-optimize the functions and provide uncertainty estimation, all in one go.
+SymbolFit takes binned data with measurement/systematic uncertainties as input, utilizes [PySR](https://github.com/MilesCranmer/PySR) to perform a machine-search for batches of functional forms that model the data, parameterizes these functions, and utilizes [LMFIT](https://github.com/lmfit/lmfit-py) to re-optimize the functions and provide uncertainty estimation, all in one go.
 It is designed to maximize automatation with minimal human input. Each run produces a batch of functions with uncertainty estimation, which are evaluated, saved, and plotted automatically into readable output files, ready for downstream tasks.
 
 - [Installation](#installation)
 - [Getting Started](#getting-started)
 - [Documentation](#documentation)
 - [Citation](#citation)
+
+We continue to improve SymbolFit to adapt to more use cases, so any feedback and contributions are very welcome and appreciated!
 
 ## Installation
 **Prerequisite**
@@ -119,7 +121,7 @@ For detailed instructions and more demonstrations, please check out the Colab no
 The documentation can be found [here](https://symbolfit.readthedocs.io) for more information and demonstrations.
 
 ## Citation
-If you find this useful in your research, please consider citing Symbolfit:
+If you find this useful in your research, please consider citing SymbolFit:
 ```
 Coming soon!
 ```
