@@ -33,6 +33,13 @@ Then check if installed properly:
 ```
 julia --version
 ```
+If julia is not found, most properly it is not yet included in PATH. To include, do:
+```
+export PATH="$PATH:/path/to/<Julia directory>/bin"
+```
+Check out [here](https://julialang.org/downloads/platform) for platform-specific instructions.
+
+Afterward, it is recommended to start from an empty virtual environment for installing and running SymbolFit.
 
 ‣ **Installation via PyPI**
 
