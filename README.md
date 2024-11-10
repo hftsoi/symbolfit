@@ -10,6 +10,12 @@ Docs | GitHub | pip | conda | Paper | Colab |
 
 </div>
 
+<div align="center">
+  
+![Animation](animation.gif)
+
+</div>
+
 An API to automate parametric modeling with symbolic regression, originally developed for data analysis in the experimental high-energy physics community, but also applicable beyond.
 
 SymbolFit takes binned data with measurement/systematic uncertainties as input, utilizes [PySR](https://github.com/MilesCranmer/PySR) to perform a machine-search for batches of functional forms that model the data, parameterizes these functions, and utilizes [LMFIT](https://github.com/lmfit/lmfit-py) to re-optimize the functions and provide uncertainty estimation, all in one go.
