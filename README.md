@@ -4,7 +4,7 @@
 
 <div align="center">
   
-![Animation](animation.gif)
+![Animation](docs/demo/animation.gif)
 
 </div>
 
