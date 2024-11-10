@@ -4,31 +4,59 @@ Installation
 Prerequisite
 ------------
 
-Install Julia (backend for PySR)
+Install Julia (backend for PySR):
 
-.. code-block:: python
+.. code-block:: bash
 
    curl -fsSL https://install.julialang.org | sh
 
-then check if installed properly
+Then check if installed properly:
 
-.. code-block:: python
+.. code-block:: bash
 
    julia --version
+
+If julia is not found, most properly it is not yet included in PATH. To include, do:
+
+.. code-block:: bash
+
+   export PATH="$PATH:/path/to/<Julia directory>/bin"
+
+Check out `here <https://julialang.org/downloads/platform/>`_ for platform-specific instructions.
+
+Afterward, it is recommended to start from an empty virtual environment for installing and running SymbolFit.
 
 Installation via PyPI
 ---------------------
 
-With Python>=3.9
+With python>=3.9 and pip:
 
-.. code-block:: python
+.. code-block:: bash
 
    pip install symbolfit
 
-Requirements
-------------
+Installation via conda
+----------------------
 
-.. code-block:: python
+.. code-block:: bash
+
+   conda create --name symbolfit_env python=3.9
+   conda activate symbolfit_env
+   conda install -c conda-forge symbolfit
+
+Editable installation for developers
+------------------------------------
+
+.. code-block:: bash
+
+   git clone https://github.com/hftsoi/symbolfit.git
+   cd symbolfit
+   pip install -e .
+
+Requirements
+~~~~~~~~~~~~
+
+.. code-block:: text
 
    python>=3.9
    pysr
