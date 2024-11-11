@@ -10,3 +10,5 @@ CMS search for pairs of dijet resonances at sqrt(s) = 13 TeV
 Differential four-jet mass spectrum - inclusive (Figure 15), public data taken from HEPDATA
 
 * https://www.hepdata.net/record/ins2098256
+
+.. include:: notebooks/dijet_pair.rst

@@ -10,3 +10,6 @@ CMS search for trijet resonances at sqrt(s) = 13 TeV
 Invariant mass spectra of trijet events (Figure 1), public data taken from HEPDATA
 
 * https://www.hepdata.net/record/ins2713513
+
+
+.. include:: notebooks/trijet.rst

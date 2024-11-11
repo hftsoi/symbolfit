@@ -10,3 +10,5 @@ CMS search for high-mass diphoton events at sqrt(s) = 13 TeV
 Diphoton invariant mass spectra for the EBEB category (Figure 2 left), public data taken from HEPDATA
 
 * https://www.hepdata.net/record/ins2787227
+
+.. include:: notebooks/diphoton.rst

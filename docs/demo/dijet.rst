@@ -11,3 +11,6 @@ Differential dijet spectrum (Figure 5), public data taken from HEPDATA
 
 * https://www.hepdata.net/record/ins1764471
 
+
+.. include:: notebooks/dijet.rst
+

@@ -10,3 +10,5 @@ CMS search for high-mass dimuon resonance produced in association with b quark j
 Invariant mass spectra of dimuon events in the N_b = 1 category (Figure 4 left), public data taken from HEPDATA
 
 * https://www.hepdata.net/record/ins2678141
+
+.. include:: notebooks/dimuon.rst
