@@ -12,7 +12,7 @@ Symbolfit takes binned data with measurement/systematic uncertainties as input, 
 
 .. note::
 
-   Under construction
+   Under active construction!
 
 .. toctree::
    :hidden:

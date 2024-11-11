@@ -128,7 +128,7 @@ Each fit will produce a batch of candidate functions and will automatically save
 5) ```candidates_gof.pdf```: plots the goodness-of-fit scores.
 6) ```candidates_correlation.pdf```: plots the correlation matrices for the parameters of the candidate functions.
 
-Output files from an example fit can be found and downloaded at [here](https://github.com/hftsoi/symbolfit/tree/main/docs/demo/output_dir/toy_dataset_1) for illustration.
+Output files from an example fit can be found and downloaded [here](https://github.com/hftsoi/symbolfit/tree/main/docs/demo/output_dir/toy_dataset_1) for illustration.
 
 For detailed instructions and more demonstrations, please check out the Colab notebook and the documentation.
 
