@@ -3,49 +3,64 @@ Toy dataset 1
 
 .. include:: notebooks/Toy_dataset_1.rst
 
+.. csv-table:: candidates_reduced.csv
+   :file: notebooks/output_Toy_dataset_1/candidates_reduced.csv
+
 .. image:: notebooks/img/toy1/gof-chi2.png
-   :width: 600px
 
 .. toggle::
+   :header: Click to see other goodness-of-fit scores
 
    .. image:: notebooks/img/toy1/gof-pvalue.png
-      :width: 600px
+
+   ^ p-value
 
    .. image:: notebooks/img/toy1/gof-rmse.png
-      :width: 600px
+
+   ^ Root-mean-square error
 
    .. image:: notebooks/img/toy1/gof-r2.png
-      :width: 600px
+
+   ^ Coefficient of determination R2
 
 
 .. image:: notebooks/img/toy1/sampling.png
-   :width: 600px
 
 .. toggle::
+   :header: Click to see the parameter variations
 
    .. image:: notebooks/img/toy1/p1.png
-      :width: 600px
+
+   ^ Variation of parameter a1
 
    .. image:: notebooks/img/toy1/p2.png
-      :width: 600px
+
+   ^ Variation of parameter a2
 
    .. image:: notebooks/img/toy1/p3.png
-      :width: 600px
+
+   ^ Variation of parameter a3
 
    .. image:: notebooks/img/toy1/p4.png
-      :width: 600px
+
+   ^ Variation of parameter a4
 
    .. image:: notebooks/img/toy1/p5.png
-      :width: 600px
+
+   ^ Variation of parameter a5
 
    .. image:: notebooks/img/toy1/p6.png
-      :width: 600px
+
+   ^ Variation of parameter a6
 
    .. image:: notebooks/img/toy1/p7.png
-      :width: 600px
+
+   ^ Variation of parameter a7
 
    .. image:: notebooks/img/toy1/p8.png
-      :width: 600px
+
+   ^ Variation of parameter a8
 
    .. image:: notebooks/img/toy1/corr.png
-      :width: 600px
+
+   ^ Correlation matrix
