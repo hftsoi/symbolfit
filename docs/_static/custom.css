@@ -1,0 +1,11 @@
+.input-cell {
+    background-color: #f0f8ff; /* Light blue background for input cells */
+    border-left: 3px solid #000080; /* Navy border */
+    padding: 10px;
+}
+
+.output-cell {
+    background-color: #f9f9f9; /* Light grey background for output cells */
+    border-left: 3px solid #808080; /* Grey border */
+    padding: 10px;
+}
