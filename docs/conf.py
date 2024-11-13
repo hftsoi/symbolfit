@@ -42,3 +42,4 @@ html_context = {
     "conf_py_path": "/docs/",
 }
 
+html_static_path = ['demo/notebooks/output_Toy_dataset1']
