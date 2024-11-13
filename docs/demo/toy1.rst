@@ -5,4 +5,4 @@ Toy dataset 1
 
 .. raw:: html
 
-   <iframe src="notebooks/output_Toy_dataset_1/candidates_sampling.pdf#page=2" width="100%" height="600px"></iframe>
+   <iframe src="_static/output_Toy_dataset_1/candidates_sampling.pdf#page=2" width="100%" height="600px"></iframe>
