@@ -41,3 +41,6 @@ html_context = {
     "github_version": "main",
     "conf_py_path": "/docs/",
 }
+
+def setup(app):
+    app.add_css_file('custom.css')
