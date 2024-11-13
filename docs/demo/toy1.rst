@@ -5,7 +5,7 @@ Toy dataset 1
 
 .. image:: notebooks/img/toy1/gof-chi2.png
 
-.. dropdown:: Click to expand/collapse
+.. toggle::
 
    .. image:: notebooks/img/toy1/gof-pvalue.png
 
@@ -16,7 +16,7 @@ Toy dataset 1
 
 .. image:: notebooks/img/toy1/sampling.png
 
-.. dropdown:: Click to expand/collapse
+.. toggle::
 
    .. image:: notebooks/img/toy1/p1.png
 
