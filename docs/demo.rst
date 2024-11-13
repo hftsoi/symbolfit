@@ -9,8 +9,3 @@ Examples
    demo/toy2.rst
    demo/toy3.rst
    demo/dijet.rst
-   demo/trijet.rst
-   demo/paired_dijet.rst
-   demo/diphoton.rst
-   demo/dimuon.rst
-
