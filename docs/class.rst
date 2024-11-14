@@ -26,6 +26,9 @@ Dataset
    It should be the deviation value and non-negative.
    Shape is (num_examples, 1).
 
+.. note::
+
+   We will be adding support to more input formats (root, h5, ...) soon!
 
 Fit configuration
 ~~~~~~~~~~~~~~~~~
