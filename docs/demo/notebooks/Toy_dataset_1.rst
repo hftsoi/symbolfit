@@ -75,7 +75,7 @@
 
    .. container:: output display_data
 
-      .. image:: img/toy1/dataset.png
+      .. image:: notebooks/img/toy1/dataset.png
 
 .. container:: cell markdown
    :name: 8c27af64-6c06-40b7-97ca-8b55d8fab279
