@@ -14,11 +14,9 @@ The goodness-of-fit scores are plotted in ``candidates_gof.pdf``, such as the ch
 
 .. image:: notebooks/img/toy1/gof-chi2.png
 
-.. dropdown:: Look at that
+For other goodness-of-fit scores:
 
-   abc
-
-.. toggle:: Click to see other goodness-of-fit scores
+.. toggle::
 
    .. image:: notebooks/img/toy1/gof-pvalue.png
 
@@ -42,7 +40,9 @@ This candidate function has 8 parameters: ``a1``, ``a2``, ``a3``, ``a4``, ``a5``
 Their best-fit values and +/-1 sigma uncertainties can be found in the corresponding PDF files and in the csv table above.
 The individual variations of each parameter in each candidate function are all plotted in ``candidates.pdf``.
 
-.. toggle:: Click to see how this candidate function behave when each of these 8 parameters is varied to its +/-1 sigma value
+To see how this candidate function behaves when each of these 8 parameters is varied to its +/-1 sigma value:
+
+.. toggle::
 
    .. image:: notebooks/img/toy1/p1.png
 
