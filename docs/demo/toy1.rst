@@ -20,6 +20,14 @@ The goodness-of-fit scores are plotted in ``candidates_gof.pdf``, such as the ch
 
         abc
 
+.. container:: toggle, toggle-hidden
+
+   look at that
+
+   .. toggle::
+
+        abc
+
 .. toggle:: Click to see other goodness-of-fit scores
 
    .. image:: notebooks/img/toy1/gof-pvalue.png
