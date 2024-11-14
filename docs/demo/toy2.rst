@@ -1,4 +1,4 @@
-Toy dataset 2
--------------
+Toy dataset 2a (1D)
+-------------------
 
-.. include:: notebooks/Toy_dataset_2.rst
+.. include:: notebooks/Toy_dataset_2a.rst

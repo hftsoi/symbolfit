@@ -1,5 +1,5 @@
-Toy dataset 1
--------------
+Toy dataset 1 (1D)
+------------------
 
 .. include:: notebooks/Toy_dataset_1.rst
 
