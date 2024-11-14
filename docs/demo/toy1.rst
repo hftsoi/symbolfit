@@ -14,11 +14,10 @@ The goodness-of-fit scores are plotted in ``candidates_gof.pdf``, such as the ch
 
 .. image:: notebooks/img/toy1/gof-chi2.png
 
-:::{admonition} Click the title to toggle
-:class: dropdown
+.. noted::
+    :class: dropdown
 
-....
-:::
+    n
 
 .. toggle:: Click to see other goodness-of-fit scores
 
