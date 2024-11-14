@@ -14,19 +14,25 @@ The goodness-of-fit scores are plotted in ``candidates_gof.pdf``, such as the ch
 
 .. image:: notebooks/img/toy1/gof-chi2.png
 
-.. toggle:: Click to see other goodness-of-fit scores
+:::{admonition} Click the title to toggle
+:class: dropdown
 
-   **p-value**
+....
+:::
+
+.. toggle:: Click to see other goodness-of-fit scores
 
    .. image:: notebooks/img/toy1/gof-pvalue.png
 
-   **Root-mean-square error**
+   **^ p-value**
 
    .. image:: notebooks/img/toy1/gof-rmse.png
 
-   **Coefficient of determination R2**
+   **^ Root-mean-square error**
 
    .. image:: notebooks/img/toy1/gof-r2.png
+
+   **^ Coefficient of determination R2**
 
 Now, let's take a look at one of the candidate functions, say candidate #43. The functional form can be found in the corresponding plots from the PDF files and in the csv table above, which is:
 
@@ -40,41 +46,41 @@ The individual variations of each parameter in each candidate function are all p
 
 .. toggle:: Click to see how this candidate function behave when each of these 8 parameters is varied to its +/-1 sigma value
 
-   **Variation of parameter a1**
-
    .. image:: notebooks/img/toy1/p1.png
 
-   **+/-1 sigma variations of parameter a2**
+   **^ +/-1 sigma variations of parameter a1**
 
    .. image:: notebooks/img/toy1/p2.png
 
-   **+/-1 sigma variations of parameter a3**
+   **^ +/-1 sigma variations of parameter a2**
 
    .. image:: notebooks/img/toy1/p3.png
 
-   **+/-1 sigma variations of parameter a4**
+   **^ +/-1 sigma variations of parameter a3**
 
    .. image:: notebooks/img/toy1/p4.png
 
-   **+/-1 sigma variations of parameter a5**
+   **^ +/-1 sigma variations of parameter a4**
 
    .. image:: notebooks/img/toy1/p5.png
 
-   **+/-1 sigma variations of parameter a6**
+   **^ +/-1 sigma variations of parameter a5**
 
    .. image:: notebooks/img/toy1/p6.png
 
-   **+/-1 sigma variations of parameter a7**
+   **^ +/-1 sigma variations of parameter a6**
 
    .. image:: notebooks/img/toy1/p7.png
 
-   **+/-1 sigma variations of parameter a8**
+   **^ +/-1 sigma variations of parameter a7**
 
    .. image:: notebooks/img/toy1/p8.png
 
-   **Correlation matrix**
+   **^ +/-1 sigma variations of parameter a8**
 
    .. image:: notebooks/img/toy1/corr.png
+
+   **^ Correlation matrix**
 
 As shown in the correlation matrix, these parameters are not all independent to each other, so it will be nice to see the actual uncertainty coverage considering uncertainties from all parameters in a candidate function.
 These are plotted in ``candidates_sampling.pdf``.
