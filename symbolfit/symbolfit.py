@@ -875,6 +875,8 @@ class SymbolFit:
         bin_edges_2d = None,
         plot_logy = False,
         plot_logx = False,
+        plot_logx0 = False,
+        plot_logx1 = False,
         sampling_95quantile = False
     ):
         '''
@@ -970,8 +972,9 @@ class SymbolFit:
                                       y_up = y_up,
                                       y_down = y_down,
                                       pdf_path = output_dir + 'candidates.pdf',
-                                      logy = plot_logy,
-                                      logx = plot_logx
+                                      logx0 = plot_logx0,
+                                      logx1 = plot_logx1,
+                                      logy = plot_logy
                                       )
         
         plot_all_corr(func_candidates = func_candidates,

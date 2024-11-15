@@ -1167,8 +1167,9 @@ def plot_single_syst_single_func_2D(
     y_up,
     y_down,
     param_shifted,
-    logy,
-    logx
+    logx0,
+    logx1,
+    logy
 ):
     '''
     Plot a particular candidate function with all parameters at their best-fit values,
@@ -1197,11 +1198,14 @@ def plot_single_syst_single_func_2D(
     param_shifted (str):
         Plot the function with a particular parameter shifted (e.g., 'a3').
     
+    logx0 (bool):
+        Plot x0 in log scale.
+    
+    logx1 (bool):
+        Plot x1 in log scale.
+        
     logy (bool):
         Plot y in log scale.
-    
-    logx (bool):
-        Plot x in log scale.
     
     
     Returns
@@ -1236,6 +1240,14 @@ def plot_single_syst_single_func_2D(
     
     axes[0,0].set_xlabel('x0', fontsize = label_fontsize)
     axes[0,0].set_ylabel('x1', fontsize = label_fontsize)
+    
+    if logx0:
+        axes[0,0].set_xscale('log')
+    if logx1:
+        axes[0,0].set_yscale('log')
+    if logy:
+        cbar_data.set_ticks(ticker.LogLocator())
+        cbar_data.update_ticks()
 
     
     # Evaluate the candidate function in finer bins
@@ -1273,6 +1285,14 @@ def plot_single_syst_single_func_2D(
     axes[0,1].set_xlabel('x0', fontsize = label_fontsize)
     axes[0,1].set_ylabel('x1', fontsize = label_fontsize)
     
+    if logx0:
+        axes[0,1].set_xscale('log')
+    if logx1:
+        axes[0,1].set_yscale('log')
+    if logy:
+        cbar_fitted_smooth.set_ticks(ticker.LogLocator())
+        cbar_fitted_smooth.update_ticks()
+    
     # Compute the candidate function and the error in original bins
     central_hist = func_evaluate(func_candidate = func_candidate,
                                  x = x,
@@ -1308,6 +1328,14 @@ def plot_single_syst_single_func_2D(
     
     axes[1,0].set_xlabel('x0', fontsize = label_fontsize)
     axes[1,0].set_ylabel('x1', fontsize = label_fontsize)
+    
+    if logx0:
+        axes[1,0].set_xscale('log')
+    if logx1:
+        axes[1,0].set_yscale('log')
+    if logy:
+        cbar_fitted_hist.set_ticks(ticker.LogLocator())
+        cbar_fitted_hist.update_ticks()
 
     # Plot the error in sigmas in original bins
     fig_error = axes[1,1].hist2d(x[:,0],
@@ -1339,6 +1367,11 @@ def plot_single_syst_single_func_2D(
     
     axes[1,1].set_xlabel('x0', fontsize = label_fontsize)
     axes[1,1].set_ylabel('x1', fontsize = label_fontsize)
+    
+    if logx0:
+        axes[1,1].set_xscale('log')
+    if logx1:
+        axes[1,1].set_yscale('log')
     
     
     # Define a string containing all the parameters in the function with each one in the form of
@@ -1435,8 +1468,9 @@ def plot_all_syst_all_func_2D(
     y_up,
     y_down,
     pdf_path,
-    logy,
-    logx
+    logx0,
+    logx1,
+    logy
 ):
     '''
     Plot all candidate functions, each with all possible parameter variations.
@@ -1461,11 +1495,14 @@ def plot_all_syst_all_func_2D(
     pdf_path (str):
         Save the output files to this directory.
     
+    logx0 (bool):
+        Plot x0 in log scale.
+    
+    logx1 (bool):
+        Plot x1 in log scale.
+        
     logy (bool):
         Plot y in log scale.
-    
-    logx (bool):
-        Plot x in log scale.
     '''
     
     with PdfPages(pdf_path) as pdf:
@@ -1516,8 +1553,9 @@ def plot_all_syst_all_func_2D(
                                                             y_up = y_up,
                                                             y_down = y_down,
                                                             param_shifted = f'a{j+1}',
-                                                            logy = logy,
-                                                            logx = logx
+                                                            logx0 = logx0,
+                                                            logx1 = logx1,
+                                                            logy = logy
                                                             )
                             
                             plt.savefig(pdf, format='pdf')
@@ -1531,8 +1569,9 @@ def plot_all_syst_all_func_2D(
                                                     y_up = y_up,
                                                     y_down = y_down,
                                                     param_shifted = None,
-                                                    logy = logy,
-                                                    logx = logx
+                                                    logx0 = logx0,
+                                                    logx1 = logx1,
+                                                    logy = logy
                                                     )
                     
                     plt.savefig(pdf, format='pdf')
@@ -1547,8 +1586,9 @@ def plot_all_syst_all_func_2D(
                                                 y_up = y_up,
                                                 y_down = y_down,
                                                 param_shifted = None,
-                                                logy = logy,
-                                                logx = logx
+                                                logx0 = logx0,
+                                                logx1 = logx1,
+                                                logy = logy
                                                 )
                 
                 plt.savefig(pdf, format = 'pdf')
