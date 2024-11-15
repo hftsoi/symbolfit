@@ -89,7 +89,7 @@
 
    .. container:: output display_data
 
-      |image1|
+      .. image:: notebooks/img/toy3c/dataset.png
 
 .. container:: cell markdown
    :name: 8c27af64-6c06-40b7-97ca-8b55d8fab279
@@ -1017,4 +1017,3 @@
          Plotting correlation matrices 46/46 >>> output_Toy_dataset_3c/candidates_correlation.pdf
          Plotting goodness-of-fit scores >>> output_Toy_dataset_3c/candidates_gof.pdf
 
-.. |image1| image:: 41d0770deda5b6ab8571ca275980508fbb63a267.png

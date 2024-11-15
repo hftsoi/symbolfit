@@ -79,7 +79,7 @@
 
    .. container:: output display_data
 
-      |image1|
+      .. image:: notebooks/img/dijet/dataset.png
 
 .. container:: cell markdown
    :name: c86895b5-b140-4714-a3d5-742abf74f011
@@ -104,7 +104,7 @@
 
    .. container:: output display_data
 
-      |image2|
+      .. image:: notebooks/img/dijet/dataset_log.png
 
 .. container:: cell markdown
    :name: 8c27af64-6c06-40b7-97ca-8b55d8fab279
@@ -473,10 +473,3 @@
          Plotting correlation matrices 26/26 >>> output_dijet/candidates_correlation.pdf
          Plotting goodness-of-fit scores >>> output_dijet/candidates_gof.pdf
 
-   .. container:: output display_data
-
-      |image3|
-
-.. |image1| image:: 714b7af4dcf88052e1652508d2d50c87584fab14.png
-.. |image2| image:: 9f4bd180c8543b2e75a0c4d4682188db41df7ebc.png
-.. |image3| image:: 4e4f1112d168b44ba4af597306166611b5dfbf24.png
