@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 from matplotlib.backends.backend_pdf import PdfPages
 import matplotlib.image as mpimg
+import matplotlib.colors as mcolors
 import seaborn as sns
 import textwrap
 import warnings
@@ -1278,11 +1279,18 @@ def plot_single_syst_single_func_2D(
     cmap.set_bad(color='white')
 
     # Plot using pcolormesh
-    mesh = axes[0,0].pcolormesh(
-        x_edges, y_edges, hist_masked.T,
-        cmap=cmap, rasterized=True, edgecolor = 'grey', linewidth = 0.5,
-        vmin=cbar_min, vmax=cbar_max
-    )
+    if logy:
+        mesh = axes[0,0].pcolormesh(
+            x_edges, y_edges, hist_masked.T,
+            cmap=cmap, rasterized=True, edgecolor = 'grey', linewidth = 0.5,
+            norm=mcolors.LogNorm(vmin=cbar_min, vmax=cbar_max)
+        )
+    else:
+        mesh = axes[0,0].pcolormesh(
+            x_edges, y_edges, hist_masked.T,
+            cmap=cmap, rasterized=True, edgecolor = 'grey', linewidth = 0.5,
+            vmin=cbar_min, vmax=cbar_max
+        )
                                 
     cbar_data = plt.colorbar(mesh, ax=axes[0,0], pad=0, label='Data')
     
@@ -1327,16 +1335,27 @@ def plot_single_syst_single_func_2D(
                                    )
     
     # Plot the candidate function (smooth)
-    fig_fitted_smooth = axes[0,1].hist2d(x_smooth[:,0],
-                                         x_smooth[:,1],
-                                         bins = (x0_nbins, x1_nbins),
-                                         weights = np.squeeze(central_smooth),
-                                         cmap = cmap,
-                                         edgecolor = 'none',
-                                         rasterized = True,
-                                         vmin = cbar_min,
-                                         vmax = cbar_max
-                                         )
+    if logy:
+        fig_fitted_smooth = axes[0,1].hist2d(x_smooth[:,0],
+                                             x_smooth[:,1],
+                                             bins = (x0_nbins, x1_nbins),
+                                             weights = np.squeeze(central_smooth),
+                                             cmap = cmap,
+                                             edgecolor = 'none',
+                                             rasterized = True,
+                                             norm = mcolors.LogNorm(vmin=cbar_min, vmax=cbar_max)
+                                             )
+    else:
+        fig_fitted_smooth = axes[0,1].hist2d(x_smooth[:,0],
+                                             x_smooth[:,1],
+                                             bins = (x0_nbins, x1_nbins),
+                                             weights = np.squeeze(central_smooth),
+                                             cmap = cmap,
+                                             edgecolor = 'none',
+                                             rasterized = True,
+                                             vmin = cbar_min,
+                                             vmax = cbar_max
+                                             )
     
     cbar_fitted_smooth = plt.colorbar(fig_fitted_smooth[3], ax=axes[0,1], pad=0, label='Fit (finer binning)')
     
@@ -1395,17 +1414,29 @@ def plot_single_syst_single_func_2D(
     
     
     # Plot the candidate function in original bins
-    fig_fitted_hist = axes[1,0].hist2d(x_full[:,0],
-                                       x_full[:,1],
-                                       bins = [x0_bins, x1_bins],
-                                       weights = np.squeeze(central_hist_full),
-                                       cmap = cmap,
-                                       edgecolor = 'grey',
-                                       linewidth = 0.5,
-                                       rasterized = True,
-                                       vmin = cbar_min,
-                                       vmax = cbar_max
-                                       )
+    if logy:
+        fig_fitted_hist = axes[1,0].hist2d(x_full[:,0],
+                                           x_full[:,1],
+                                           bins = [x0_bins, x1_bins],
+                                           weights = np.squeeze(central_hist_full),
+                                           cmap = cmap,
+                                           edgecolor = 'grey',
+                                           linewidth = 0.5,
+                                           rasterized = True,
+                                           norm=mcolors.LogNorm(vmin=cbar_min, vmax=cbar_max)
+                                           )
+    else:
+        fig_fitted_hist = axes[1,0].hist2d(x_full[:,0],
+                                           x_full[:,1],
+                                           bins = [x0_bins, x1_bins],
+                                           weights = np.squeeze(central_hist_full),
+                                           cmap = cmap,
+                                           edgecolor = 'grey',
+                                           linewidth = 0.5,
+                                           rasterized = True,
+                                           vmin = cbar_min,
+                                           vmax = cbar_max
+                                           )
     
     cbar_fitted_hist = plt.colorbar(fig_fitted_hist[3], ax=axes[1,0], pad=0, label='Fit (same binning as Data)')
     
