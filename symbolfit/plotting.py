@@ -1169,7 +1169,10 @@ def plot_single_syst_single_func_2D(
     param_shifted,
     logx0,
     logx1,
-    logy
+    logy,
+    cbar_min,
+    cbar_max,
+    cmap
 ):
     '''
     Plot a particular candidate function with all parameters at their best-fit values,
@@ -1206,6 +1209,15 @@ def plot_single_syst_single_func_2D(
         
     logy (bool):
         Plot y in log scale.
+        
+    cbar_min (float):
+        Plot color bar with min value.
+        
+    cbar_max (float):
+        Plot color bar with max value.
+        
+    cmap (str):
+        Plot color bar with matplotlib cmap style.
     
     
     Returns
@@ -1224,14 +1236,24 @@ def plot_single_syst_single_func_2D(
     x0_bins = np.reshape(np.array(bin_edges_2d[0]), (-1))
     x1_bins = np.reshape(np.array(bin_edges_2d[1]), (-1))
     
+    if cbar_min is None:
+        cbar_min = min(y)
+    if cbar_max is None:
+        cbar_max = max(y)
+    
+    if cmap is None:
+        cmap = 'Greens'
+    
     # Plot input
     fig_data = axes[0,0].hist2d(x[:,0],
                                 x[:,1],
                                 bins = [x0_bins, x1_bins],
                                 weights = np.squeeze(y),
-                                cmap = 'Greens',
+                                cmap = cmap,
                                 edgecolor = 'none',
-                                rasterized = True
+                                rasterized = True,
+                                vmin = cbar_min,
+                                vmax = cbar_max
                                 )
                                 
     cbar_data = plt.colorbar(fig_data[3], ax=axes[0,0], pad=0, label='Data')
@@ -1273,9 +1295,11 @@ def plot_single_syst_single_func_2D(
                                          x_smooth[:,1],
                                          bins = (x0_nbins, x1_nbins),
                                          weights = np.squeeze(central_smooth),
-                                         cmap = 'Greens',
+                                         cmap = cmap,
                                          edgecolor = 'none',
-                                         rasterized = True
+                                         rasterized = True,
+                                         vmin = cbar_min,
+                                         vmax = cbar_max
                                          )
     
     cbar_fitted_smooth = plt.colorbar(fig_fitted_smooth[3], ax=axes[0,1], pad=0, label='Fit (finer binning)')
@@ -1317,9 +1341,11 @@ def plot_single_syst_single_func_2D(
                                        x[:,1],
                                        bins = [x0_bins, x1_bins],
                                        weights = np.squeeze(central_hist),
-                                       cmap = 'Greens',
+                                       cmap = cmap,
                                        edgecolor = 'none',
-                                       rasterized = True
+                                       rasterized = True,
+                                       vmin = cbar_min,
+                                       vmax = cbar_max
                                        )
     
     cbar_fitted_hist = plt.colorbar(fig_fitted_hist[3], ax=axes[1,0], pad=0, label='Fit (same binning as Data)')
@@ -1470,7 +1496,10 @@ def plot_all_syst_all_func_2D(
     pdf_path,
     logx0,
     logx1,
-    logy
+    logy,
+    cbar_min,
+    cbar_max,
+    cmap
 ):
     '''
     Plot all candidate functions, each with all possible parameter variations.
@@ -1503,6 +1532,15 @@ def plot_all_syst_all_func_2D(
         
     logy (bool):
         Plot y in log scale.
+        
+    cbar_min (float):
+        Plot color bar with min value.
+        
+    cbar_max (float):
+        Plot color bar with max value.
+        
+    cmap (str):
+        Plot color bar with matplotlib cmap style.
     '''
     
     with PdfPages(pdf_path) as pdf:
@@ -1555,7 +1593,10 @@ def plot_all_syst_all_func_2D(
                                                             param_shifted = f'a{j+1}',
                                                             logx0 = logx0,
                                                             logx1 = logx1,
-                                                            logy = logy
+                                                            logy = logy,
+                                                            cbar_min = cbar_min,
+                                                            cbar_max = cbar_max,
+                                                            cmap = cmap
                                                             )
                             
                             plt.savefig(pdf, format='pdf')
@@ -1571,7 +1612,10 @@ def plot_all_syst_all_func_2D(
                                                     param_shifted = None,
                                                     logx0 = logx0,
                                                     logx1 = logx1,
-                                                    logy = logy
+                                                    logy = logy,
+                                                    cbar_min = cbar_min,
+                                                    cbar_max = cbar_max,
+                                                    cmap = cmap
                                                     )
                     
                     plt.savefig(pdf, format='pdf')
@@ -1588,7 +1632,10 @@ def plot_all_syst_all_func_2D(
                                                 param_shifted = None,
                                                 logx0 = logx0,
                                                 logx1 = logx1,
-                                                logy = logy
+                                                logy = logy,
+                                                cbar_min = cbar_min,
+                                                cbar_max = cbar_max,
+                                                cmap = cmap
                                                 )
                 
                 plt.savefig(pdf, format = 'pdf')

@@ -877,6 +877,9 @@ class SymbolFit:
         plot_logx = False,
         plot_logx0 = False,
         plot_logx1 = False,
+        cbar_min = None,
+        cbar_max = None,
+        cmap = None,
         sampling_95quantile = False
     ):
         '''
@@ -906,6 +909,21 @@ class SymbolFit:
             
         plot_logx : bool
             Plot functions in log scale for x in candidates.pdf.
+            
+        plot_logx0 : bool
+            Plot 2D functions in log scale for x0 in candidates.pdf.
+            
+        plot_logx1 : bool
+            Plot 2D functions in log scale for x1 in candidates.pdf.
+            
+        cbar_min : float
+            Plot 2D functions with min color bar value in candidates.pdf.
+            
+        cbar_max : float
+            Plot 2D functions with max color bar value in candidates.pdf.
+            
+        cmap (str):
+            Plot color bar with matplotlib cmap style.
             
         sampling_95quantile : bool
             Whether to include 95% quantile range when plotting
@@ -974,7 +992,10 @@ class SymbolFit:
                                       pdf_path = output_dir + 'candidates.pdf',
                                       logx0 = plot_logx0,
                                       logx1 = plot_logx1,
-                                      logy = plot_logy
+                                      logy = plot_logy,
+                                      cbar_min = cbar_min,
+                                      cbar_max = cbar_max,
+                                      cmap = cmap
                                       )
         
         plot_all_corr(func_candidates = func_candidates,
