@@ -185,14 +185,14 @@ class SymbolFit:
         
         # In PySR, set weighted loss = (y_model - y_label)^2 * loss_weights.
         if loss_weights is not None:
-            loss_weights = np.reshape(np.array(loss_weights), (-1, 1))
+            pysr_weights = np.reshape(np.array(loss_weights), (-1, 1))
             
         elif y_up is not None and y_down is not None:
-            loss_weights = np.where(Y_up != 0, Y_up, Y_down)
-            loss_weights = 1 / loss_weights**2
+            pysr_weights = np.where(Y_up != 0, Y_up, Y_down)
+            pysr_weights = 1 / pysr_weights**2
             
         else:
-            loss_weights = np.ones(y.shape)
+            pysr_weights = np.ones(y.shape)
             
         
         # Run PySR fit.
@@ -206,7 +206,7 @@ class SymbolFit:
             pysr_model.set_params(maxsize = max_complexity)
             
             
-        pysr_model.fit(X, Y, weights = loss_weights.flatten())
+        pysr_model.fit(X, Y, weights = pysr_weights.flatten())
         
         print('\n')
         
@@ -518,7 +518,10 @@ class SymbolFit:
                 # If the residual is +ve in a bin, scale by +1 sigma,
                 # otherwise scale by -1 sigma.
                 # Also replace with one another if either is zero in a bin.
-                if y_up is not None and y_down is not None:
+                if loss_weights is not None:
+                    residual = residual * np.sqrt(loss_weights)
+                    
+                elif y_up is not None and y_down is not None:
                     y_unc = np.where(residual > 0,
                                      np.where(y_up != 0, y_up, y_down),
                                      np.where(y_down != 0, y_down, y_up)
