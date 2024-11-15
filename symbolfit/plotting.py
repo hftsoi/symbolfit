@@ -1172,7 +1172,8 @@ def plot_single_syst_single_func_2D(
     logy,
     cbar_min,
     cbar_max,
-    cmap
+    cmap,
+    contour,
 ):
     '''
     Plot a particular candidate function with all parameters at their best-fit values,
@@ -1218,6 +1219,9 @@ def plot_single_syst_single_func_2D(
         
     cmap (str):
         Plot color bar with matplotlib cmap style.
+        
+    contour (float):
+        Plot contour line to 2D plots.
     
     
     Returns
@@ -1244,7 +1248,8 @@ def plot_single_syst_single_func_2D(
     if cmap is None:
         cmap = 'Greens'
     
-    # Plot input
+    '''
+    # Plot input.
     fig_data = axes[0,0].hist2d(x[:,0],
                                 x[:,1],
                                 bins = [x0_bins, x1_bins],
@@ -1257,8 +1262,39 @@ def plot_single_syst_single_func_2D(
                                 )
                                 
     cbar_data = plt.colorbar(fig_data[3], ax=axes[0,0], pad=0, label='Data')
+    '''
+    
+    hist, x_edges, y_edges = np.histogram2d(
+    np.array(x)[:, 0], np.array(x)[:, 1],
+    bins=[x0_bins, x1_bins], weights=np.squeeze(y))
+
+    # Mask bins with no data points
+    #bin_has_data = hist > 0
+    #hist_masked = np.ma.masked_where(~bin_has_data, hist)
+    
+    hist_masked = np.ma.masked_where(hist == 0, hist)
+
+    cmap = plt.get_cmap(cmap).copy()
+    cmap.set_bad(color='white')
+
+    # Plot using pcolormesh
+    mesh = axes[0,0].pcolormesh(
+        x_edges, y_edges, hist_masked.T,
+        cmap=cmap, rasterized=True, edgecolor = 'grey', linewidth = 0.5,
+        vmin=cbar_min, vmax=cbar_max
+    )
+                                
+    cbar_data = plt.colorbar(mesh, ax=axes[0,0], pad=0, label='Data')
+    
     
     cbar_data.ax.yaxis.label.set_size(cbar_fontsize)
+    
+    if contour is not None:
+        X, Y = np.meshgrid(x_edges, y_edges)
+        axes[0,0].contour(
+            X[:-1, :-1], Y[:-1, :-1], hist_masked.T,
+            levels=[contour], colors='red'
+        )
     
     axes[0,0].set_xlabel('x0', fontsize = label_fontsize)
     axes[0,0].set_ylabel('x1', fontsize = label_fontsize)
@@ -1306,6 +1342,12 @@ def plot_single_syst_single_func_2D(
     
     cbar_fitted_smooth.ax.yaxis.label.set_size(cbar_fontsize)
     
+    if contour is not None:
+        axes[0,1].contour(
+            x0_smooth, x1_smooth, central_smooth.reshape(x0_nbins, x1_nbins),
+            levels=[contour], colors='red'
+        )
+    
     axes[0,1].set_xlabel('x0', fontsize = label_fontsize)
     axes[0,1].set_ylabel('x1', fontsize = label_fontsize)
     
@@ -1335,14 +1377,31 @@ def plot_single_syst_single_func_2D(
                           
         central_error = central_error / y_unc
 
+    x0_centers = (x0_bins[:-1] + x0_bins[1:]) / 2
+    x1_centers = (x1_bins[:-1] + x1_bins[1:]) / 2
+
+    # Create a meshgrid of all possible bin centers.
+    x0_mesh, x1_mesh = np.meshgrid(x0_centers, x1_centers)
+
+    # Flatten the meshgrid to create a full set of bin centers.
+    x_full = np.column_stack((x0_mesh.flatten(), x1_mesh.flatten()))
+    
+    central_hist_full = func_evaluate(func_candidate = func_candidate,
+                                      x = x_full,
+                                      dim = 2,
+                                      param_shifted = None,
+                                      sigma_pm = None
+                                      )
+    
     
     # Plot the candidate function in original bins
-    fig_fitted_hist = axes[1,0].hist2d(x[:,0],
-                                       x[:,1],
+    fig_fitted_hist = axes[1,0].hist2d(x_full[:,0],
+                                       x_full[:,1],
                                        bins = [x0_bins, x1_bins],
-                                       weights = np.squeeze(central_hist),
+                                       weights = np.squeeze(central_hist_full),
                                        cmap = cmap,
-                                       edgecolor = 'none',
+                                       edgecolor = 'grey',
+                                       linewidth = 0.5,
                                        rasterized = True,
                                        vmin = cbar_min,
                                        vmax = cbar_max
@@ -1352,6 +1411,12 @@ def plot_single_syst_single_func_2D(
     
     cbar_fitted_hist.ax.yaxis.label.set_size(cbar_fontsize)
     
+    if contour is not None:
+        axes[1,0].contour(
+            x0_mesh, x1_mesh, central_hist_full.reshape(x1_bins.size-1, x0_bins.size-1),
+            levels=[contour], colors='red'
+        )
+
     axes[1,0].set_xlabel('x0', fontsize = label_fontsize)
     axes[1,0].set_ylabel('x1', fontsize = label_fontsize)
     
@@ -1363,7 +1428,7 @@ def plot_single_syst_single_func_2D(
         cbar_fitted_hist.set_ticks(ticker.LogLocator())
         cbar_fitted_hist.update_ticks()
 
-    # Plot the error in sigmas in original bins
+    # Plot the error in sigmas in original bins.
     fig_error = axes[1,1].hist2d(x[:,0],
                                  x[:,1],
                                  bins = [x0_bins, x1_bins],
@@ -1499,7 +1564,8 @@ def plot_all_syst_all_func_2D(
     logy,
     cbar_min,
     cbar_max,
-    cmap
+    cmap,
+    contour
 ):
     '''
     Plot all candidate functions, each with all possible parameter variations.
@@ -1541,6 +1607,9 @@ def plot_all_syst_all_func_2D(
         
     cmap (str):
         Plot color bar with matplotlib cmap style.
+        
+    contour (float):
+        Plot contour line to 2D plots.
     '''
     
     with PdfPages(pdf_path) as pdf:
@@ -1596,7 +1665,8 @@ def plot_all_syst_all_func_2D(
                                                             logy = logy,
                                                             cbar_min = cbar_min,
                                                             cbar_max = cbar_max,
-                                                            cmap = cmap
+                                                            cmap = cmap,
+                                                            contour = contour
                                                             )
                             
                             plt.savefig(pdf, format='pdf')
@@ -1615,7 +1685,8 @@ def plot_all_syst_all_func_2D(
                                                     logy = logy,
                                                     cbar_min = cbar_min,
                                                     cbar_max = cbar_max,
-                                                    cmap = cmap
+                                                    cmap = cmap,
+                                                    contour = contour
                                                     )
                     
                     plt.savefig(pdf, format='pdf')
@@ -1635,7 +1706,8 @@ def plot_all_syst_all_func_2D(
                                                 logy = logy,
                                                 cbar_min = cbar_min,
                                                 cbar_max = cbar_max,
-                                                cmap = cmap
+                                                cmap = cmap,
+                                                contour = contour
                                                 )
                 
                 plt.savefig(pdf, format = 'pdf')

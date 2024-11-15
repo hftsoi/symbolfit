@@ -880,6 +880,7 @@ class SymbolFit:
         cbar_min = None,
         cbar_max = None,
         cmap = None,
+        contour = None,
         sampling_95quantile = False
     ):
         '''
@@ -995,7 +996,8 @@ class SymbolFit:
                                       logy = plot_logy,
                                       cbar_min = cbar_min,
                                       cbar_max = cbar_max,
-                                      cmap = cmap
+                                      cmap = cmap,
+                                      contour = contour
                                       )
         
         plot_all_corr(func_candidates = func_candidates,
