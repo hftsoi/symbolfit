@@ -10,3 +10,4 @@ Examples
    demo/toy3c.rst
    demo/dijet.rst
    demo/dijet_blinded.rst
+   demo/extrapolation_sparse2d.rst
