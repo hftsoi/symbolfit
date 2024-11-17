@@ -59,9 +59,9 @@ Requirements
 .. code-block:: text
 
    python>=3.9
-   pysr
-   lmfit
-   matplotlib
-   seaborn
+   pysr>=0.16.0,<0.20.0
+   lmfit>=1.2.0,<1.4.0
+   matplotlib>=3.8.0,<4.0.0
+   seaborn>=0.13.0,<0.14.0
    numpy<2.0.0
 
