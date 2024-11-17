@@ -46,7 +46,7 @@ with correlation matrix:
 
 .. toggle::
 
-   .. image:: notebooks/img/toy3c/correlation.png
+   .. image:: notebooks/img/toy3c/corr.png
 
 .. note::
 
