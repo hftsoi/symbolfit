@@ -12,7 +12,7 @@
 
 Docs | Paper | Colab |
 |:-:|:-:|:-:|
-[![Read the Docs](https://img.shields.io/readthedocs/symbolfit?color=gold)](https://symbolfit.readthedocs.io) | | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/hftsoi/symbolfit/blob/main/colab_demo/symbolfit_colab.ipynb) |
+[![Read the Docs](https://img.shields.io/readthedocs/symbolfit?color=gold)](https://symbolfit.readthedocs.io) | [![arXiv](https://img.shields.io/badge/arXiv-2411.09851-b31b1b.svg)](https://arxiv.org/abs/2411.09851) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/hftsoi/symbolfit/blob/main/colab_demo/symbolfit_colab.ipynb) |
 
 </div>
 
