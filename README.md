@@ -154,28 +154,28 @@ The documentation can be found [here](https://symbolfit.readthedocs.io) for more
 If you find this useful in your research, please consider citing SymbolFit:
 ```
 @misc{tsoi2024symbolfitautomaticparametricmodeling,
-      title={SymbolFit: Automatic Parametric Modeling with Symbolic Regression}, 
-      author={Ho Fung Tsoi and Dylan Rankin and Cecile Caillol and Miles Cranmer and Sridhara Dasu and Javier Duarte and Philip Harris and Elliot Lipeles and Vladimir Loncar},
-      year={2024},
-      eprint={2411.09851},
-      archivePrefix={arXiv},
-      primaryClass={hep-ex},
-      url={https://arxiv.org/abs/2411.09851}, 
+      title = {{SymbolFit: Automatic Parametric Modeling with Symbolic Regression}}, 
+      author = {Ho Fung Tsoi and Dylan Rankin and Cecile Caillol and Miles Cranmer and Sridhara Dasu and Javier Duarte and Philip Harris and Elliot Lipeles and Vladimir Loncar},
+      year = {2024},
+      eprint = {2411.09851},
+      archivePrefix = {arXiv},
+      primaryClass = {hep-ex},
+      url = {https://arxiv.org/abs/2411.09851}, 
 }
 ```
 and PySR:
 ```
 @misc{cranmerInterpretableMachineLearning2023,
-    title = {Interpretable {Machine} {Learning} for {Science} with {PySR} and {SymbolicRegression}.jl},
-    url = {http://arxiv.org/abs/2305.01582},
-    doi = {10.48550/arXiv.2305.01582},
-    urldate = {2023-07-17},
-    publisher = {arXiv},
-    author = {Cranmer, Miles},
-    month = may,
-    year = {2023},
-    note = {arXiv:2305.01582 [astro-ph, physics:physics]},
-    keywords = {Astrophysics - Instrumentation and Methods for Astrophysics, Computer Science - Machine Learning, Computer Science - Neural and Evolutionary Computing, Computer Science - Symbolic Computation, Physics - Data Analysis, Statistics and Probability},
+      title = {Interpretable {Machine} {Learning} for {Science} with {PySR} and {SymbolicRegression}.jl},
+      url = {http://arxiv.org/abs/2305.01582},
+      doi = {10.48550/arXiv.2305.01582},
+      urldate = {2023-07-17},
+      publisher = {arXiv},
+      author = {Cranmer, Miles},
+      month = may,
+      year = {2023},
+      note = {arXiv:2305.01582 [astro-ph, physics:physics]},
+      keywords = {Astrophysics - Instrumentation and Methods for Astrophysics, Computer Science - Machine Learning, Computer Science - Neural and Evolutionary Computing, Computer Science - Symbolic Computation, Physics - Data Analysis, Statistics and Probability},
 }
 ```
 
