@@ -153,7 +153,15 @@ The documentation can be found [here](https://symbolfit.readthedocs.io) for more
 ## Citation
 If you find this useful in your research, please consider citing SymbolFit:
 ```
-Coming soon!
+@misc{tsoi2024symbolfitautomaticparametricmodeling,
+      title={SymbolFit: Automatic Parametric Modeling with Symbolic Regression}, 
+      author={Ho Fung Tsoi and Dylan Rankin and Cecile Caillol and Miles Cranmer and Sridhara Dasu and Javier Duarte and Philip Harris and Elliot Lipeles and Vladimir Loncar},
+      year={2024},
+      eprint={2411.09851},
+      archivePrefix={arXiv},
+      primaryClass={hep-ex},
+      url={https://arxiv.org/abs/2411.09851}, 
+}
 ```
 and PySR:
 ```
