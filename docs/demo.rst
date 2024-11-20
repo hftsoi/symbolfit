@@ -11,3 +11,5 @@ Examples
    demo/dijet.rst
    demo/dijet_blinded.rst
    demo/extrapolation_sparse2d.rst
+   demo/monotonic.rst
+   demo/asymptotic.rst
