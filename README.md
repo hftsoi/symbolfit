@@ -34,7 +34,11 @@ It is designed to maximize automation with minimal human input. Each run produce
 - [Documentation](#documentation)
 - [Citation](#citation)
 
-> **Note:** This API is actively being updated to accommodate more use cases, so any feedback and contributions are very much welcomed and appreciated! If you encounter any problems while using it, please don’t hesitate to let us know, such as by opening an issue [here](https://github.com/hftsoi/symbolfit/issues) or starting a discussion [here](https://github.com/hftsoi/symbolfit/discussions). We are happy to discuss and assist!
+> **Note:** This API is actively being updated to accommodate more use cases, so any feedback and contributions are very much welcomed and appreciated! If you encounter any problems while using it, please don’t hesitate to:
+> - Report bugs or suggest new features at [![Issues](https://img.shields.io/badge/issues-github-informational)](https://github.com/hftsoi/symbolfit/issues)
+> - Get recommendation on your specific working dataset at [![Discussions](https://img.shields.io/badge/discussions-github-informational)](https://github.com/hftsoi/symbolfit/discussions)
+> 
+> We are happy to assist to get it works on your data!
 
 ## Installation
 **Prerequisite**
