@@ -26,6 +26,8 @@ Dataset
    It should be the deviation value and non-negative.
    Shape is (num_examples, 1).
 
+If there is no uncertainty in the input data, one can set ones for both ``y_up`` and ``y_down``, with the same shape as ``y``.
+
 .. note::
 
    We will be adding support to more input formats (root, h5, ...) soon!
@@ -123,7 +125,7 @@ Plots all candidate functions to pdf files.
 * ``output_dir``: str
    Output directory.
 
-**Options for 1D data**
+*Options for 1D data*
 
 * ``bin_widths_1d``: list | ndarray
    Bin widths for x for plotting 1D histogram data.
