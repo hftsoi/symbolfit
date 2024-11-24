@@ -46,8 +46,13 @@ def dataset_formatting(
         #else:
         #    raise TypeError('Input dataset should be either python lists or numpy arrays.')
         
-        y_up = np.reshape(np.array(y_up), (-1, 1))
-        y_down = np.reshape(np.array(y_down), (-1, 1))
+        if y_up == 1 and y_down == 1:
+            y_up = np.ones(y.shape)
+            y_down = np.ones(y.shape)
+        
+        else:
+            y_up = np.reshape(np.array(y_up), (-1, 1))
+            y_down = np.reshape(np.array(y_down), (-1, 1))
         
         assert(x.shape[0] == y.shape[0] == y_up.shape[0] == y_down.shape[0])
 
