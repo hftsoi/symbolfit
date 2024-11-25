@@ -10,6 +10,7 @@ Examples
    demo/toy3c.rst
    demo/dijet.rst
    demo/dijet_blinded.rst
+   demo/smooth_scale_factors.rst
    demo/extrapolation_sparse2d.rst
    demo/monotonic.rst
    demo/asymptotic.rst
