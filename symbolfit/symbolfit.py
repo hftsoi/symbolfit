@@ -962,6 +962,15 @@ class SymbolFit:
         
         # Plot results and write to output pdf files.
         if dim == 1:
+            if bin_widths_1d is not None:
+                if not isinstance(bin_widths_1d, (list, np.ndarray)):
+                    raise TypeError(f'Input bin_widths_1d must be either a python list or a numpy array.')
+                    
+                bin_widths_1d = np.reshape(np.array(bin_widths_1d), (-1, 1))
+                if bin_widths_1d.shape[0] != x.shape[0]:
+                    raise ValueError(f'Input data mismatch: x has {x.shape[0]} data points, but there are {bin_widths_1d.shape[0]} bin widths in bin_widths_1d.')
+                
+                
             plot_all_syst_all_func_1D(func_candidates = func_candidates,
                                       x = x,
                                       bin_widths_1d = bin_widths_1d,
@@ -987,6 +996,10 @@ class SymbolFit:
                                                 )
                                       
         elif dim == 2:
+            if bin_edges_2d is not None:
+                if not isinstance(bin_edges_2d, (list, np.ndarray)):
+                    raise TypeError(f'Input bin_edges_2d must be either a python list or a numpy array.')
+        
             plot_all_syst_all_func_2D(func_candidates = func_candidates,
                                       x = x,
                                       bin_edges_2d = bin_edges_2d,
