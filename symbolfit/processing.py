@@ -12,6 +12,23 @@ def dataset_formatting(
 
     dim = 0
     
+    def check_input_type(input, name):
+        '''
+        For now only accept python list or numpy array for x, y, y_up, y_down.
+        '''
+        if name in ('y_up', 'y_down') and input == 1:
+            # Default value is 1.
+            pass
+            
+        else:
+            if not isinstance(input, (list, np.ndarray)):
+                raise TypeError(f'Input {name} must be either a python list or a numpy array.')
+            
+    check_input_type(x, 'x')
+    check_input_type(y, 'y')
+    check_input_type(y, 'y_up')
+    check_input_type(y, 'y_down')
+    
     # Input dataset is in python lists.
     if isinstance(x, list):
         # dataset[0] is the independent variable x that takes the form:
@@ -27,15 +44,13 @@ def dataset_formatting(
     elif isinstance(x, np.ndarray):
         # dataset[0] is the independent variable in np.ndarray with shape (n, dim).
         dim = np.shape(x)[1]
-        
-    else:
-        raise TypeError('Input x should be either lists or numpy arrays.')
             
     # Get x and y.
     x = np.reshape(np.array(x), (-1, dim))
     y = np.reshape(np.array(y), (-1, 1))
     
-    assert(x.shape[0] == y.shape[0])
+    if x.shape[0] != y.shape[0]:
+        raise ValueError(f'Input data mismatch: x has {x.shape[0]} data points, but y has {y.shape[0]} data points.')
         
     # Get uncertainties for y.
     if y_up is not None and y_down is not None:
@@ -54,7 +69,8 @@ def dataset_formatting(
             y_up = np.reshape(np.array(y_up), (-1, 1))
             y_down = np.reshape(np.array(y_down), (-1, 1))
         
-        assert(x.shape[0] == y.shape[0] == y_up.shape[0] == y_down.shape[0])
+        if not (x.shape[0] == y.shape[0] == y_up.shape[0] == y_down.shape[0]):
+            raise ValueError(f'Input data mismatch: x has {x.shape[0]} data points, y has {y.shape[0]} data points, y_up has {y_up.shape[0]} data points, y_down has {y_down.shape[0]} data points.')
 
         if fit_y_unc:
             # Do not fit with y uncert. if any of these is zero,
