@@ -10,9 +10,9 @@ Welcome to SymbolFit documentation!
    :widths: 30 30 30
    :align: center
 
-   * - .. centered:: Docs
-     - .. centered:: Paper
-     - .. centered:: Colab
+   * - .. centered:: **Docs**
+     - .. centered:: **Paper**
+     - .. centered:: **Colab**
    * - .. image:: https://img.shields.io/readthedocs/symbolfit?color=gold
           :target: https://symbolfit.readthedocs.io
           :align: center
@@ -28,9 +28,9 @@ Welcome to SymbolFit documentation!
    :widths: 30 30 30
    :align: center
 
-   * - .. centered:: GitHub
-     - .. centered:: pip
-     - .. centered:: conda
+   * - .. centered:: **GitHub**
+     - .. centered:: **pip**
+     - .. centered:: **conda**
    * - .. image:: https://img.shields.io/github/created-at/hftsoi/symbolfit?color=black
           :target: https://github.com/hftsoi/symbolfit
           :align: center
@@ -49,7 +49,7 @@ Welcome to SymbolFit documentation!
      - .. image:: https://img.shields.io/conda/vn/conda-forge/symbolfit.svg?color=green
           :target: https://anaconda.org/conda-forge/symbolfit
           :align: center
-        .. image:: https://img.shields.io/conda/dn/conda-forge/symbolfit.svg?color=green
+       .. image:: https://img.shields.io/conda/dn/conda-forge/symbolfit.svg?color=green
           :target: https://anaconda.org/conda-forge/symbolfit
           :align: center
 
@@ -57,11 +57,6 @@ An API to automate parametric modeling with symbolic regression, originally deve
 
 SymbolFit takes binned data with measurement/systematic uncertainties (optional) as input, utilizes `PySR <https://github.com/MilesCranmer/PySR>`_ to perform a machine-search for batches of functional forms that model the data, parameterizes these functions, and utilizes `LMFIT <https://github.com/lmfit/lmfit-py>`_ to re-optimize the functions and provide uncertainty estimation, all in one go.
 It is designed to maximize automation with minimal human input. Each run produces a batch of functions with uncertainty estimation, which are evaluated, saved, and plotted automatically into readable output files, ready for downstream tasks.
-
-
-.. note::
-
-   Under active construction!
 
 .. note::
 
@@ -77,6 +72,10 @@ It is designed to maximize automation with minimal human input. Each run produce
       :target: https://github.com/hftsoi/symbolfit/discussions
 
    If you don't feel like sharing your data in public, please feel free to drop me a msg or email at ho.fung.tsoi@cern.ch. We are happy to assist in getting it to work on your data!
+
+.. note::
+
+   This docs is under active construction!
 
 .. toctree::
    :hidden:
