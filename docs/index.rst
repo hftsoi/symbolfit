@@ -5,9 +5,17 @@ Welcome to SymbolFit documentation!
    :width: 400px
    :align: center
 
+.. raw:: html
+
+   <br><br>
+
 .. image:: demo/animation.gif
    :width: 900px
    :align: center
+
+.. raw:: html
+
+   <br><br>
 
 .. list-table::
    :header-rows: 1
@@ -79,7 +87,7 @@ It is designed to maximize automation with minimal human input. Each run produce
 
 .. note::
 
-   This docs is under active construction!
+   This documentation site is under active construction!
 
 .. toctree::
    :hidden:
