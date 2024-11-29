@@ -5,6 +5,16 @@ Welcome to SymbolFit documentation!
    :width: 400px
    :align: center
 
+Docs | Paper | Colab
+=====|=======|======
+.. image:: https://img.shields.io/readthedocs/symbolfit?color=gold
+   :target: https://symbolfit.readthedocs.io
+|
+.. image:: https://img.shields.io/badge/arXiv-2411.09851-b31b1b.svg
+   :target: https://arxiv.org/abs/2411.09851
+|
+.. image:: https://colab.research.google.com/assets/colab-badge.svg
+   :target: https://colab.research.google.com/github/hftsoi/symbolfit/blob/main/colab_demo/symbolfit_colab.ipynb
 
 An API to automate parametric modeling with symbolic regression, originally developed for data analysis in the experimental high-energy physics community, but also applicable beyond.
 
