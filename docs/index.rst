@@ -5,6 +5,10 @@ Welcome to SymbolFit documentation!
    :width: 400px
    :align: center
 
+.. image:: demo/animation.gif
+   :width: 900px
+   :align: center
+
 .. list-table::
    :header-rows: 1
    :widths: 30 30 30
