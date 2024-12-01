@@ -90,7 +90,7 @@ It is designed to maximize automation with minimal human input. Each run produce
    This documentation site is under active construction!
 
 .. toctree::
-   :hidden:
+   :maxdepth: 2
 
    overview.rst
    install.rst
