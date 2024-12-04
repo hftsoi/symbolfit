@@ -25,13 +25,13 @@ Welcome to SymbolFit documentation!
    * - .. centered:: **Docs**
      - .. centered:: **Paper**
      - .. centered:: **Colab**
-   * - .. image:: https://img.shields.io/readthedocs/symbolfit?color=gold
+   * - .. image:: https://img.shields.io/readthedocs/symbolfit?color=gold&style=flat-square
           :target: https://symbolfit.readthedocs.io
           :align: center
-     - .. image:: https://img.shields.io/badge/arXiv-2411.09851-b31b1b.svg
+     - .. image:: https://img.shields.io/badge/arXiv-2411.09851-b31b1b.svg?style=flat-square
           :target: https://arxiv.org/abs/2411.09851
           :align: center
-     - .. image:: https://colab.research.google.com/assets/colab-badge.svg
+     - .. image:: https://img.shields.io/badge/Colab-notebook-informational?style=flat-square&color=blue
           :target: https://colab.research.google.com/github/hftsoi/symbolfit/blob/main/colab_demo/symbolfit_colab.ipynb
           :align: center
 
@@ -43,25 +43,25 @@ Welcome to SymbolFit documentation!
    * - .. centered:: **GitHub**
      - .. centered:: **pip**
      - .. centered:: **conda**
-   * - .. image:: https://img.shields.io/github/created-at/hftsoi/symbolfit?color=black
+   * - .. image:: https://img.shields.io/github/created-at/hftsoi/symbolfit?color=black&style=flat-square
           :target: https://github.com/hftsoi/symbolfit
           :align: center
-       .. image:: https://img.shields.io/github/v/release/hftsoi/symbolfit?color=black
+       .. image:: https://img.shields.io/github/v/release/hftsoi/symbolfit?color=black&style=flat-square
           :target: https://github.com/hftsoi/symbolfit/releases
           :align: center
-       .. image:: https://img.shields.io/github/release-date/hftsoi/symbolfit?color=black
+       .. image:: https://img.shields.io/github/release-date/hftsoi/symbolfit?color=black&style=flat-square
           :target: https://github.com/hftsoi/symbolfit/releases
           :align: center
-     - .. image:: https://img.shields.io/pypi/v/symbolfit?color=orange
+     - .. image:: https://img.shields.io/pypi/v/symbolfit?color=orange&style=flat-square
           :target: https://pypi.org/project/symbolfit
           :align: center
-       .. image:: https://img.shields.io/pepy/dt/symbolfit?color=orange
+       .. image:: https://img.shields.io/pepy/dt/symbolfit?color=orange&style=flat-square
           :target: https://www.pepy.tech/projects/symbolfit
           :align: center
-     - .. image:: https://img.shields.io/conda/vn/conda-forge/symbolfit.svg?color=green
+     - .. image:: https://img.shields.io/conda/vn/conda-forge/symbolfit.svg?color=green&style=flat-square
           :target: https://anaconda.org/conda-forge/symbolfit
           :align: center
-       .. image:: https://img.shields.io/conda/dn/conda-forge/symbolfit.svg?color=green
+       .. image:: https://img.shields.io/conda/dn/conda-forge/symbolfit.svg?color=green&style=flat-square
           :target: https://anaconda.org/conda-forge/symbolfit
           :align: center
 
@@ -76,14 +76,17 @@ It is designed to maximize automation with minimal human input. Each run produce
 
    - Report bugs or suggest new features at |issue_badge|
 
-   .. |issue_badge| image:: https://img.shields.io/badge/issues-github-informational
+   .. |issue_badge| image:: https://img.shields.io/badge/issues-github-informational?style=flat-square
       :target: https://github.com/hftsoi/symbolfit/issues
 
    - Ask for specific help and recommendations for your dataset at |discussion_badge|
-   .. |discussion_badge| image:: https://img.shields.io/badge/discussions-github-informational
+   .. |discussion_badge| image:: https://img.shields.io/badge/discussions-github-informational?style=flat-square
       :target: https://github.com/hftsoi/symbolfit/discussions
 
-   If you don't feel like sharing your data in public, please feel free to drop me a msg or email at ho.fung.tsoi@cern.ch. We are happy to assist in getting it to work on your data!
+   If you don't feel like sharing your data in public, please feel free to drop me a message or |email_badge|. We are happy to assist in getting it to work on your data!
+
+   .. |email_badge| image:: https://img.shields.io/badge/email-ho.fung.tsoi@cern.ch-informational?style=flat-square&color=blue
+      :target: mailto:ho.fung.tsoi@cern.ch
 
 .. note::
 
