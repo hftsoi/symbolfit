@@ -12,7 +12,7 @@
 
 Docs | Paper | Colab |
 |:-:|:-:|:-:|
-[![Read the Docs](https://img.shields.io/readthedocs/symbolfit?color=gold)](https://symbolfit.readthedocs.io) | [![arXiv](https://img.shields.io/badge/arXiv-2411.09851-b31b1b.svg)](https://arxiv.org/abs/2411.09851) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/hftsoi/symbolfit/blob/main/colab_demo/symbolfit_colab.ipynb) |
+[![Read the Docs](https://img.shields.io/readthedocs/symbolfit?color=gold&style=flat-square)](https://symbolfit.readthedocs.io) | [![arXiv](https://img.shields.io/badge/arXiv-2411.09851-b31b1b.svg?style=flat-square)](https://arxiv.org/abs/2411.09851) | [![Open in Colab](https://img.shields.io/badge/Colab-notebook-informational?style=flat-square&color=blue)](https://colab.research.google.com/github/hftsoi/symbolfit/blob/main/colab_demo/symbolfit_colab.ipynb) |
 
 </div>
 
@@ -20,7 +20,7 @@ Docs | Paper | Colab |
 
 GitHub | pip | conda |
 |:-:|:-:|:-:|
-[![GitHub Created At](https://img.shields.io/github/created-at/hftsoi/symbolfit?color=black)](https://github.com/hftsoi/symbolfit) <br /> [![GitHub Release](https://img.shields.io/github/v/release/hftsoi/symbolfit?color=black)](https://github.com/hftsoi/symbolfit/releases) <br /> [![GitHub Release Date](https://img.shields.io/github/release-date/hftsoi/symbolfit?color=black)](https://github.com/hftsoi/symbolfit/releases) | [![PyPI - Version](https://img.shields.io/pypi/v/symbolfit?color=orange)](https://pypi.org/project/symbolfit) <br /> [![Pepy Total Downloads](https://img.shields.io/pepy/dt/symbolfit?color=orange)](https://www.pepy.tech/projects/symbolfit) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/symbolfit.svg?color=green)](https://anaconda.org/conda-forge/symbolfit) <br /> [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/symbolfit.svg?color=green)](https://anaconda.org/conda-forge/symbolfit) |
+[![GitHub Created At](https://img.shields.io/github/created-at/hftsoi/symbolfit?color=black&style=flat-square)](https://github.com/hftsoi/symbolfit) <br /> [![GitHub Release](https://img.shields.io/github/v/release/hftsoi/symbolfit?color=black&style=flat-square)](https://github.com/hftsoi/symbolfit/releases) <br /> [![GitHub Release Date](https://img.shields.io/github/release-date/hftsoi/symbolfit?color=black&style=flat-square)](https://github.com/hftsoi/symbolfit/releases) | [![PyPI - Version](https://img.shields.io/pypi/v/symbolfit?color=orange&style=flat-square)](https://pypi.org/project/symbolfit) <br /> [![Pepy Total Downloads](https://img.shields.io/pepy/dt/symbolfit?color=orange&style=flat-square)](https://www.pepy.tech/projects/symbolfit) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/symbolfit.svg?color=green&style=flat-square)](https://anaconda.org/conda-forge/symbolfit) <br /> [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/symbolfit.svg?color=green&style=flat-square)](https://anaconda.org/conda-forge/symbolfit) |
 
 </div>
 
@@ -35,10 +35,10 @@ It is designed to maximize automation with minimal human input. Each run produce
 - [Citation](#citation)
 
 > **Note:** This API is actively being updated to accommodate more use cases, so any feedback and contributions are very much welcomed and appreciated! If you encounter any problems while using it, please don’t hesitate to:
-> - Report bugs or suggest new features at [![Issues](https://img.shields.io/badge/issues-github-informational)](https://github.com/hftsoi/symbolfit/issues)
-> - Ask for specific help and recommendations for your dataset at [![Discussions](https://img.shields.io/badge/discussions-github-informational)](https://github.com/hftsoi/symbolfit/discussions)
+> - Report bugs or suggest new features at [![Issues](https://img.shields.io/badge/issues-github-informational?style=flat-square)](https://github.com/hftsoi/symbolfit/issues)
+> - Ask for specific help and recommendations for your dataset at [![Discussions](https://img.shields.io/badge/discussions-github-informational?style=flat-square)](https://github.com/hftsoi/symbolfit/discussions)
 > 
-> If you don't feel like sharing your data in public, please feel free to drop me a msg or email at ho.fung.tsoi@cern.ch. We are happy to assist in getting it to work on your data!
+> If you don't feel like sharing your data in public, please feel free to drop me a message or [![Email](https://img.shields.io/badge/email-ho.fung.tsoi@cern.ch-informational?style=flat-square&color=blue)](ho.fung.tsoi@cern.ch). We are happy to assist in getting it to work on your data!
 
 ## Installation
 **Prerequisite**
