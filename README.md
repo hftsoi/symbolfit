@@ -38,7 +38,7 @@ It is designed to maximize automation with minimal human input. Each run produce
 > - Report bugs or suggest new features at [![Issues](https://img.shields.io/badge/issues-github-informational?style=flat-square)](https://github.com/hftsoi/symbolfit/issues)
 > - Ask for specific help and recommendations for your dataset at [![Discussions](https://img.shields.io/badge/discussions-github-informational?style=flat-square)](https://github.com/hftsoi/symbolfit/discussions)
 > 
-> If you don't feel like sharing your data in public, please feel free to drop me a message or [![Email](https://img.shields.io/badge/email-ho.fung.tsoi@cern.ch-informational?style=flat-square&color=blue)](ho.fung.tsoi@cern.ch). We are happy to assist in getting it to work on your data!
+> If you don't feel like sharing your data in public, please feel free to drop me a message or [![Email](https://img.shields.io/badge/email-ho.fung.tsoi@cern.ch-informational?style=flat-square&color=blue)](mailto:ho.fung.tsoi@cern.ch). We are happy to assist in getting it to work on your data!
 
 ## Installation
 **Prerequisite**
