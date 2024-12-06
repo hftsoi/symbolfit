@@ -16,7 +16,7 @@ Then check if installed properly:
 
    julia --version
 
-If julia is not found, most properly it is not yet included in PATH. To include, do:
+If julia is not found, most probably it is not yet included in PATH. To include, do:
 
 .. code-block:: bash
 

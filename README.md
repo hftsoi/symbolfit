@@ -12,7 +12,7 @@
 
 Docs | Paper | Colab |
 |:-:|:-:|:-:|
-[![Read the Docs](https://img.shields.io/readthedocs/symbolfit?color=gold&style=flat-square)](https://symbolfit.readthedocs.io) | [![arXiv](https://img.shields.io/badge/arXiv-2411.09851-b31b1b.svg?style=flat-square)](https://arxiv.org/abs/2411.09851) | [![Open in Colab](https://img.shields.io/badge/Colab-notebook-informational?style=flat-square&color=blue)](https://colab.research.google.com/github/hftsoi/symbolfit/blob/main/colab_demo/symbolfit_colab.ipynb) |
+[![Read the Docs](https://img.shields.io/readthedocs/symbolfit?color=blue&style=flat-square)](https://symbolfit.readthedocs.io) | [![arXiv](https://img.shields.io/badge/arXiv-2411.09851-b31b1b.svg?style=flat-square)](https://arxiv.org/abs/2411.09851) | [![Open in Colab](https://img.shields.io/badge/Colab-notebook-informational?style=flat-square&color=gold)](https://colab.research.google.com/github/hftsoi/symbolfit/blob/main/colab_demo/symbolfit_colab.ipynb) |
 
 </div>
 
@@ -51,7 +51,7 @@ Then check if installed properly:
 ```
 julia --version
 ```
-If julia is not found, most properly it is not yet included in PATH. To include, do:
+If julia is not found, most probably it is not yet included in PATH. To include, do:
 ```
 export PATH="$PATH:/path/to/<Julia directory>/bin"
 ```
