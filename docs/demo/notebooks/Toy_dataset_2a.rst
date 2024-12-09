@@ -109,7 +109,7 @@
               '^':      {'exp': 1, 'tanh': 1, '*': 2, '/': 1, '^': 0},
               '/':      {'exp': 1, 'tanh': 1, '*': 2, '/': 0, '^': 1},
           },
-          loss='loss(y, y_pred, weights) = (y - y_pred)^2 * weights',
+          elementwise_loss='loss(y, y_pred, weights) = (y - y_pred)^2 * weights',
       )
 
 .. container:: cell markdown

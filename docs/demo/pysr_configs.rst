@@ -32,7 +32,7 @@ An example is shown below:
       extra_sympy_mappings={
           'gauss': lambda x: sympy.exp(-x*x),
                            },
-      loss='loss(y, y_pred, weights) = (y - y_pred)^2 * weights',
+      elementwise_loss='loss(y, y_pred, weights) = (y - y_pred)^2 * weights',
   )
 
 This configuration works well in many cases where there is a peak in the distribution, as a custom-defined ``gauss`` operator is allowed to appear in the candidate functions.
@@ -60,7 +60,7 @@ If the distribution does not contain shape peaks, you can use the following exam
           '^':      {'exp': 1, 'tanh': 1, '*': 2, '/': 1, '^': 0},
           '/':      {'exp': 1, 'tanh': 1, '*': 2, '/': 0, '^': 1},
       },
-      loss='loss(y, y_pred, weights) = (y - y_pred)^2 * weights',
+      elementwise_loss='loss(y, y_pred, weights) = (y - y_pred)^2 * weights',
   )
 
 For example, this single configuration is used to fit Toy Dataset 2a, 2b, and 2c, as well as all five LHC datasets (dijet, trijet, paired-dijet, diphoton, and dimuon), using different ``maxsize`` values.
