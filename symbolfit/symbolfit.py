@@ -103,11 +103,28 @@ class SymbolFit:
         y = None,
         y_up = 1,
         y_down = 1,
-        pysr_config = None,
-        max_complexity = None,
+        pysr_config = PySRRegressor(
+            model_selection = 'accuracy',
+            niterations = 100,
+            maxsize = 60,
+            binary_operators = [
+                '+', '*', '/', '^'
+                             ],
+            unary_operators = [
+                'exp',
+                'tanh',
+                'gauss(x) = exp(-x*x)',
+                'sin',
+            ],
+            extra_sympy_mappings={
+                'gauss': lambda x: sympy.exp(-x*x),
+            },
+            elementwise_loss='loss(y, y_pred, weights) = (y - y_pred)^2 * weights',
+        ),
+        max_complexity = 60,
         input_rescale = True,
-        scale_y_by = None,
-        max_stderr = 40,
+        scale_y_by = 'mean',
+        max_stderr = 20,
         fit_y_unc = True,
         random_seed = None,
         loss_weights = None,
