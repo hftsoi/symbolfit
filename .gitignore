@@ -9,3 +9,6 @@ hall*
 output_dir/
 dist/
 *.egg-info/
+build.sh
+**/test
+**/test.py
