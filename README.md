@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/hftsoi/symbolfit/main/docs/thumbnail.png" width="400"/>
+  <img src="https://raw.githubusercontent.com/hftsoi/symbolfit/main/docs/thumbnail.png" width="1200"/>
 </p>
 
 <div align="center">
