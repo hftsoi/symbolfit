@@ -16,9 +16,10 @@ def dataset_formatting(
         '''
         For now only accept python list or numpy array for x, y, y_up, y_down.
         '''
-        if name in ('y_up', 'y_down') and input == 1:
+        if name in ('y_up', 'y_down') and isinstance(input, (int, float, np.integer, np.floating)):
             # Default value is 1.
-            pass
+            if input == 1:
+                pass
             
         else:
             if not isinstance(input, (list, np.ndarray)):
@@ -26,8 +27,8 @@ def dataset_formatting(
             
     check_input_type(x, 'x')
     check_input_type(y, 'y')
-    check_input_type(y, 'y_up')
-    check_input_type(y, 'y_down')
+    check_input_type(y_up, 'y_up')
+    check_input_type(y_down, 'y_down')
     
     # Input dataset is in python lists.
     if isinstance(x, list):
@@ -61,9 +62,10 @@ def dataset_formatting(
         #else:
         #    raise TypeError('Input dataset should be either python lists or numpy arrays.')
         
-        if y_up == 1 and y_down == 1:
-            y_up = np.ones(y.shape)
-            y_down = np.ones(y.shape)
+        if isinstance(y_up, (int, float, np.integer, np.floating)) and isinstance(y_down, (int, float, np.integer, np.floating)):
+            if y_up == 1 and y_down == 1:
+                y_up = np.ones(y.shape)
+                y_down = np.ones(y.shape)
         
         else:
             y_up = np.reshape(np.array(y_up), (-1, 1))
