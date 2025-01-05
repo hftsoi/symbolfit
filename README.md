@@ -138,6 +138,7 @@ Candidate functions with full substitutions can be printed promptly:
 ```
 model.print_candidate(candidate_number = 20)
 ```
+When preparing for your own data, a graphical illustration of the input data format can be found [here](https://symbolfit.readthedocs.io/demo/input.html).
 
 Each fit will produce a batch of candidate functions and will automatically save all results to six output files:
 1) ```candidates.csv```: saves all candidate functions and evaluations in a csv table.
