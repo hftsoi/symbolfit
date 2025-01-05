@@ -20,6 +20,7 @@ For illustration, consider a simple example 1D input data:
 - ``y_up`` and ``y_down`` are the upside and downside uncertainties, respectively.
 - Both ``y_up`` and ``y_down`` are the distance values from the nominal value ``y`` and therefore are non-negative by definition.
 - ``bin_widths_1d`` is the bin width in ``x``.
+- If your data do not have uncertainty in ``y``, you can set both ``y_up`` and ``y_down`` to ones with the same shape as ``y``. This way the objective function simply becomes from chi2 to MSE.
 - Each of these can be either a python list or a numpy array, with the same shape of (n, 1), and they should have the same ordering in the elements.
 
 A graphical illustration is provided below.
@@ -54,6 +55,7 @@ For illustration, consider a simple example 2D input data:
 - ``x`` is the independent variable corresponding to the bin center location, where each element is a 2D bin location [x0, x1], and ``x`` has a shape of (n, 2).
 - ``y`` is the dependent variable corresponding to the bin content and has a shape of (n, 1).
 - Both ``y_up`` and ``y_down`` are the distance values from the nominal value ``y`` and therefore are non-negative by definition, which has a shape of (n, 1).
+- If your data do not have uncertainty in ``y``, you can set both ``y_up`` and ``y_down`` to ones with the same shape as ``y``. This way the objective function simply becomes from chi2 to MSE.
 - The above can be either a python list or a numpy array.
 - ``bin_edges_2d`` is the bin edges for both dimensions, containing two lists where the first one is the bin edges for x0 and the second one is the bin edges for x1, including both the leftmost and rightmost bin edge locations.
 
