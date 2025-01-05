@@ -6,7 +6,7 @@ Welcome to SymbolFit documentation!
    :align: center
 
 .. image:: thumbnail.png
-   :width: 400px
+   :width: 1200px
    :align: center
 
 .. raw:: html
