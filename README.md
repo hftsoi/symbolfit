@@ -2,6 +2,10 @@
   <img src="https://raw.githubusercontent.com/hftsoi/symbolfit/main/docs/logo.png" width="400"/>
 </p>
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/hftsoi/symbolfit/main/docs/thumbnail.png" width="400"/>
+</p>
+
 <div align="center">
   
 ![Animation](docs/demo/animation.gif)

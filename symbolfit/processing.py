@@ -209,7 +209,7 @@ def functions_unscale(
         The scale number multiplied to y's,
         it will be used to unscale the functions after fitting.
         
-    input_rescale (bool):
+    input_scale (bool):
         True: scaling enabled.
         False: scaling not enabled, so just return the same functions after fits.
     

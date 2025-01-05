@@ -5,6 +5,10 @@ Welcome to SymbolFit documentation!
    :width: 400px
    :align: center
 
+.. image:: thumbnail.png
+   :width: 400px
+   :align: center
+
 .. raw:: html
 
    <br><br>
