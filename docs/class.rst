@@ -35,6 +35,7 @@ Dataset
    Shape is (num_examples, 1).
 
 If there is no uncertainty in the input data, one can set ones for both ``y_up`` and ``y_down``, with the same shape as ``y``.
+See example section for a graphical illustration.
 
 .. note::
 
@@ -160,6 +161,7 @@ Plots all candidate functions to pdf files.
 
    Bin widths for x for plotting 1D histogram data.
    Shape is (num_examples, 1).
+   See example section for a graphical illustration.
 
 * ``plot_logx``: bool
    *Default: False*
@@ -181,13 +183,16 @@ Plots all candidate functions to pdf files.
 
 *Options for 2D data*
 
-* ``bin_edges_2d``: list | ndarray
+* ``bin_edges_2d``: list
    *Default: None*
 
    Bin edges for x for plotting 2D histogram data,
    i.e., [[x0_0, x0_1,...], [x1_0, x1_1,...]],
    where the leftmost bin in x0 has edges x0_0 and x0_1.
-   Shape is (num_x0_bins + 1, num_x1_bins + 1).
+   [x0_0, x0_1,...] has (num_x0_bins + 1) elements.
+   [x1_0, x1_1,...] has (num_x1_bins + 1) elements.
+   This should be a python list of two sub lists,
+   since (num_x0_bins + 1) =/= (num_x1_bins + 1) is possible.
 
 * ``plot_logx0``: bool
    *Default: False*

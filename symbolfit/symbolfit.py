@@ -919,11 +919,14 @@ class SymbolFit:
             Bin widths for x for plotting 1D histogram data.
             Shape is (num_examples, 1).
         
-        bin_edges_2d : list | ndarray
+        bin_edges_2d : list
             Bin edges for x for plotting 2D histogram data,
             i.e., [[x0_0, x0_1,...], [x1_0, x1_1,...]],
             where the leftmost bin in x0 has edges x0_0 and x0_1.
-            Shape is (num_x0_bins + 1, num_x1_bins + 1).
+            [x0_0, x0_1,...] has (num_x0_bins + 1) elements.
+            [x1_0, x1_1,...] has (num_x1_bins + 1) elements.
+            This should be a python list of two sub lists,
+            since (num_x0_bins + 1) =/= (num_x1_bins + 1) is possible.
         
         plot_logy : bool
             Plot functions in log scale for y in candidates.pdf.
