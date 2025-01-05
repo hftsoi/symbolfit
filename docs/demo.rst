@@ -4,6 +4,7 @@ Examples
 .. toctree::
    :maxdepth: 1
 
+   demo/input.rst
    demo/pysr_configs.rst
    demo/toy1.rst
    demo/toy2a.rst
@@ -11,7 +12,6 @@ Examples
    demo/dijet.rst
    demo/dijet_blinded.rst
    demo/smooth_scale_factors.rst
-   demo/smooth_hist.rst
    demo/extrapolation_sparse2d.rst
    demo/monotonic.rst
    demo/asymptotic.rst
