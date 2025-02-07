@@ -154,6 +154,8 @@ Each fit will produce a batch of candidate functions and will automatically save
 
 Output files from an example fit can be found and downloaded [here](https://github.com/hftsoi/symbolfit/tree/main/docs/demo/output_dir/toy_dataset_1) for illustration.
 
+> **Note:** The function space is usually huge, even when constrained by the pysr config. This means that if you are not satisfied with the results from a fit, you can simply rerun it with the exact same config and obtain a completely different set of candidate functions&mdash;the only difference being the random seed that initiates the seeding functions. Therefore, you can rerun the fit as many times as you want until you are satisfied with the results. If you use ```model = SymbolFit(..., random_seed = None, ...)```, nothing needs to be changed&mdash;just rerun the fit. If you set a specific ```random_seed```, change its value before rerunning. However, if you are still not satisfied with the results after many trials, it might indicate an issue with the config. Then you might want to try a different config, tune it, and start new runs.
+
 For detailed instructions and more demonstrations, please check out the Colab notebook and the documentation.
 
 ## Documentation
