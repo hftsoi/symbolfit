@@ -80,7 +80,7 @@ It is designed to maximize automation with minimal human input. Each run produce
 
 .. note::
 
-   This API is actively being updated to accommodate more use cases, so any feedback and contributions are very much welcomed and appreciated! If you encounter any problems while using it, please don’t hesitate to:
+   This API is actively being updated to accommodate more use cases, so any feedback and contributions are very much welcomed and appreciated! If you encounter any problems while using it, please don't hesitate to:
 
    - Report bugs or suggest new features at |issue_badge|
 
@@ -90,6 +90,10 @@ It is designed to maximize automation with minimal human input. Each run produce
    - Ask for specific help and recommendations for your dataset at |discussion_badge|
    .. |discussion_badge| image:: https://img.shields.io/badge/discussions-github-informational?style=flat-square
       :target: https://github.com/hftsoi/symbolfit/discussions
+
+   - Submit anonymous user feedback at |form_badge|
+   .. |form_badge| image:: https://img.shields.io/badge/survey-google_form-blue?style=flat-square
+      :target: https://docs.google.com/forms/d/e/1FAIpQLSeeSuyakA8EJFXExjPEmv9tTk78xgpmAJS08Ur_OBu04u9IaA/viewform?usp=dialog
 
    If you don't feel like sharing your data in public, please feel free to drop me a message or |email_badge|. We are happy to assist in getting it to work on your data!
 
