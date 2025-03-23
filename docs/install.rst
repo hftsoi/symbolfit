@@ -29,7 +29,7 @@ Afterward, it is recommended to start from an empty virtual environment for inst
 Installation via PyPI
 ---------------------
 
-With python>=3.9 and pip:
+With python>=3.10 and pip:
 
 .. code-block:: bash
 
@@ -40,7 +40,7 @@ Installation via conda
 
 .. code-block:: bash
 
-   conda create --name symbolfit_env python=3.9
+   conda create --name symbolfit_env python=3.10
    conda activate symbolfit_env
    conda install -c conda-forge symbolfit
 
@@ -58,8 +58,8 @@ Requirements
 
 .. code-block:: text
 
-   python>=3.9
-   pysr>=0.16.0,<0.20.0
+   python>=3.10
+   pysr>=1.4.0,<=1.5.2
    lmfit>=1.2.0,<1.4.0
    matplotlib>=3.8.0,<4.0.0
    seaborn>=0.13.0,<0.14.0

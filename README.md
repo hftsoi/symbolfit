@@ -65,7 +65,7 @@ Afterward, it is recommended to start from an empty virtual environment for inst
 
 ‣ **Installation via PyPI**
 
-With python>=3.9 and pip:
+With python>=3.10 and pip:
 ```
 pip install symbolfit
 ```
@@ -73,7 +73,7 @@ pip install symbolfit
 ‣ **Installation via conda**
 
 ```
-conda create --name symbolfit_env python=3.9
+conda create --name symbolfit_env python=3.10
 conda activate symbolfit_env
 conda install -c conda-forge symbolfit
 ```
