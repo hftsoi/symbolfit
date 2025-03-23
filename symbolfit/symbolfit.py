@@ -1,6 +1,7 @@
 import lmfit
 import importlib
 import os
+import shutil
 from lmfit import Parameters, Minimizer, fit_report, conf_interval
 from itertools import combinations
 
@@ -196,9 +197,11 @@ class SymbolFit:
             
     
         # Remove output files from previous PySR fits before starting new one below.
-        pklfiles = glob('hall*')
-        for f in pklfiles:
-            os.remove(f)
+        #pklfiles = glob('hall*')
+        #for f in pklfiles:
+        #    os.remove(f)
+        if os.path.exists('outputs_tmp'):
+            shutil.rmtree('outputs_tmp')
         
         # In PySR, set weighted loss = (y_model - y_label)^2 * loss_weights.
         if loss_weights is not None:
@@ -222,18 +225,21 @@ class SymbolFit:
         if self.max_complexity is not None:
             pysr_model.set_params(maxsize = max_complexity)
             
-            
+        pysr_model.set_params(output_directory = 'outputs_tmp')
+
         pysr_model.fit(X, Y, weights = pysr_weights.flatten())
         
         print('\n')
         
         # Get essential info from the PySR output file (hall_.pkl),
         # and save to a df for later processing/refit.
-        os.rename(glob('hall*.pkl')[0],'pysr_model_temp.pkl')
+        #os.rename(glob('hall*.pkl')[0],'pysr_model_temp.pkl')
         
-        func_candidates = simplify_pkl(pysr_pkl = 'pysr_model_temp.pkl',
-                                       x = X
-                                       )
+        #func_candidates = parse_pysr_equ(pysr_pkl = 'pysr_model_temp.pkl', x = X)
+        hash_subdir = [d for d in os.listdir('outputs_tmp') if os.path.isdir(os.path.join('outputs_tmp', d))]
+        run_directory = os.path.join('outputs_tmp', hash_subdir[0])
+
+        func_candidates = parse_pysr_equ(pysr_dir = run_directory, x = X)
                                        
         print('\n')
         
@@ -349,12 +355,21 @@ class SymbolFit:
             
             func_candidates['Parameterization'] = param_all
             
-            func_candidates = func_candidates[[
-                'PySR equation',
-                'Parameterized equation',
-                'Parameterization',
-                'Complexity'
-            ]]
+            try:
+                func_candidates = func_candidates[[
+                    'PySR template spec',
+                    'PySR equation',
+                    'Parameterized equation',
+                    'Parameterization',
+                    'Complexity'
+                ]]
+            except:
+                func_candidates = func_candidates[[
+                    'PySR equation',
+                    'Parameterized equation',
+                    'Parameterization',
+                    'Complexity'
+                ]]
             
             return func_candidates
 
@@ -641,6 +656,7 @@ class SymbolFit:
             # Compute the correlation for fitted parameters from the standard error estimation.
             covariance, correlation = get_covariance_correlation(fit_result = result)
             
+
             # Compute the confidence intervals for the fitted parameters,
             # which are more robust estimation of the uncertainties than standard errors.
             if len(rel_errors) > 1:
@@ -770,15 +786,27 @@ class SymbolFit:
             func_candidates['Correlation'] = correlations
             func_candidates['Confidence interval'] = confidence_intervals
             
-            func_candidates = func_candidates[[
-                'Complexity',
-                'PySR equation',
-                'Parameterized equation',
-                'Parameterization',
-                'Parameters: (best-fit, +1, -1)',
-                'Covariance',
-                'Correlation'
-            ]]
+            try:
+                func_candidates = func_candidates[[
+                    'Complexity',
+                    'PySR template spec',
+                    'PySR equation',
+                    'Parameterized equation',
+                    'Parameterization',
+                    'Parameters: (best-fit, +1, -1)',
+                    'Covariance',
+                    'Correlation'
+                ]]
+            except:
+                func_candidates = func_candidates[[
+                    'Complexity',
+                    'PySR equation',
+                    'Parameterized equation',
+                    'Parameterization',
+                    'Parameters: (best-fit, +1, -1)',
+                    'Covariance',
+                    'Correlation'
+                ]]
                     
             return func_candidates
         
@@ -818,11 +846,12 @@ class SymbolFit:
         
         
         # Remove intermediate files.
-        intermediate_files = glob('hall*')
-        for f in intermediate_files:
-            os.remove(f)
+        #intermediate_files = glob('hall*')
+        #for f in intermediate_files:
+        #    os.remove(f)
             
-        os.remove('pysr_model_temp.pkl')
+        #os.remove('pysr_model_temp.pkl')
+        shutil.rmtree('outputs_tmp')
         
         # Update the full func_candidates dataframe containing all results.
         self.func_candidates = func_candidates
@@ -835,7 +864,7 @@ class SymbolFit:
         '''
         Saves the func_candidates dataframe (results) to a csv file.
         1) Full info -> candidates.csv.
-        2) Reduced info -> candidates_reduced.csv.
+        2) Compact info -> candidates_compact.csv.
         
         Arguments
         ---------
@@ -860,8 +889,8 @@ class SymbolFit:
         
         func_candidates.to_csv(output_dir + 'candidates.csv')
         
-        # Save the reduced version removing unnecessary info.
-        print('Saving reduced results >>> {}candidates_reduced.csv'.format(output_dir))
+        # Save the compact version removing intermediate info.
+        print('Saving compact results >>> {}candidates_compact.csv'.format(output_dir))
         
         try:
             func_candidates[[
@@ -875,7 +904,7 @@ class SymbolFit:
                 'Chi2',
                 'Chi2/NDF',
                 'p-value'
-            ]].to_csv(output_dir + 'candidates_reduced.csv')
+            ]].to_csv(output_dir + 'candidates_compact.csv')
             
         except:
             func_candidates[[
@@ -885,7 +914,7 @@ class SymbolFit:
                 'Correlation',
                 'RMSE',
                 'R2'
-            ]].to_csv(output_dir + 'candidates_reduced.csv')
+            ]].to_csv(output_dir + 'candidates_compact.csv')
     
     
     def plot_to_pdf(
