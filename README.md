@@ -70,7 +70,7 @@ With python>=3.10 and pip:
 pip install symbolfit
 ```
 
-‣ **Installation via conda**
+‣ **Installation via conda (to be updated for >= v0.2.0, please use pip for now)**
 
 ```
 conda create --name symbolfit_env python=3.10
