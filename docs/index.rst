@@ -27,7 +27,7 @@ Welcome to SymbolFit documentation!
 
 .. list-table::
    :header-rows: 1
-   :widths: 30 30 30
+   :widths: 30 30 30 30
    :align: center
 
    * - .. centered:: **Docs**
