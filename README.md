@@ -14,9 +14,9 @@
 
 <div align="center">
 
-Docs | Paper | Colab |
-|:-:|:-:|:-:|
-[![Read the Docs](https://img.shields.io/readthedocs/symbolfit?color=blue&style=flat-square)](https://symbolfit.readthedocs.io) | [![arXiv](https://img.shields.io/badge/arXiv-2411.09851-b31b1b.svg?style=flat-square)](https://arxiv.org/abs/2411.09851) | [![Open in Colab](https://img.shields.io/badge/Colab-notebook-informational?style=flat-square&color=gold)](https://colab.research.google.com/github/hftsoi/symbolfit/blob/main/colab_demo/symbolfit_colab.ipynb) |
+Docs | Paper | Slides | Colab |
+|:-:|:-:|:-:|:-:|
+[![Read the Docs](https://img.shields.io/readthedocs/symbolfit?color=blue&style=flat-square)](https://symbolfit.readthedocs.io) | [![arXiv](https://img.shields.io/badge/arXiv-2411.09851-b31b1b.svg?style=flat-square)](https://arxiv.org/abs/2411.09851) | [![slides](https://img.shields.io/badge/talk-slides-informational?style=flat-square&color=purple)](https://github.com/hftsoi/symbolfit/blob/main/symbolfit.pdf) | [![Open in Colab](https://img.shields.io/badge/Colab-notebook-informational?style=flat-square&color=gold)](https://colab.research.google.com/github/hftsoi/symbolfit/blob/main/colab_demo/symbolfit_colab.ipynb) |
 
 </div>
 
