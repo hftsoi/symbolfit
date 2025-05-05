@@ -32,12 +32,16 @@ Welcome to SymbolFit documentation!
 
    * - .. centered:: **Docs**
      - .. centered:: **Paper**
+     - .. centered:: **Slides**
      - .. centered:: **Colab**
    * - .. image:: https://img.shields.io/readthedocs/symbolfit?color=blue&style=flat-square
           :target: https://symbolfit.readthedocs.io
           :align: center
      - .. image:: https://img.shields.io/badge/arXiv-2411.09851-b31b1b.svg?style=flat-square
           :target: https://arxiv.org/abs/2411.09851
+          :align: center
+     - .. image:: https://img.shields.io/badge/talk-slides-informational?style=flat-square&color=purple
+          :target: https://github.com/hftsoi/symbolfit/blob/main/symbolfit.pdf
           :align: center
      - .. image:: https://img.shields.io/badge/Colab-notebook-informational?style=flat-square&color=gold
           :target: https://colab.research.google.com/github/hftsoi/symbolfit/blob/main/colab_demo/symbolfit_colab.ipynb
