@@ -63,7 +63,7 @@ Check out [here](https://julialang.org/downloads/platform) for platform-specific
 
 Afterward, it is recommended to start from an empty virtual environment for installing and running SymbolFit.
 
-‣ **Installation via PyPI**
+**Installation via PyPI**
 
 With python>=3.10 and pip:
 ```
