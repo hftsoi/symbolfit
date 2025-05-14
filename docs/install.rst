@@ -1,8 +1,8 @@
 Installation
 ============
 
-Prerequisite
-------------
+Prerequisite (Julia)
+--------------------
 
 Install Julia (backend for PySR):
 
@@ -35,33 +35,41 @@ With python>=3.10 and pip:
 
    pip install symbolfit
 
-Installation via conda (to be updated for >= v0.2.0, please use pip for now)
+Installation via conda
 ----------------------
 
-.. code-block:: bash
+.. toggle::
+   
+   (to be updated for >= v0.2.0, please use pip for now)
 
-   conda create --name symbolfit_env python=3.10
-   conda activate symbolfit_env
-   conda install -c conda-forge symbolfit
+   .. code-block:: bash
+
+      conda create --name symbolfit_env python=3.10
+      conda activate symbolfit_env
+      conda install -c conda-forge symbolfit
 
 Editable installation for developers
 ------------------------------------
 
-.. code-block:: bash
+.. toggle::
 
-   git clone https://github.com/hftsoi/symbolfit.git
-   cd symbolfit
-   pip install -e .
+   .. code-block:: bash
+
+      git clone https://github.com/hftsoi/symbolfit.git
+      cd symbolfit
+      pip install -e .
 
 Requirements
 ~~~~~~~~~~~~
 
-.. code-block:: text
+.. toggle::
 
-   python>=3.10
-   pysr>=1.4.0,<=1.5.2
-   lmfit>=1.2.0,<1.4.0
-   matplotlib>=3.8.0,<4.0.0
-   seaborn>=0.13.0,<0.14.0
-   numpy<2.0.0
+   .. code-block:: text
+
+      python>=3.10
+      pysr>=1.4.0,<=1.5.2
+      lmfit>=1.2.0,<1.4.0
+      matplotlib>=3.8.0,<4.0.0
+      seaborn>=0.13.0,<0.14.0
+      numpy<2.0.0
 

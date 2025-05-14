@@ -45,7 +45,7 @@ It is designed to maximize automation with minimal human input. Each run produce
 > If you don't feel like sharing your data in public, please feel free to drop me a message or [![Email](https://img.shields.io/badge/email-ho.fung.tsoi@cern.ch-informational?style=flat-square&color=blue)](mailto:ho.fung.tsoi@cern.ch). We are happy to assist in getting it to work on your data!
 
 ## Installation
-**Prerequisite**
+**Prerequisite (Julia)**
 
 Install Julia (backend for PySR):
 ```
@@ -70,21 +70,26 @@ With python>=3.10 and pip:
 pip install symbolfit
 ```
 
-‣ **Installation via conda (to be updated for >= v0.2.0, please use pip for now)**
+<details>
+  <summary>Installation via conda</summary>
+  
+  (to be updated for >= v0.2.0, please use pip for now)
+  ```
+  conda create --name symbolfit_env python=3.10
+  conda activate symbolfit_env
+  conda install -c conda-forge symbolfit
+  ```
+</details>
 
-```
-conda create --name symbolfit_env python=3.10
-conda activate symbolfit_env
-conda install -c conda-forge symbolfit
-```
+<details>
+  <summary>Editable installation for developers</summary>
 
-‣ **Editable installation for developers**
-
-```
-git clone https://github.com/hftsoi/symbolfit.git
-cd symbolfit
-pip install -e .
-```
+  ```
+  git clone https://github.com/hftsoi/symbolfit.git
+  cd symbolfit
+  pip install -e .
+  ```
+</details>
 
 ## Getting Started
 To run an example fit, get the example datasets by cloning this repo:
