@@ -31,24 +31,6 @@ It is designed to maximize automation with minimal human input. Each run produce
 - [Citation](#citation)
 
 ## Installation
-**Prerequisite (Julia)**
-
-Install Julia (backend for PySR):
-```
-curl -fsSL https://install.julialang.org | sh
-```
-Then check if installed properly:
-```
-julia --version
-```
-If julia is not found, most probably it is not yet included in PATH. To include, do:
-```
-export PATH="$PATH:/path/to/<Julia directory>/bin"
-```
-Check out [here](https://julialang.org/downloads/platform) for platform-specific instructions.
-
-Afterward, it is recommended to start from an empty virtual environment for installing and running SymbolFit.
-
 **Installation via PyPI**
 
 With python>=3.10 and pip:
@@ -67,15 +49,10 @@ pip install symbolfit
   ```
 </details>
 
-<details>
-  <summary>Editable installation for developers</summary>
-
-  ```
-  git clone https://github.com/hftsoi/symbolfit.git
-  cd symbolfit
-  pip install -e .
-  ```
-</details>
+Julia (backend for PySR) will be automatically installed at first import of PySR:
+```
+import pysr
+```
 
 ## Getting Started
 To run an example fit, get the example datasets by cloning this repo:
