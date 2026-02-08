@@ -25,6 +25,8 @@ An API to automate parametric modeling with symbolic regression, originally deve
 SymbolFit takes binned data with measurement/systematic uncertainties (optional) as input, utilizes [PySR](https://github.com/MilesCranmer/PySR) to perform a machine-search for batches of functional forms that model the data, parameterizes these functions, and utilizes [LMFIT](https://github.com/lmfit/lmfit-py) to re-optimize the functions and provide uncertainty estimation, all in one go.
 It is designed to maximize automation with minimal human input. Each run produces a batch of functions with uncertainty estimation, which are evaluated, saved, and plotted automatically into readable output files, ready for downstream tasks.
 
+In short, `symbolfit` = `pysr (symbolic regression to generate functional forms)` + `lmfit (re-optimization & uncertainty modeling)` + `auto-evaluation tools (parameter correlation, uncertainty variation and coverage, statistical tests, etc.)`.
+
 - [Installation](#installation)
 - [Getting Started](#getting-started)
 - [Documentation](#documentation)
