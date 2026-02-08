@@ -14,17 +14,9 @@
 
 <div align="center">
 
-Docs | Paper | Slides | Colab |
-|:-:|:-:|:-:|:-:|
-[![Read the Docs](https://img.shields.io/readthedocs/symbolfit?color=blue&style=flat-square)](https://symbolfit.readthedocs.io) | [![arXiv](https://img.shields.io/badge/arXiv-2411.09851-b31b1b.svg?style=flat-square)](https://arxiv.org/abs/2411.09851) <br /> [![doi](https://img.shields.io/badge/journal-doi-informational?style=flat-square&color=teal)](https://doi.org/10.1007/s41781-025-00140-9) | [![slides](https://img.shields.io/badge/talk-slides-informational?style=flat-square&color=purple)](https://github.com/hftsoi/symbolfit/blob/main/symbolfit.pdf) | [![Open in Colab](https://img.shields.io/badge/Colab-notebook-informational?style=flat-square&color=gold)](https://colab.research.google.com/github/hftsoi/symbolfit/blob/main/colab_demo/symbolfit_colab.ipynb) |
-
-</div>
-
-<div align="center">
-
-GitHub | pip | conda |
-|:-:|:-:|:-:|
-[![GitHub Created At](https://img.shields.io/github/created-at/hftsoi/symbolfit?color=black&style=flat-square)](https://github.com/hftsoi/symbolfit) <br /> [![GitHub Release](https://img.shields.io/github/v/release/hftsoi/symbolfit?color=black&style=flat-square)](https://github.com/hftsoi/symbolfit/releases) <br /> [![GitHub Release Date](https://img.shields.io/github/release-date/hftsoi/symbolfit?color=black&style=flat-square)](https://github.com/hftsoi/symbolfit/releases) | [![PyPI - Version](https://img.shields.io/pypi/v/symbolfit?color=orange&style=flat-square)](https://pypi.org/project/symbolfit) <br /> [![Pepy Total Downloads](https://img.shields.io/pepy/dt/symbolfit?color=orange&style=flat-square)](https://www.pepy.tech/projects/symbolfit) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/symbolfit.svg?color=green&style=flat-square)](https://anaconda.org/conda-forge/symbolfit) <br /> [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/symbolfit.svg?color=green&style=flat-square)](https://anaconda.org/conda-forge/symbolfit) |
+Docs | Paper | Slides | Colab | pip | conda |
+|:-:|:-:|:-:|:-:|:-:|:-:|
+[![Read the Docs](https://img.shields.io/readthedocs/symbolfit?color=blue&style=flat-square)](https://symbolfit.readthedocs.io) | [![arXiv](https://img.shields.io/badge/arXiv-2411.09851-b31b1b.svg?style=flat-square)](https://arxiv.org/abs/2411.09851) | [![slides](https://img.shields.io/badge/talk-slides-informational?style=flat-square&color=purple)](https://github.com/hftsoi/symbolfit/blob/main/symbolfit.pdf) | [![Open in Colab](https://img.shields.io/badge/Colab-notebook-informational?style=flat-square&color=gold)](https://colab.research.google.com/github/hftsoi/symbolfit/blob/main/colab_demo/symbolfit_colab.ipynb) | [![PyPI - Version](https://img.shields.io/pypi/v/symbolfit?color=orange&style=flat-square)](https://pypi.org/project/symbolfit) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/symbolfit.svg?color=green&style=flat-square)](https://anaconda.org/conda-forge/symbolfit) |
 
 </div>
 
@@ -37,12 +29,6 @@ It is designed to maximize automation with minimal human input. Each run produce
 - [Getting Started](#getting-started)
 - [Documentation](#documentation)
 - [Citation](#citation)
-
-> **Note:** This API is actively being updated to accommodate more use cases, so any feedback and contributions are very much welcomed and appreciated! If you encounter any problems while using it, please don’t hesitate to:
-> - Report bugs or suggest new features at [![Issues](https://img.shields.io/badge/issues-github-informational?style=flat-square)](https://github.com/hftsoi/symbolfit/issues)
-> - Ask for specific help and recommendations for your dataset at [![Discussions](https://img.shields.io/badge/discussions-github-informational?style=flat-square)](https://github.com/hftsoi/symbolfit/discussions)
-> 
-> If you don't feel like sharing your data in public, please feel free to drop me a message or [![Email](https://img.shields.io/badge/email-ho.fung.tsoi@cern.ch-informational?style=flat-square&color=blue)](mailto:ho.fung.tsoi@cern.ch). We are happy to assist in getting it to work on your data!
 
 ## Installation
 **Prerequisite (Julia)**
@@ -167,7 +153,7 @@ For detailed instructions and more demonstrations, please check out the Colab no
 The documentation can be found [here](https://symbolfit.readthedocs.io) for more information and demonstrations.
 
 ## Citation
-If you find this useful in your research, please consider citing SymbolFit:
+If you find this useful in your research, please consider citing both SymbolFit PySR:
 ```
 @article{Tsoi:2024pbn,
     author = "Tsoi, Ho Fung and Rankin, Dylan and Caillol, Cecile and Cranmer, Miles and Dasu, Sridhara and Duarte, Javier and Harris, Philip and Lipeles, Elliot and Loncar, Vladimir",
@@ -181,9 +167,7 @@ If you find this useful in your research, please consider citing SymbolFit:
     pages = "12",
     year = "2025"
 }
-```
-and PySR:
-```
+
 @misc{cranmerInterpretableMachineLearning2023,
       title = {Interpretable {Machine} {Learning} for {Science} with {PySR} and {SymbolicRegression}.jl},
       url = {http://arxiv.org/abs/2305.01582},
@@ -197,4 +181,3 @@ and PySR:
       keywords = {Astrophysics - Instrumentation and Methods for Astrophysics, Computer Science - Machine Learning, Computer Science - Neural and Evolutionary Computing, Computer Science - Symbolic Computation, Physics - Data Analysis, Statistics and Probability},
 }
 ```
-
