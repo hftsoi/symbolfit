@@ -217,10 +217,11 @@ class SymbolFit:
         
         # Run PySR fit.
         if self.random_seed is not None:
-            pysr_model.set_params(procs = 0,
-                                  multithreading = False,
-                                  random_state = self.random_seed,
-                                  deterministic = True)
+            pysr_model.set_params(
+                parallelism="serial",
+                random_state = self.random_seed,
+                deterministic = True
+            )
                                   
         if self.max_complexity is not None:
             pysr_model.set_params(maxsize = max_complexity)
