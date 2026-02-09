@@ -27,4 +27,4 @@ jobs:
           pip install -e .
 
       - name: Test import
-        run: python -c "import symbolfit; print(symbolfit.__version__)"
+        run: python -c "import pysr; import symbolfit"
