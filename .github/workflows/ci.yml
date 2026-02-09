@@ -32,3 +32,12 @@ jobs:
 
       - name: Run example fit
         run: pytest tests/ -v
+
+      - name: Upload pytest outputs
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: pytest_output_py${{ matrix.python-version }}
+          path: pytest_output/**
+          if-no-files-found: ignore
+          retention-days: 7
