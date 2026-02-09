@@ -16,8 +16,8 @@ bin_widths_1d=[25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 2
 
 pysr_config = PySRRegressor(
     model_selection = 'accuracy',
-    niterations = 50,
-    maxsize = 30,
+    niterations = 100,
+    maxsize = 60,
     binary_operators = [
         '+', '*'
                     ],
@@ -47,7 +47,7 @@ def test_fit():
         y_up=y_up,
         y_down=y_down,
         pysr_config=pysr_config,
-        max_complexity=30,
+        max_complexity=60,
         input_rescale=True,
         scale_y_by='mean',
         max_stderr=20,
