@@ -9,7 +9,3 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    ignore:
-      - dependency-name: "sphinx"
-      - dependency-name: "sphinx-rtd-theme"
-      - dependency-name: "sphinx-togglebutton"

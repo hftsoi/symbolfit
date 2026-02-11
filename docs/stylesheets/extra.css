@@ -1,0 +1,16 @@
+.md-grid {
+    max-width: 1480px;
+}
+
+.md-typeset table:not([class]) {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    font-size: 0.65rem;
+}
+
+.md-typeset table:not([class]) td,
+.md-typeset table:not([class]) th {
+    white-space: nowrap;
+    padding: 0.2em 1em;
+}

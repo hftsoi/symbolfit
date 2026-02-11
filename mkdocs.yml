@@ -1,0 +1,70 @@
+site_name: SymbolFit
+site_url: https://hftsoi.github.io/symbolfit
+repo_url: https://github.com/hftsoi/symbolfit
+repo_name: hftsoi/symbolfit
+
+extra_css:
+  - stylesheets/extra.css
+  
+theme:
+  name: material
+  logo: logo.png
+  favicon: logo.png
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.indexes
+    - navigation.top
+    - content.code.copy
+    - search.suggest
+    - search.highlight
+
+nav:
+  - Home: index.md
+  - Overview: overview.md
+  - Installation: install.md
+  - Quick Start: quick_start.md
+  - API Reference: class.md
+  - Citation: citation.md
+  - Demos:
+      - demo/input.md
+      - demo/pysr_configs.md
+      - demo/toy1.md
+      - demo/toy2a.md
+      - demo/toy3c.md
+      - demo/dijet.md
+      - demo/dijet_blinded.md
+      - demo/dijet_template_spec.md
+      - demo/extrapolation_sparse2d.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+plugins:
+  - search
+  - table-reader
+  - mkdocs-jupyter:
+      include_source: true
