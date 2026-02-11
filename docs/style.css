@@ -14,3 +14,12 @@
     white-space: nowrap;
     padding: 0.2em 1em;
 }
+
+[data-md-color-scheme="default"] .md-content a,
+[data-md-color-scheme="default"] .md-content a:visited {
+  color: #b71c1c;
+}
+
+[data-md-color-scheme="default"] .md-content a:hover {
+  color: #a02020;
+}
