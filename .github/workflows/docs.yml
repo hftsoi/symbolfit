@@ -1,21 +1,46 @@
 name: Deploy Docs
+
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - name: Set up Python
-        uses: actions/setup-python@v6
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.10"
+
       - name: Install dependencies
-        run: pip install mkdocs-material mkdocs-jupyter mkdocs-table-reader-plugin
-      - name: Deploy to GitHub Pages
-        run: mkdocs gh-deploy --force
+        run: |
+          pip install -U pip
+          pip install mkdocs-material mkdocs-jupyter mkdocs-table-reader-plugin
+
+      - name: Build site
+        run: mkdocs build --strict --site-dir site
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+    steps:
+      - uses: actions/deploy-pages@v4
