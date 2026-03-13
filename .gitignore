@@ -12,3 +12,4 @@ dist/
 build.sh
 **/test
 **/test.py
+.cursor/

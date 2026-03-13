@@ -501,7 +501,7 @@ class SymbolFit:
                         globals()[f"x{i}"] = np.reshape(x[:, i], (-1, 1))
 
                 else:
-                    pass
+                    x0 = x  # noqa: F841 -- used by eval(model) below
 
                 # LMFIT uses Parameter object to represent a variable,
                 # substitute a1, a2,... by their Parameter object defined in the input params.
