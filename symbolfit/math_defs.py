@@ -1,4 +1,22 @@
-from numpy import exp, where
+import numpy as np  # noqa: F401 -- re-exported via star imports to other modules
+from numpy import (  # noqa: F401
+    arccos,
+    arccosh,
+    arcsin,
+    arcsinh,
+    arctan,
+    arctanh,
+    cos,
+    cosh,
+    exp,
+    log,
+    log10,
+    sin,
+    sinh,
+    tan,
+    tanh,
+    where,
+)
 
 
 def square(x):

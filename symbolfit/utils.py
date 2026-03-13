@@ -1,3 +1,4 @@
+import os  # noqa: F401 -- re-exported via star imports to other modules
 import re
 
 import pandas as pd
