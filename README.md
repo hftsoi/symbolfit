@@ -51,7 +51,7 @@ pip install symbolfit
 </details>
 
 Julia (backend for PySR) will be automatically installed at first import of PySR:
-```
+```python
 import pysr
 ```
 
@@ -62,7 +62,7 @@ git clone https://github.com/hftsoi/symbolfit.git
 cd symbolfit
 ```
 Then within a python session (or simply do ```python fit_example.py```):
-```
+```python
 from symbolfit.symbolfit import *
 
 dataset = importlib.import_module('examples.datasets.toy_dataset_1.dataset')
@@ -86,11 +86,11 @@ model = SymbolFit(
 model.fit()
 ```
 After the fit, save results to csv files:
-```
+```python
 model.save_to_csv(output_dir = 'output_dir/')
 ```
 and plot results to pdf files:
-```
+```python
 model.plot_to_pdf(
     	output_dir = 'output_dir/',
     	bin_widths_1d = dataset.bin_widths_1d,
@@ -108,7 +108,7 @@ model.plot_to_pdf(
 )
 ```
 Candidate functions with full substitutions can be printed promptly:
-```
+```python
 model.print_candidate(candidate_number = 20)
 ```
 When preparing for your own data, a graphical illustration of the input data format can be found [here](https://hftsoi.github.io/symbolfit/demo/input/).
