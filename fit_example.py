@@ -1,4 +1,5 @@
 from symbolfit.symbolfit import *
+import importlib
 
 dataset = importlib.import_module('examples.datasets.toy_dataset_1.dataset')
 pysr_config = importlib.import_module('examples.pysr_configs.pysr_config_gauss').pysr_config
