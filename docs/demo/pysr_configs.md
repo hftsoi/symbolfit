@@ -69,7 +69,7 @@ Additionally, one can repeat the fit using the exact same configuration but with
 
 ## User-defined functional templates
 
-A functional form can be fixed by using the PySR's TemplateExpressionSpec API (supported by symbolfit since [v0.2.0](https://github.com/hftsoi/symbolfit/releases/tag/v0.2.0)), like forcing a form `p * f(x) ^ g(log(x))` and searching for the sub-expressions `f` and `g` and the parameter `p`. 
+A functional form can be fixed by using the PySR's TemplateExpressionSpec API (supported in symbolfit since [v0.2.0](https://github.com/hftsoi/symbolfit/releases/tag/v0.2.0)), like forcing a form `p * f(x) ^ g(log(x))` and searching for the sub-expressions `f` and `g` and the parameter `p`. 
 If the allowed operators are `+` and `*`, then `f(x)` will be a polynomial in `x` and `g(log(x))` will be a polynomial in `log(x)`.
 
 ```python
@@ -97,6 +97,7 @@ See `CMS dijet dataset (template spec)` for an example fit.
 ## Lower level constraints
 
 One can further constrain the function space at a lower level by defining a more custom loss function in Julia (use these with caution as it may slow down the fit or even break some of the PySR functionalities, see [here](https://ai.damtp.cam.ac.uk/pysr/v1.5.9/examples#_9-custom-objectives) for PySR docs).
+Also note that these constraints apply to the stage of PySR's equation search and is before the LMFIT re-optimization stage which can later correct the constrained behaviors if they were set not so compatible to the data (e.g., if all data points are positive and you added a penalty to encourage negative functions, then LMFIT can correct those by flipping the signs of multiplicative constants etc.).
 
 ### Monotonicity
 
