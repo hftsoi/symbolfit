@@ -106,20 +106,11 @@ class SymbolFit:
         pysr_config=PySRRegressor(
             model_selection="accuracy",
             niterations=100,
-            maxsize=60,
+            maxsize=40,
             binary_operators=["+", "*", "/", "^"],
-            unary_operators=[
-                "exp",
-                "tanh",
-                "gauss(x) = exp(-x*x)",
-                "sin",
-            ],
-            extra_sympy_mappings={
-                "gauss": lambda x: sympy.exp(-x * x),
-            },
             elementwise_loss="loss(y, y_pred, weights) = (y - y_pred)^2 * weights",
         ),
-        max_complexity=60,
+        max_complexity=40,
         input_rescale=True,
         scale_y_by="mean",
         max_stderr=20,
