@@ -20,22 +20,27 @@ Docs | Paper | Slides | Colab | pip | conda |
 
 </div>
 
-An API to automate parametric modeling with symbolic regression, originally developed for data analysis in the experimental high-energy physics community, but also applicable beyond.
+## What is SymbolFit?
 
-SymbolFit takes binned data with measurement/systematic uncertainties (optional) as input, utilizes [PySR](https://github.com/MilesCranmer/PySR) to perform a machine-search for batches of functional forms that model the data, parameterizes these functions, and utilizes [LMFIT](https://github.com/lmfit/lmfit-py) to re-optimize the functions and provide uncertainty estimation, all in one go.
-It is designed to maximize automation with minimal human input. Each run produces a batch of functions with uncertainty estimation, which are evaluated, saved, and plotted automatically into readable output files, ready for downstream tasks.
+**SymbolFit automatically finds closed-form functions that fit your data with uncertainty estimation, no manual guessing required.**
 
-In short, `symbolfit` = `pysr (symbolic regression to generate functional forms)` + `lmfit (re-optimization & uncertainty modeling)` + `auto-evaluation tools (parameter correlation, uncertainty variation and coverage, statistical tests, etc.)`.
+SymbolFit was originally developed for experimental high-energy physics (HEP) analyses, but it works on any 1D, 2D, or higher-dimensional dataset where you need an interpretable parametric model with uncertainty estimates. You provide data points and SymbolFit returns a batch of candidate functions ranked by goodness-of-fit, each with optimized parameters and uncertainty estimates. All results are saved to CSV tables and PDF plots, ready for downstream use such as hypothesis testing in HEP.
+
+Under the hood, it chains three steps into a single pipeline:
+
+1. **Function search**: [PySR](https://github.com/MilesCranmer/PySR) (symbolic regression) explores combinations of mathematical operators to discover functional forms that fit the data, without requiring a predefined template.
+2. **Re-optimization**: [LMFIT](https://github.com/lmfit/lmfit-py) re-optimizes the numerical parameters in each candidate function and provides uncertainty estimates via covariance matrices.
+3. **Evaluation**: every candidate is automatically scored (chi2/NDF, p-value, RMSE, R2), plotted with individual uncertainty variations and total uncertainty coverage, and saved to output files.
 
 - [Installation](#installation)
-- [Getting Started](#getting-started)
+- [Quick Start](#quick-start)
+- [Fit Your Own Data](#fit-your-own-data)
 - [Documentation](#documentation)
 - [Citation](#citation)
 
 ## Installation
-**Installation via PyPI**
 
-With python>=3.10 and pip:
+**Installation via PyPI** (recommended), with Python>=3.10:
 ```
 pip install symbolfit
 ```
@@ -50,24 +55,48 @@ pip install symbolfit
   ```
 </details>
 
-Julia (backend for PySR) will be automatically installed at first import of PySR:
+Julia (the backend for PySR) is installed automatically the first time you import PySR (one-time setup):
 ```python
 import pysr
 ```
 
-## Getting Started
-To run an example fit, get the example datasets by cloning this repo:
-```
-git clone https://github.com/hftsoi/symbolfit.git
-cd symbolfit
-```
-Then within a python session (or simply do ```python fit_example.py```):
+## Quick Start
+
+A minimal fit to verify the installation works:
+
 ```python
 from symbolfit.symbolfit import *
 
+model = SymbolFit(
+    x = [1, 2, 3, 4, 5],
+    y = [2.1, 4.0, 5.9, 6.5, 6.9],
+    y_up = [0.5, 0.5, 0.5, 0.5, 0.5],
+    y_down = [0.5, 0.5, 0.5, 0.5, 0.5],
+    max_complexity = 15,
+)
+model.fit()
+
+model.save_to_csv(output_dir = 'results/')
+model.plot_to_pdf(output_dir = 'results/')
+```
+
+### Full example with more options
+
+For a more realistic fit, clone the repo to get the example datasets and configs:
+```bash
+git clone https://github.com/hftsoi/symbolfit.git
+cd symbolfit
+```
+Then run the example (or simply do `python fit_example.py`):
+```python
+from symbolfit.symbolfit import *
+import importlib
+
+# Load an example dataset and PySR configuration
 dataset = importlib.import_module('examples.datasets.toy_dataset_1.dataset')
 pysr_config = importlib.import_module('examples.pysr_configs.pysr_config_gauss').pysr_config
 
+# Set up and run the fit
 model = SymbolFit(
     x = dataset.x,              # Independent variable (bin centers for histograms)
     y = dataset.y,              # Dependent variable (bin contents for histograms)
@@ -82,55 +111,49 @@ model = SymbolFit(
     random_seed = None,         # Set int for reproducibility (forces single-thread)
     loss_weights = None         # Per-bin loss weights; overrides y_up/y_down if set
 )
-
 model.fit()
-```
-After the fit, save results to csv files:
-```python
+
+# Save results
 model.save_to_csv(output_dir = 'output_dir/')
-```
-and plot results to pdf files:
-```python
 model.plot_to_pdf(
     output_dir = 'output_dir/',
     bin_widths_1d = dataset.bin_widths_1d, # Bin widths for 1D histogram-style plots
     plot_logy = False,                     # Log scale for y-axis
     plot_logx = False,                     # Log scale for x-axis
     sampling_95quantile = False,           # Show 95% uncertainty band (default: 68% only)
-    #bin_edges_2d = dataset.bin_edges_2d,  # Bin edges for 2D histogram plots
-    #plot_logx0 = False,                   # Log scale for x0-axis (2D)
-    #plot_logx1 = False,                   # Log scale for x1-axis (2D)
-    #cbar_min = None,                      # Min value for 2D color bar
-    #cbar_max = None,                      # Max value for 2D color bar
-    #cmap = None,                          # Matplotlib colormap for 2D plots
-    #contour = None,                       # Contour style for 2D plots
 )
 ```
-Candidate functions with full substitutions can be printed promptly:
-```python
-model.print_candidate(candidate_number = 20)
-```
-When preparing for your own data, a graphical illustration of the input data format can be found [here](https://hftsoi.github.io/symbolfit/demo/input/).
 
-Each fit will produce a batch of candidate functions and will automatically save all results to six output files:
-1) ```candidates.csv```: saves all candidate functions and evaluations in a csv table.
-2) ```candidates_compact.csv```: saves a reduced version for essential information without intermediate results.
-3) ```candidates.pdf```: plots all candidate functions (1D/2D only for now) with associated uncertainties one by one for fit quality evaluation.
-4) ```candidates_sampling.pdf```: plots all candidate functions (1D only for now) with total uncertainty coverage generated by sampling parameters.
-5) ```candidates_gof.pdf```: plots the goodness-of-fit scores.
-6) ```candidates_correlation.pdf```: plots the correlation matrices for the parameters of the candidate functions.
+When it finishes, six output files are produced:
 
-Output files from an example fit can be found and downloaded [here](https://github.com/hftsoi/symbolfit/tree/main/docs/demo/output_dir/toy_dataset_1) for illustration.
+| File | What it contains |
+|------|-----------------|
+| `candidates.csv` | All candidate functions with parameters, uncertainties, covariance matrices, and goodness-of-fit scores |
+| `candidates_compact.csv` | Compact version with only final functions, parameters, and key metrics |
+| `candidates.pdf` | Each candidate plotted against data, with per-parameter uncertainty variations and residual panels |
+| `candidates_sampling.pdf` | Total uncertainty bands from Monte Carlo parameter sampling (1D only) |
+| `candidates_gof.pdf` | Summary of goodness-of-fit metrics (chi2/NDF, p-value, RMSE, R2) across all candidates |
+| `candidates_correlation.pdf` | Parameter correlation matrices for each candidate |
 
-> **Note:** The function space is usually huge, even when constrained by the pysr config. This means that if you are not satisfied with the results from a fit, you can simply rerun it with the exact same config and obtain a completely different set of candidate functions&mdash;the only difference being the random seed that initiates the seeding functions. Therefore, you can rerun the fit as many times as you want until you are satisfied with the results. If you use ```model = SymbolFit(..., random_seed = None, ...)```, nothing needs to be changed&mdash;just rerun the fit. If you set a specific ```random_seed```, change its value before rerunning. However, if you are still not satisfied with the results after many trials, it might indicate an issue with the config. Then you might want to try a different config, tune it, and start new runs.
+You can browse the output files from this example fit [here](https://github.com/hftsoi/symbolfit/tree/main/docs/demo/output_dir/toy_dataset_1).
 
-For detailed instructions and more demonstrations, please check out the Colab notebook and the documentation.
+> **Tip:** The function space is vast. Each run with `random_seed = None` explores different regions and returns a different batch of candidates. If the first run doesn't produce a satisfactory fit, simply rerun with the same config. After several runs, if results are still unsatisfactory, try adjusting the PySR config (e.g., different operators or higher `max_complexity`) and the various fit options.
+
+## Fit Your Own Data
+
+To fit your own data, replace the `x`, `y`, `y_up`, `y_down` with your own Python lists or NumPy arrays, as shown in the minimal example above. For details on input data format (1D histograms, 2D histograms, etc.), see the [input format guide](https://hftsoi.github.io/symbolfit/demo/input/).
+
+**No input uncertainties?** Simply omit `y_up` and `y_down` (they default to 1), and set `fit_y_unc = False` for an unweighted least-squares fit.
+
+**Custom PySR config:** The default PySR config includes simple operators (`+`, `*`, `/`, `^`). For your data, you may want to customize this and put some equation constraints. See the [PySR config examples](https://hftsoi.github.io/symbolfit/demo/pysr_configs/) in the docs.
 
 ## Documentation
-The documentation can be found [here](https://hftsoi.github.io/symbolfit) for more information and demonstrations.
+Full documentation with tutorials, demo fits, and API reference is available **[here](https://hftsoi.github.io/symbolfit)**.
+
+You can also try SymbolFit directly in the browser with the **[Colab notebook](https://colab.research.google.com/github/hftsoi/symbolfit/blob/main/colab_demo/symbolfit_colab.ipynb)** (no local installation needed).
 
 ## Citation
-If you find this useful in your research, please consider citing both SymbolFit PySR:
+If you find this useful in your research, please consider citing both SymbolFit and PySR:
 ```
 @article{Tsoi:2024pbn,
     author = "Tsoi, Ho Fung and Rankin, Dylan and Caillol, Cecile and Cranmer, Miles and Dasu, Sridhara and Duarte, Javier and Harris, Philip and Lipeles, Elliot and Loncar, Vladimir",

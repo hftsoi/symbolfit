@@ -1,114 +1,63 @@
 # Why SymbolFit?
 
-Whenever you need to find smooth, closed-form functions to model a
-dataset, whether it consists of scattered data points or a binned
-histogram, SymbolFit automates the entire process for you!
+## The problem: manual function guessing
 
-Traditionally, parametric modeling methods have been empirical,
-requiring an exact functional form to be fixed before fitting. For
-example, if the data follows a simple trend, polynomial regression might
-be sufficient; if the distribution has a peak followed by a long tail, a
-combination of a Gaussian and an exponential might barely work. But what
-if the data is more complex, and simple function templates fail to fit
-adequately, leaving you no clue how to construct a suitable functional
-form? The only option has been to manually create a complex function and
-test it through a trial-and-error process, which can take hundreds of
-iterations.
+Whenever you need to find a smooth, closed-form function to model a dataset, whether it consists of scattered data points or a binned histogram, the traditional approach is tedious and manual:
 
-In most real-world scenarios, distribution shapes are arbitrary, and no
-true underlying function exists that can be derived from first
-principles. This often results in an empirical process: manually guess a
-functional form, attempt to fit, and if the fit is poor, go back to
-hand-crafting another candidate, repeating until an acceptable function
-is found.
+1. **Guess** a functional form (polynomial, exponential, Gaussian, etc.).
+2. **Fit** it to the data.
+3. **Evaluate** the fit quality.
+4. If it's not good enough, **go back to step 1** and try a different form.
 
-Moreover, the functional form that works for one dataset is often
-tailored specifically to it and may not generalize well to another
-dataset, even if they share a similar shape, requiring the same
-empirical and time-consuming effort for each new case. Examples of this
-inefficiency can be seen in various recent new physics search analyses
-at the CERN Large Hadron Collider, such as
-[dijet](https://arxiv.org/abs/1911.03947),
-[trijet](https://arxiv.org/abs/2310.14023),
-[paired-dijet](https://arxiv.org/abs/2206.09997),
-[diphoton](https://arxiv.org/abs/2405.09320), and
-[dimuon](https://arxiv.org/abs/2307.08708), and, surprisingly, in the
-analyses that led to the Higgs boson discovery in 2012 by
-[ATLAS](https://arxiv.org/abs/1207.7214) and
-[CMS](https://arxiv.org/abs/1207.7235)!
+This trial-and-error process can take dozens to hundreds of iterations, and the function that works for one dataset rarely generalizes to another.
 
-This approach is highly inefficient.
+For simple cases (e.g., a linear trend or a clean exponential decay), this works fine. But what if the data has a complex shape, e.g., a peak followed by a long tail, multiple overlapping features, or a distribution that doesn't match any textbook function? Manually constructing and testing candidates becomes extremely time-consuming, especially when you need reliable uncertainty estimates on top of the fit.
 
-Fortunately, symbolic regression, a powerful machine learning technique,
-can address this and has the potential to transform the approach to
-parametric modeling.
+This inefficiency shows up across many fields. In experimental high-energy physics (HEP), for example, some new physics searches at the CERN Large Hadron Collider (LHC) require empirical background modeling with custom functions hand-crafted for each analysis, including recent searches in [dijet](https://arxiv.org/abs/1911.03947), [trijet](https://arxiv.org/abs/2310.14023), [paired-dijet](https://arxiv.org/abs/2206.09997), [diphoton](https://arxiv.org/abs/2405.09320), and [dimuon](https://arxiv.org/abs/2307.08708) channels, and even the analyses that led to the Higgs boson discovery by [ATLAS](https://arxiv.org/abs/1207.7214) and [CMS](https://arxiv.org/abs/1207.7235).
 
-## Symbolic regression
+**SymbolFit automates this entire process.**
 
-Essentially, symbolic regression is a method that searches for functions
-to fit data without requiring a predefined functional form. Instead,
-symbolic regression constructs and evolves functions throughout the
-fitting process, with functional forms dynamically changing until the
-best ones are identified by minimizing a given loss function.
+## How it works: symbolic regression
 
-A common approach to symbolic regression is genetic programming, where a
-function is represented as an expression tree. New functions are born
-through node mutation and subtree crossover, as illustrated in the
-figure below.
+Instead of requiring you to specify a functional form upfront, symbolic regression **searches** for functions that fit the data. It constructs and evolves mathematical expressions using a given set of operators, dynamically combining them until it finds the best ones.
+
+A common approach is genetic programming, where functions are represented as expression trees. New candidate functions are created through mutation (changing a node) and crossover (swapping subtrees between two candidates):
 
   ----------------------------------------------- ------------------------------------------------
   ![image](figures/mutation.png){width="240px"}   ![image](figures/crossover.png){width="320px"}
 
   ----------------------------------------------- ------------------------------------------------
 
-In symbolic regression, the function space is defined through allowed
-operators and function constraints. This approach does not require prior
-or extensive knowledge of the final functional forms that can fit the
-data, as the function search is handled by the machine.
+You define the search space by choosing which operators to allow (e.g., `+`, `*`, `exp`, `tanh`). The search handles the rest without needing prior knowledge of the final functional form.
 
-## SymbolFit API
+## The SymbolFit pipeline
 
-The SymbolFit API is developed to automate parametric modeling using
-symbolic regression. The framework is illustrated in the schematic
-sketch below.
+SymbolFit wraps the full modeling workflow into a single automated pipeline:
 
 ![image](figures/schematic.png){.align-center width="800px"}
 
-First, it interfaces with [PySR](https://github.com/MilesCranmer/PySR),
-a high-performance symbolic regression library, to perform an initial
-machine search for suitable functional forms that fit the data. Due to
-the nature of genetic programming, PySR returns a batch of functions per
-fit. These initial candidate functions are exact functions without
-uncertainty modeling, as symbolic regression algorithms focus on finding
-functional forms and do not inherently estimate uncertainty. However,
-describing uncertainty when modeling data is crucial, especially in
-physics modeling for high-energy physics experiments, as it indicates
-the reliability of the model's representation of observed data.
-Moreover, numerical constants in these initial candidate functions may
-not be highly optimized and can be further improved.
+**Step 1: Function search (PySR)**
 
-To address this, SymbolFit reprocesses these initial functions and
-parameterizes them for re-optimization. First, all numerical constants
-in each initial function are identified and parameterized. SymbolFit
-then parses these parameterized functions and interfaces with
-[LMFIT](https://github.com/lmfit/lmfit-py), a nonlinear least-squares
-minimization library, to re-optimize the parameters while keeping the
-original functional forms fixed. After re-optimization, the best-fit
-parameters are refined and come with associated uncertainty estimates.
-The combined uncertainty in the parameters is then used as the
-uncertainty of the candidate function.
+SymbolFit interfaces with [PySR](https://github.com/MilesCranmer/PySR), a high-performance symbolic regression library, to search for functional forms that fit the data. PySR returns a batch of candidate functions per run, ranging from simple to complex.
 
-SymbolFit chains all these steps together and performs evaluations in
-one go. The outputs include essential statistical elements for each
-candidate function, which are automatically saved and plotted in easily
-readable formats (CSV tables and PDF plots), making them ready for
-downstream tasks.
+**Step 2: Parameterization and re-optimization (LMFIT)**
+
+The initial candidates from PySR have hard-coded numerical constants that may not be fully optimized, and they lack uncertainty estimates. SymbolFit addresses this by:
+
+1. Identifying all numerical constants in each candidate and replacing them with named parameters (`a1`, `a2`, ...).
+2. Re-optimizing these parameters using [LMFIT](https://github.com/lmfit/lmfit-py) (nonlinear least-squares minimization), which refines the values and provides uncertainty estimates via covariance matrices.
+
+**Step 3: Evaluation and output**
+
+Every candidate function is automatically evaluated with standard goodness-of-fit metrics (chi2/NDF, p-value, RMSE, R2) and saved with full diagnostic information:
+
+- **CSV tables** with functions, parameters, uncertainties, and scores
+- **PDF plots** showing each candidate against data, uncertainty variations, sampling-based uncertainty bands, goodness-of-fit summaries, and parameter correlation matrices
+
+All results are ready for downstream use without additional processing.
 
 ## An example
 
-Below is an example demonstrating that a single run of SymbolFit
-generates a variety of candidate functions, illustrating the convergence
-from less complex to more complex functions that can effectively fit a
-nontrivial distribution shape.
+Below is an example demonstrating that a single run of SymbolFit generates a variety of candidate functions, illustrating the convergence from less complex to more complex functions that can effectively fit a nontrivial distribution shape.
 
 ![image](demo/animation.gif){.align-center width="900px"}

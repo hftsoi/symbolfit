@@ -1,8 +1,7 @@
 # Installation
 
-**Installation via PyPI**
+**Installation via PyPI** (recommended), with Python>=3.10:
 
-With python>=3.10 and pip:
 ```
 pip install symbolfit
 ```
@@ -17,7 +16,27 @@ pip install symbolfit
   ```
 </details>
 
-Julia (backend for PySR) will be automatically installed at first import of PySR:
-```
+Julia (the backend for PySR) is installed automatically the first time you import PySR (one-time setup):
+```python
 import pysr
+```
+
+## Verifying the installation
+
+After installing, you can verify everything is working:
+
+```python
+from symbolfit.symbolfit import *
+
+model = SymbolFit(
+    x = [1, 2, 3, 4, 5],
+    y = [2.1, 4.0, 5.9, 6.5, 6.9],
+    y_up=[0.5, 0.5, 0.5, 0.5, 0.5],
+    y_down=[0.5, 0.5, 0.5, 0.5, 0.5],
+    max_complexity=15,
+)
+model.fit()
+
+model.save_to_csv(output_dir = 'results/')
+model.plot_to_pdf(output_dir = 'results/')
 ```
