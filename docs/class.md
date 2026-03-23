@@ -39,7 +39,7 @@ See [input data format](demo/input.md) for a graphical illustration of how to pr
 
 -   `pysr_config`: pysr.PySRRegressor class
 
-    *Default: built-in config with +, \*, /, ^, exp, tanh, gauss, sin*
+    *Default: built-in config with +, \*, /, ^*
 
     Configuration for the PySR symbolic regression search. This controls which mathematical operators are available, how many iterations to run, population size, and other search hyperparameters. See [PySR documentation](https://github.com/MilesCranmer/PySR) for all available options.
 
@@ -60,8 +60,9 @@ See [input data format](demo/input.md) for a graphical illustration of how to pr
     and source from there:
 
     ``` python
+    import importlib
     pysr_config = importlib.import_module('directory.pysr_config').pysr_config
-    model = SymbolFit(..., pysr_config = pysr_config, ...)
+    model = SymbolFit(..., pysr_config=pysr_config, ...)
     ```
 
     !!! tip
@@ -69,7 +70,7 @@ See [input data format](demo/input.md) for a graphical illustration of how to pr
 
 -   `max_complexity`: int
 
-    *Default: 60*
+    *Default: 40*
 
     Maximum complexity of the expression tree. Each operator and variable counts toward this budget (e.g., `a1 * exp(a2 * x0)` has complexity ~6). Higher values allow more complex functions but increase search time and risk overfitting.
 
@@ -121,7 +122,7 @@ See [input data format](demo/input.md) for a graphical illustration of how to pr
 
     Set to an integer to make the symbolic regression search reproducible. When set, PySR is forced to run in single-threaded mode, which makes runs slower but guarantees identical results across runs.
 
-    Leave as `None` for the fastest search (multi-threaded, non- deterministic). Since the function space is vast, rerunning with `random_seed = None` naturally produces different candidates each time, which can be useful for exploring the solution space.
+    Leave as `None` for the fastest search (multi-threaded, non-deterministic). Since the function space is vast, rerunning with `random_seed = None` naturally produces different candidates each time, which can be useful for exploring the solution space.
 
 -   `loss_weights`: list | ndarray | None
 

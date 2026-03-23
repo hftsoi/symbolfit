@@ -99,9 +99,9 @@ When it finishes, six output files are produced:
 
 You can browse the output files from this example fit [here](https://github.com/hftsoi/symbolfit/tree/main/docs/demo/output_dir/toy_dataset_1).
 
-The options are explained in the API reference page **[here](class.md)**.
+The options are explained in the API reference page [here](class.md).
 
-You can also try SymbolFit directly in the browser with the **[Colab notebook](https://colab.research.google.com/github/hftsoi/symbolfit/blob/main/colab_demo/symbolfit_colab.ipynb)** (no local installation needed).
+You can also try SymbolFit directly in the browser with the [Colab notebook](https://colab.research.google.com/github/hftsoi/symbolfit/blob/main/colab_demo/symbolfit_colab.ipynb) (no local installation needed).
 
 ## Fit Your Own Data
 

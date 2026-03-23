@@ -92,7 +92,7 @@ pysr_config = PySRRegressor(
 )
 ```
 
-See `CMS dijet dataset (template spec)` for an example fit.
+See [CMS dijet dataset (template spec)](dijet_template_spec.md) for an example fit.
 
 ## Lower level constraints
 
