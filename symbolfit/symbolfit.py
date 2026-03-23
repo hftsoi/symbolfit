@@ -550,6 +550,9 @@ class SymbolFit:
 
             vary_combo = vary_combinations(num_params)
 
+            result = None
+            rel_errors = []
+
             # Loop over the possible combinations of which parameters to vary/fixed in a fit.
             for vary_trial in range(len(vary_combo)):
                 print(
@@ -605,6 +608,14 @@ class SymbolFit:
                     )
 
                     break
+
+            # All combinations exhausted without a successful fit.
+            if result is None:
+                print(
+                    "    >>> all re-parameterization combinations exhausted,"
+                    " no successful second-fit for this candidate.\n"
+                )
+                return None
 
             # Compute the correlation for fitted parameters from the standard error estimation.
             covariance, correlation = get_covariance_correlation(fit_result=result)
@@ -700,7 +711,7 @@ class SymbolFit:
                     refitted_param = {}
 
                     # Run the refit.
-                    result, covariance, correlation, ci = refit_single(
+                    refit_result = refit_single(
                         func_candidate=func_candidates.iloc[i],
                         x=x,
                         y=y,
@@ -710,35 +721,52 @@ class SymbolFit:
                         dim=dim,
                     )
 
-                    # Either all from standard least-square or all from ci.
-                    for j in range(len(result.params)):
-                        # value, error = get_val_err(str(result.params[f'a{j+1}']))
-                        # refitted_param[f'a{j+1}'] = round_a_number(value, sig_fig=6), round_a_number(error, sig_fig=6)
-                        try:
-                            # See LMFIT confidence intervals output format.
-                            central = ci[f"a{j + 1}"][3][1]
-                            up = ci[f"a{j + 1}"][4][1] - central
-                            down = ci[f"a{j + 1}"][2][1] - central
+                    # refit_single returns None when all parameter combinations
+                    # fail to converge. Fall back to initial values with zero uncertainty.
+                    if refit_result is None:
+                        for j in range(len(func_candidates["Parameterization"][i])):
+                            init_val = func_candidates["Parameterization"][i][f"a{j + 1}"]
+                            refitted_param[f"a{j + 1}"] = (round_a_number(init_val), 0, 0)
 
-                            refitted_param[f"a{j + 1}"] = (
-                                round_a_number(central),
-                                round_a_number(up),
-                                round_a_number(down),
-                            )
+                        refitted_params.append(refitted_param)
+                        covariances.append({})
+                        correlations.append({})
+                        confidence_intervals.append(None)
 
-                        except Exception:
-                            central, std_err = get_val_err(param_str=str(result.params[f"a{j + 1}"]))
+                    else:
+                        result, covariance, correlation, ci = refit_result
 
-                            refitted_param[f"a{j + 1}"] = (
-                                round_a_number(central),
-                                round_a_number(std_err),
-                                round_a_number(-std_err),
-                            )
+                        # Either all from standard least-square or all from ci.
+                        for j in range(len(result.params)):
+                            # value, error = get_val_err(str(result.params[f'a{j+1}']))
+                            # refitted_param[f'a{j+1}'] = (
+                            #     round_a_number(value, sig_fig=6), round_a_number(error, sig_fig=6)
+                            # )
+                            try:
+                                # See LMFIT confidence intervals output format.
+                                central = ci[f"a{j + 1}"][3][1]
+                                up = ci[f"a{j + 1}"][4][1] - central
+                                down = ci[f"a{j + 1}"][2][1] - central
 
-                    refitted_params.append(refitted_param)
-                    covariances.append(covariance)
-                    correlations.append(correlation)
-                    confidence_intervals.append(ci)
+                                refitted_param[f"a{j + 1}"] = (
+                                    round_a_number(central),
+                                    round_a_number(up),
+                                    round_a_number(down),
+                                )
+
+                            except Exception:
+                                central, std_err = get_val_err(param_str=str(result.params[f"a{j + 1}"]))
+
+                                refitted_param[f"a{j + 1}"] = (
+                                    round_a_number(central),
+                                    round_a_number(std_err),
+                                    round_a_number(-std_err),
+                                )
+
+                        refitted_params.append(refitted_param)
+                        covariances.append(covariance)
+                        correlations.append(correlation)
+                        confidence_intervals.append(ci)
 
             func_candidates["Parameters: (best-fit, +1, -1)"] = refitted_params
             func_candidates["Covariance"] = covariances
