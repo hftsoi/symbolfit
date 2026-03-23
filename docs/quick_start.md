@@ -101,8 +101,6 @@ You can browse the output files from this example fit [here](https://github.com/
 
 The options are explained in the API reference page [here](class.md).
 
-You can also try SymbolFit directly in the browser with the [Colab notebook](https://colab.research.google.com/github/hftsoi/symbolfit/blob/main/colab_demo/symbolfit_colab.ipynb) (no local installation needed).
-
 ## Fit Your Own Data
 
 To fit your own data, replace the `x`, `y`, `y_up`, `y_down` with your own Python lists or NumPy arrays, as shown in the minimal example above. For details on input data format (1D histograms, 2D histograms, etc.), see the [input format guide](demo/input.md).

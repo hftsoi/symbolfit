@@ -150,8 +150,6 @@ To fit your own data, replace the `x`, `y`, `y_up`, `y_down` with your own Pytho
 ## Documentation
 Full documentation with tutorials, demo fits, and API reference is available [here](https://hftsoi.github.io/symbolfit).
 
-You can also try SymbolFit directly in the browser with the [Colab notebook](https://colab.research.google.com/github/hftsoi/symbolfit/blob/main/colab_demo/symbolfit_colab.ipynb) (no local installation needed).
-
 ## Citation
 If you find this useful in your research, please consider citing both SymbolFit and PySR:
 ```
