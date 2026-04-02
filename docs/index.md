@@ -32,6 +32,7 @@ Under the hood, it chains three steps into a single pipeline:
 
 | I want to... | Go to |
 |---|---|
+| Get an overview | [Overview](overview.md) |
 | Install and set up | [Installation](install.md) |
 | Run my first fit | [Quick Start](quick_start.md) |
 | Understand all options | [API Reference](class.md) |

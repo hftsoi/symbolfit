@@ -148,7 +148,7 @@ To fit your own data, replace the `x`, `y`, `y_up`, `y_down` with your own Pytho
 **Custom PySR config:** The default PySR config includes simple operators (`+`, `*`, `/`, `^`). For your data, you may want to customize this and put some equation constraints. See the [PySR config examples](https://hftsoi.github.io/symbolfit/demo/pysr_configs/) in the docs.
 
 ## Documentation
-Full documentation with tutorials, demo fits, and API reference is available [here](https://hftsoi.github.io/symbolfit).
+Full documentation with tutorials, demo fits, and API reference is available [here](https://hftsoi.github.io/symbolfit). Introductory slides can also be found [here](https://github.com/hftsoi/symbolfit/blob/main/symbolfit.pdf).
 
 ## Citation
 If you find this useful in your research, please consider citing both SymbolFit and PySR:

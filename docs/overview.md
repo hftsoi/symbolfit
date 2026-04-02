@@ -61,3 +61,5 @@ All results are ready for downstream use without additional processing.
 Below is an example demonstrating that a single run of SymbolFit generates a variety of candidate functions, illustrating the convergence from less complex to more complex functions that can effectively fit a nontrivial distribution shape.
 
 ![image](demo/animation.gif){.align-center width="900px"}
+
+Introductory slides can also be found [here](https://github.com/hftsoi/symbolfit/blob/main/symbolfit.pdf).
