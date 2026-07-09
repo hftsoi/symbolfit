@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -U pip
-          pip install mkdocs-material mkdocs-jupyter mkdocs-table-reader-plugin
+          pip install mkdocs-material mkdocs-jupyter mkdocs-table-reader-plugin "mkdocstrings[python]"
 
       - name: Build site
         run: mkdocs build --site-dir site
