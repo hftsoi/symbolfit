@@ -16,6 +16,16 @@ Symbolfit:
     pages = "12",
     year = "2025"
 }
+
+@inproceedings{Tsoi:2026rzp,
+    author = "Tsoi, Ho Fung and Rankin, Dylan and Caillol, Cecile and Cranmer, Miles and Dasu, Sridhara and Duarte, Javier and Harris, Philip and Lipeles, Elliot",
+    title = "{Machine Can Automatically Discover Parametric Functions to Model HEP Data}",
+    eprint = "2607.19750",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-ex",
+    month = "7",
+    year = "2026"
+}
 ```
 
 and PySR:
