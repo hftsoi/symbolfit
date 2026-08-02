@@ -46,6 +46,7 @@ nav:
       - demo/dijet.md
       - demo/dijet_blinded.md
       - demo/dijet_template_spec.md
+      - demo/rediscovery.md
       - demo/extrapolation_sparse2d.md
 
 markdown_extensions:
