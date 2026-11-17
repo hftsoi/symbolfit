@@ -18,7 +18,14 @@ def round_a_number(number, sig_fig=6):
     """
 
     try:
-        return np.round(number, sig_fig - 1 - int(np.floor(log10(np.abs(number)))))
+        rounded = np.round(number, sig_fig - 1 - int(np.floor(log10(np.abs(number)))))
+
+        # For numbers below ~1e-300 (e.g. tiny p-values) the rounding overflows
+        # and returns NaN: keep such numbers as they are.
+        if not np.isfinite(rounded):
+            return number
+
+        return rounded
 
     except Exception:
         return number

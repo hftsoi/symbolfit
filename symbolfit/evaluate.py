@@ -291,20 +291,29 @@ def add_gof(func_candidates, x, y, y_up, y_down, dim):
                     if func_candidate["Parameters: (best-fit, +1, -1)"][f"a{j + 1}"][1] > 0:
                         num_free_param += 1
 
-            if y.size - num_free_param > 0:
-                ndf = y.size - num_free_param
+            ndf = y.size - num_free_param
+
+            if ndf > 0:
+                chi2_ndf = chi2 / ndf
+                chi2_ndf_pysr = chi2_pysr / ndf
+                p_value = scipy.stats.chi2.sf(chi2, ndf)
+                p_value_pysr = scipy.stats.chi2.sf(chi2_pysr, ndf)
 
             else:
-                ndf = -1
-
-            p_value = scipy.stats.chi2.sf(chi2, ndf)
-            p_value_pysr = scipy.stats.chi2.sf(chi2_pysr, ndf)
+                # As many free parameters as data points: the function can pass through every point,
+                # so Chi2/NDF and p-values are undefined and the parameter errors are not meaningful.
+                print(
+                    f"Note: candidate #{i} has {num_free_param} free parameters for {y.size} data points "
+                    f"(NDF = {ndf}), so its Chi2/NDF and p-values are set to NaN "
+                    "and its parameter errors are not meaningful."
+                )
+                chi2_ndf = chi2_ndf_pysr = p_value = p_value_pysr = np.nan
 
             ndf_values.append(ndf)
             chi2_values.append(round_a_number(chi2, 4))
-            chi2_ndf_values.append(round_a_number(chi2 / ndf, 4))
+            chi2_ndf_values.append(round_a_number(chi2_ndf, 4))
             chi2_values_pysr.append(round_a_number(chi2_pysr, 4))
-            chi2_ndf_values_pysr.append(round_a_number(chi2_pysr / ndf, 4))
+            chi2_ndf_values_pysr.append(round_a_number(chi2_ndf_pysr, 4))
             p_values.append(round_a_number(p_value, 4))
             p_values_pysr.append(round_a_number(p_value_pysr, 4))
 

@@ -160,7 +160,8 @@ class SymbolFit:
     loss_weights : list | ndarray | None
         Custom per-bin weights for the fit loss. When provided, the loss becomes
         `(y_pred - y_true)^2 * loss_weights` and overrides the `y_up` / `y_down`
-        uncertainty weighting. Shape is (num_examples, 1).
+        uncertainty weighting. One weight per data point: shape (num_examples, 1)
+        or a flat list/array of length num_examples.
 
         This is useful when you want to emphasize certain regions of the data
         (e.g., assign higher weights to a signal region) or de-emphasize others.
@@ -227,6 +228,25 @@ class SymbolFit:
 
         x, y, y_up, y_down, fit_y_unc, dim = dataset_formatting(x=x, y=y, y_up=y_up, y_down=y_down, fit_y_unc=fit_y_unc)
         self.fit_y_unc = fit_y_unc
+
+        # Custom loss weights: one weight per data point, used as an (n, 1) column like y
+        # in both the PySR search and the re-fit below (dtype kept as given).
+        if loss_weights is not None:
+            weights_shape = np.shape(loss_weights)
+            loss_weights = np.reshape(np.array(loss_weights), (-1, 1))
+
+            if loss_weights.shape[0] != y.shape[0]:
+                raise ValueError(
+                    f"Input data mismatch: loss_weights has {loss_weights.shape[0]} entries, "
+                    f"but y has {y.shape[0]} data points."
+                )
+
+            if weights_shape != (y.shape[0], 1):
+                print(
+                    f"Note: loss_weights of shape {weights_shape} is used as one weight per data point. "
+                    "symbolfit <= 0.2.6 mishandled this shape in the re-fit (LMFIT) stage, so re-fitted "
+                    "parameters and errors can differ from results made with those versions.\n"
+                )
 
         # Rescale the input data before training to prevent overflows in the fits,
         # since say exp(x) would cause problem if x is large.
@@ -425,21 +445,19 @@ class SymbolFit:
                 (standard error / best-fit value) * 100, in absolute value.
             """
 
-            # Get numbers of a fitted parameter from the LMFIT result
-            numbers = re.findall(r"[-+]?\d*\.?\d+(?:[eE][-+]?\d+)?", str(param))
-            numbers = np.array(numbers, dtype=float)
-
             value = None
             std_err = None
             ratio = 99999
 
-            # If the fit succeeds, LMFIT parameter returns something like
-            # "... a1 ... [best-fit] ... [standard error]...", 3 numbers in total,
-            # we need the last two to calculate the relative error.
-            # Otherwise the parameter has been held fixed or sent to inf,
+            # If the parameter was varied in the fit and has a finite best-fit value and
+            # standard error, use them to calculate the relative error.
+            # Otherwise the parameter has been held fixed, has no error estimate or was sent to inf,
             # which we assign 99999 for the relative error and ignore it for later.
-            if len(numbers) == 3:
-                value, std_err = numbers[1], numbers[2]
+            # The standard error is kept at 3 significant figures, the precision LMFIT prints
+            # (and which earlier versions read back from the printed text).
+            if param.vary and param.stderr is not None and np.isfinite(param.value) and np.isfinite(param.stderr):
+                value = np.float64(param.value)
+                std_err = np.float64(f"{param.stderr:.3g}")
                 ratio = std_err / np.abs(value) * 100
 
             return value, std_err, ratio
@@ -465,7 +483,7 @@ class SymbolFit:
             param_varied = []
 
             for i in range(num_param):
-                if "fixed" not in str(fit_result.params[f"a{i + 1}"]):
+                if fit_result.params[f"a{i + 1}"].vary:
                     param_varied.append(f"a{i + 1}")
 
             num_param_varied = len(param_varied)
@@ -476,8 +494,9 @@ class SymbolFit:
             # Calculate correlation as covariance(x, y) / (stderr_x * stderr_y).
             correlation = {}
 
-            # Correlation only when at least one pair of parameters exist.
-            if num_param_varied > 1:
+            # Correlation only when at least one pair of parameters exist,
+            # and LMFIT could estimate the covariance matrix.
+            if num_param_varied > 1 and fit_result.covar is not None:
                 # All possible pairs.
                 for i in range(num_param_varied - 1):
                     for j in range(i + 1, num_param_varied):
@@ -575,6 +594,7 @@ class SymbolFit:
                 # If the residual is +ve in a bin, scale by +1 sigma,
                 # otherwise scale by -1 sigma.
                 # Also replace with one another if either is zero in a bin.
+                # Custom loss_weights (an (n, 1) column, like the residual) take precedence.
                 if loss_weights is not None:
                     residual = residual * np.sqrt(loss_weights)
 
@@ -747,18 +767,13 @@ class SymbolFit:
                     4) 'Confidence interval'.
             """
 
-            def get_val_err(param_str):
-                # Get relevant numbers from Parameter in string.
-                numbers = re.findall(r"[-+]?\d*\.?\d+(?:[eE][-+]?\d+)?", param_str)
-                numbers = np.array(numbers, dtype=float)
+            def get_val_err(param):
+                # Best-fit value and standard error of a fitted parameter.
+                value, error, _ = get_rel_err(param=param)
 
-                # If fit returns, there will be 3 numbers.
-                # First is best-fit, then up and down unc.
-                if len(numbers) == 3:
-                    value, error = numbers[1], numbers[2]
-
-                else:
-                    value = numbers[1]
+                # Parameter held fixed or without an error estimate: keep its value, error 0.
+                if value is None:
+                    value = np.float64(param.value)
                     error = 0
 
                 return value, error
@@ -827,7 +842,7 @@ class SymbolFit:
                                 )
 
                             except Exception:
-                                central, std_err = get_val_err(param_str=str(result.params[f"a{j + 1}"]))
+                                central, std_err = get_val_err(param=result.params[f"a{j + 1}"])
 
                                 refitted_param[f"a{j + 1}"] = (
                                     round_a_number(central),

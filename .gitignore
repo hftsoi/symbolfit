@@ -12,4 +12,4 @@ dist/
 build.sh
 **/test
 **/test.py
-.cursor/
+*rediscovery*
